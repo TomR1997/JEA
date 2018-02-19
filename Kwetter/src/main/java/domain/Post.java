@@ -23,5 +23,29 @@ public class Post {
 
     public Post() {
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public Date getMessageSent() {
+        return messageSent;
+    }
+
+    public void setMessageSent(Date messageSent) {
+        this.messageSent = messageSent;
+    }
     
 }
