@@ -24,8 +24,8 @@ public class RoleResource {
     private RoleService roleService;
     
     @GET
-    @Path("GetRole/{id}")
-    public Role getRole(@PathParam("id") String name){
+    @Path("GetRole/{name}")
+    public Role getRole(@PathParam("name") String name){
         return roleService.findRole(name);
     }
 }

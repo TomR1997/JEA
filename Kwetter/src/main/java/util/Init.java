@@ -5,7 +5,9 @@
  */
 package util;
 
+import dao.RoleDAO;
 import dao.UserDAO;
+import domain.Role;
 import domain.RoleName;
 import domain.User;
 import javax.annotation.PostConstruct;
@@ -22,11 +24,16 @@ import javax.inject.Inject;
 public class Init {
     @Inject
     private UserDAO userDao;
+    @Inject
+    private RoleDAO roleDao;
 
     @PostConstruct
     public void init() {
         System.out.println("Init begin......................");
-        //User user = new User("programmeergod", "Veldhoven", "some bio..", "Tom Roelofs", RoleName.USER, "some web...", );
+        /*Role role = new Role();
+        role.setName(RoleName.USER.toString());
+        roleDao.save(role);
+        User user = new User("programmeergod", "Veldhoven", "some bio..", "Tom Roelofs", RoleName.USER, "some web...", );*/
         System.out.println("Init done.......................");
     }
 }
