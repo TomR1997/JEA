@@ -30,10 +30,10 @@ public class Init {
     @PostConstruct
     public void init() {
         System.out.println("Init begin......................");
-        /*Role role = new Role();
+        Role role = new Role();
         role.setName(RoleName.USER.toString());
         roleDao.save(role);
-        User user = new User("programmeergod", "Veldhoven", "some bio..", "Tom Roelofs", RoleName.USER, "some web...", );*/
+        /*User user = new User("programmeergod", "Veldhoven", "some bio..", "Tom Roelofs", RoleName.USER, "some web...", );*/
         System.out.println("Init done.......................");
     }
 }
