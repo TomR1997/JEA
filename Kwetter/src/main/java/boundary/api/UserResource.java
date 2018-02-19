@@ -6,6 +6,7 @@
 package boundary.api;
 
 import domain.User;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -27,5 +28,10 @@ public class UserResource {
     @Path("GetUser/{id}")
     public User getUser(@PathParam("id") Long id){
         return userService.findUser(id);
+    }
+    
+    @GET
+    public List<User> getAllUsers(){
+        return userService.getAll();
     }
 }

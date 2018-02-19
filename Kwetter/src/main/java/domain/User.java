@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 
 /**
  *
@@ -17,6 +18,7 @@ import javax.persistence.Id;
  */
 
 @Entity
+@NamedQuery(name = "User.allUsers", query = "SELECT u FROM User u")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

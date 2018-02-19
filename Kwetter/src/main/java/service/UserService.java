@@ -7,6 +7,7 @@ package service;
 
 import dao.UserDAO;
 import domain.User;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
@@ -21,5 +22,9 @@ public class UserService {
     
     public User findUser(Long id){
         return userDao.find(id);
+    }
+    
+    public List<User> getAll(){
+        return userDao.getAll();
     }
 }

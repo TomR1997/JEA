@@ -6,6 +6,7 @@
 package dao;
 
 import domain.User;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -18,6 +19,10 @@ import javax.persistence.PersistenceContext;
 public class UserDAO {
     @PersistenceContext
     private EntityManager em;
+    
+    public List<User> getAll(){
+        return em.createNamedQuery("User.allUsers").getResultList();
+    }
     
     public void save(User user){
         em.persist(user);
