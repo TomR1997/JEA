@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
 
 /**
@@ -29,9 +30,13 @@ public class User {
     private String name;
     private Role role;
     private String web;
+    @ManyToMany(mappedBy = "follows")
     private List<User> follows;
+    @ManyToMany(mappedBy = "followedBy")
     private List<User> followedBy;
     private List<Post> posts;
+    
+    //private String password;
 
     public List<Post> getPosts() {
         return posts;
