@@ -5,15 +5,27 @@
  */
 package domain;
 
+import java.io.Serializable;
+import java.util.List;
+import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  *
  * @author Tomt
  */
-public class Role {
+@Entity
+@Table(name="KWETTER_ROLE")
+public class Role implements Serializable {
     @Id
     private String name;
+    
+    @OneToMany(mappedBy="role")
+    private List<User> users;
 
     public Role() {
     }

@@ -5,13 +5,17 @@
  */
 package domain;
 
+import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  *
@@ -19,8 +23,9 @@ import javax.persistence.NamedQuery;
  */
 
 @Entity
+@Table(name="KWETTER_USER")
 @NamedQuery(name = "User.allUsers", query = "SELECT u FROM User u")
-public class User {
+public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
@@ -28,12 +33,18 @@ public class User {
     private String location;
     private String bio;
     private String name;
+    
+    @ManyToOne
+    @JoinColumn(name="role_id")
     private Role role;
     private String web;
-    @ManyToMany(mappedBy = "follows")
+    
+    /*@ManyToMany(mappedBy = "follows")
     private List<User> follows;
     @ManyToMany(mappedBy = "followedBy")
-    private List<User> followedBy;
+    private List<User> followedBy;*/
+    
+    @OneToMany(mappedBy="owner")
     private List<Post> posts;
     
     //private String password;
@@ -105,7 +116,7 @@ public class User {
         this.web = web;
     }
 
-    public List<User> getFollows() {
+    /*public List<User> getFollows() {
         return follows;
     }
 
@@ -119,6 +130,6 @@ public class User {
 
     public void setFollowedBy(List<User> followedBy) {
         this.followedBy = followedBy;
-    }
+    }*/
    
 }

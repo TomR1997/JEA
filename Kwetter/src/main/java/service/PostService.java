@@ -22,4 +22,6 @@ public class PostService {
     public Post findPost(Long id){
         return postDao.find(id);
     }
+    
+    
 }

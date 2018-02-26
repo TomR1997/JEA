@@ -5,22 +5,34 @@
  */
 package domain;
 
+import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 /**
  *
  * @author Tomt
  */
-public class Post {
+@Entity
+@Table(name="KWETTER_POST")
+public class Post implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column
     private Long id;
     private String message;
     private Date messageSent;
-
+    
+    @ManyToOne
+    @JoinColumn(name="owner_id")
+    private User owner;
+    
     public Post() {
     }
 
