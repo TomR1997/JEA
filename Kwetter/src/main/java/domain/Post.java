@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  *
@@ -34,6 +35,12 @@ public class Post implements Serializable {
     private User owner;
     
     public Post() {
+    }
+
+    public Post(String message, Date messageSent, User owner) {
+        this.message = message;
+        this.messageSent = messageSent;
+        this.owner = owner;
     }
 
     public Long getId() {

@@ -6,12 +6,14 @@
 package domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -22,9 +24,9 @@ import javax.persistence.Table;
  * @author Tomt
  */
 
-@Entity
+@Entity(name="KWETTER_USER")
 @Table(name="KWETTER_USER")
-@NamedQuery(name = "User.allUsers", query = "SELECT u FROM User u")
+@NamedQuery(name = "User.allUsers", query = "SELECT u FROM KWETTER_USER u")
 public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -39,16 +41,36 @@ public class User implements Serializable {
     private Role role;
     private String web;
     
-    /*@ManyToMany(mappedBy = "follows")
-    private List<User> follows;
-    @ManyToMany(mappedBy = "followedBy")
-    private List<User> followedBy;*/
+    @ManyToMany(mappedBy = "follows")
+    private List<User> following;
     
+    @ManyToMany(mappedBy = "followedBy")
+    private List<User> followedBy;
+
     @OneToMany(mappedBy="owner")
     private List<Post> posts;
-    
-    //private String password;
 
+    public User(String username, String location, String bio, String name, Role role, String web, List<User> following, List<User> followedBy, List<Post> posts) {
+        this.id = id;
+        this.username = username;
+        this.location = location;
+        this.bio = bio;
+        this.name = name;
+        this.role = role;
+        this.web = web;
+        this.following = following;
+        this.followedBy = followedBy;
+        this.posts = posts;
+    }
+        
+    public User(String username, String location, String bio, String name, Role role, String web) {
+        this.username = username;
+        this.location = location;
+        this.bio = bio;
+        this.name = name;
+        this.role = role;
+        this.web = web;
+    }
     public List<Post> getPosts() {
         return posts;
     }
@@ -116,12 +138,12 @@ public class User implements Serializable {
         this.web = web;
     }
 
-    /*public List<User> getFollows() {
-        return follows;
+    public List<User> getFollowing() {
+        return following;
     }
 
-    public void setFollows(List<User> follows) {
-        this.follows = follows;
+    public void setFollowing(List<User> following) {
+        this.following = following;
     }
 
     public List<User> getFollowedBy() {
@@ -130,6 +152,6 @@ public class User implements Serializable {
 
     public void setFollowedBy(List<User> followedBy) {
         this.followedBy = followedBy;
-    }*/
+    }
    
 }

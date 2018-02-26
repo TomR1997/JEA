@@ -28,8 +28,15 @@ public class UserDAO {
         em.persist(user);
     }
     
-    public User find (Long id){
+    public User find(Long id){
         return em.find(User.class, id);
     }
     
+    /*
+    public void followUser(User user, User following){
+        if (!user.getFollowing().contains(following)){
+            user.getFollowing().add(following);
+        }      
+        //throw exception
+    }*/
 }
