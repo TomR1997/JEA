@@ -24,8 +24,7 @@ import javax.persistence.Table;
 @Table(name="KWETTER_POST")
 public class Post implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String message;
     private Date messageSent;
@@ -40,6 +39,19 @@ public class Post implements Serializable {
     public Post(String message, Date messageSent, User owner) {
         this.message = message;
         this.messageSent = messageSent;
+        this.owner = owner;
+    }
+
+    public Post(String message, Date date) {
+        this.message = message;
+        this.messageSent = date;
+    }
+    
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
         this.owner = owner;
     }
 

@@ -11,7 +11,6 @@ import domain.User;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -39,7 +38,7 @@ public class AssociationTest {
     public void userFollowingTest(){
         Assert.assertTrue(!users.get(0).getFollowing().isEmpty());
     }
-            
+      
     public void createDummyData(){
         createRoles();
         createUsers();

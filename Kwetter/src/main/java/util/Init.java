@@ -12,11 +12,16 @@ import domain.Post;
 import domain.Role;
 import domain.RoleName;
 import domain.User;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 /**
  *
@@ -36,17 +41,18 @@ public class Init {
     @PostConstruct
     public void init() {
         System.out.println("Init begin......................");
+        
         Role roleUser = new Role();
         Role roleModerator = new Role();
         
-        roleUser.setName(RoleName.MODERATOR.toString());
-        roleModerator.setName(RoleName.USER.toString());
+        roleUser.setName(RoleName.USER.toString());
+        roleModerator.setName(RoleName.MODERATOR.toString());
         
         roleDao.save(roleUser);
         roleDao.save(roleModerator);           
-        
-        User user1 = new User("programmeergod", "Veldhoven", "somebio", "Tom Roelofs", roleUser, "someweb");
-        User user2 = new User("wiekentmiljonair", "Veldhoven", "somebio", "Rom Toelofs", roleUser, "someweb");
+                
+        User user1 = new User("programmeergod", "Veldhoven", "somebio", "Tom Roelofs", roleModerator, "someweb");
+        User user2 = new User("wiekentmiljonair", "Veldhoven", "somebio", "Rom Toelofs", roleModerator, "someweb");
         User user3 = new User("OneManLeft", "Eindhoven", "somebio", "Oliver Queen", roleUser, "someweb");
         User user4 = new User("PickleRick", "Eindhoven", "somebio", "Rick Sanchez", roleUser, "someweb");
         User user5 = new User("Mortymer", "Eindhoven", "somebio", "Morty", roleUser, "someweb");
@@ -67,8 +73,27 @@ public class Init {
         userDao.save(user9);
         userDao.save(user10);
         
-        Post post = new Post("Hey all!", new Date(), user1);
-        postDao.save(post);
+        /*Post post1 = new Post("First post PagChomp", new Date(), user1);
+        Post post2 = new Post("Hey all!", new Date(), user2);
+        Post post3 = new Post("Hey all!", new Date(), user3);
+        Post post4 = new Post("Hey all!", new Date(), user4);
+        Post post5 = new Post("Hey all!", new Date(), user5);
+        Post post6 = new Post("Hey all!", new Date(), user6);
+        Post post7 = new Post("Hey all!", new Date(), user7);
+        Post post8 = new Post("Hey all!", new Date(), user8);
+        Post post9 = new Post("Hey all!", new Date(), user9);
+        Post post10 = new Post("Hey all!", new Date(), user10);
+        
+        postDao.save(post1);
+        postDao.save(post2);
+        postDao.save(post3);
+        postDao.save(post4);
+        postDao.save(post5);
+        postDao.save(post6);
+        postDao.save(post7);
+        postDao.save(post8);
+        postDao.save(post9);
+        postDao.save(post10);*/
         
         System.out.println("Init done.......................");
     }

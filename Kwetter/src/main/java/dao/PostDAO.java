@@ -16,6 +16,7 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class PostDAO {
+    
     @PersistenceContext
     private EntityManager em;
     
@@ -25,5 +26,14 @@ public class PostDAO {
     
     public Post find (Long id){
         return em.find(Post.class, id);
+    }
+    
+    public void delete(Long id){
+        Post post = find(id);
+        if(post == null){
+            //throw exception
+        }
+        
+        em.remove(post);
     }
 }

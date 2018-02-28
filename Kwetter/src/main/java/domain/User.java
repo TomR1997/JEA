@@ -29,7 +29,7 @@ import javax.persistence.Table;
 @NamedQuery(name = "User.allUsers", query = "SELECT u FROM KWETTER_USER u")
 public class User implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String username;
     private String location;
@@ -41,17 +41,16 @@ public class User implements Serializable {
     private Role role;
     private String web;
     
-    @ManyToMany(mappedBy = "follows")
+    @ManyToMany
     private List<User> following;
     
-    @ManyToMany(mappedBy = "followedBy")
+    @ManyToMany(mappedBy = "following")
     private List<User> followedBy;
 
     @OneToMany(mappedBy="owner")
     private List<Post> posts;
 
     public User(String username, String location, String bio, String name, Role role, String web, List<User> following, List<User> followedBy, List<Post> posts) {
-        this.id = id;
         this.username = username;
         this.location = location;
         this.bio = bio;
@@ -69,6 +68,14 @@ public class User implements Serializable {
         this.bio = bio;
         this.name = name;
         this.role = role;
+        this.web = web;
+    }
+
+    public User(String username, String location, String bio, String name, String web) {
+        this.username = username;
+        this.location = location;
+        this.bio = bio;
+        this.name = name;
         this.web = web;
     }
     public List<Post> getPosts() {
