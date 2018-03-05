@@ -6,6 +6,7 @@
 package service;
 
 import dao.UserDAO;
+import dao.exceptions.EmptyListException;
 import service.exceptions.FollowingException;
 import dao.exceptions.NonExistingEntryException;
 import domain.User;
@@ -34,7 +35,7 @@ public class UserService {
             return userDao.find(id);
         } catch (NonExistingEntryException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-            throw new NonExistingUserException();
+            throw new NonExistingUserException("User does not exist.");
         }
     }
 
@@ -43,22 +44,22 @@ public class UserService {
             userDao.save(user);
         } catch (NonExistingEntryException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-            throw new NonExistingUserException();
+            throw new NonExistingUserException("User does not exist.");
         }
     }
 
-    public List<User> getAll() throws NonExistingUserException {
+    public List<User> getAll() throws EmptyListException {
         try {
             return userDao.getAll();
-        } catch (NonExistingEntryException ex) {
+        } catch (EmptyListException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-            throw new NonExistingUserException();
+            throw new EmptyListException("There are no users in the database.");
         }
     }
 
     public void followUser(User user, User following) throws FollowingException, NonExistingUserException {
         if (user == null || following == null) {
-            throw new NonExistingUserException();
+            throw new NonExistingUserException("User does not exist.");
         }
         if (!user.getFollowing().contains(following)) {
             user.getFollowing().add(following);
@@ -68,12 +69,12 @@ public class UserService {
                 Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        throw new FollowingException();
+        throw new FollowingException("User is already following this user.");
     }
 
     public void unfollowUser(User user, User unfollowing) throws NonExistingEntryException, UnfollowingException {
         if (user == null || unfollowing == null) {
-            throw new NonExistingEntryException();
+            throw new NonExistingEntryException("User does not exist.");
         }
         if (user.getFollowing().contains(unfollowing)) {
             user.getFollowing().remove(unfollowing);
@@ -83,7 +84,7 @@ public class UserService {
                 Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        throw new UnfollowingException();
+        throw new UnfollowingException("User is not following this user.");
     }
 
     public void changeUsername(Long id, String newName) throws InvalidIdException, InvalidNameException, NonExistingUserException {
@@ -93,10 +94,45 @@ public class UserService {
             userDao.changeUsername(id, newName);
         } catch (NonExistingEntryException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-            throw new NonExistingUserException();
+            throw new NonExistingUserException("User does not exist.");
         }
     }
-    
+
+    public void changeBio(Long id, String newBio) throws InvalidIdException, InvalidNameException, NonExistingUserException {
+        validId(id);
+        validName(newBio);
+        try {
+            userDao.changeBio(id, newBio);
+        } catch (NonExistingEntryException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new NonExistingUserException("User does not exist.");
+        }
+    }
+
+    public List<User> getFollowers(Long id) throws NonExistingUserException, EmptyListException {
+        try {
+            return userDao.getFollowers(id);
+        } catch (NonExistingEntryException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new NonExistingUserException("User does not exist.");
+        } catch (EmptyListException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new EmptyListException("User has no followers.");
+        }
+    }
+
+    public List<User> getFollowing(Long id) throws NonExistingUserException, EmptyListException {
+        try {
+            return userDao.getFollowing(id);
+        } catch (NonExistingEntryException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new NonExistingUserException("User does not exist.");
+        } catch (EmptyListException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new EmptyListException("User is not following anyone.");
+        }
+    }
+
     private void validId(Long id) throws InvalidIdException {
         if (id <= 0) {
             throw new InvalidIdException();

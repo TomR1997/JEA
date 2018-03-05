@@ -5,6 +5,7 @@
  */
 package dao;
 
+import dao.exceptions.EmptyListException;
 import service.exceptions.FollowingException;
 import dao.exceptions.NonExistingEntryException;
 import domain.User;
@@ -27,10 +28,10 @@ public class UserDAO {
         this.em = em;
     }
 
-    public List<User> getAll() throws NonExistingEntryException {
+    public List<User> getAll() throws EmptyListException {
         List<User> users = em.createNamedQuery("User.allUsers").getResultList();
         if (users.isEmpty()) {
-            throw new NonExistingEntryException();
+            throw new EmptyListException();
         }
         return users;
     }
@@ -82,10 +83,24 @@ public class UserDAO {
         em.persist(user);
     }
 
-    public List<User> getFollowers(Long id) throws NonExistingEntryException {
+    public List<User> getFollowers(Long id) throws NonExistingEntryException, EmptyListException {
         User user = find(id);
         if (user == null) {
             throw new NonExistingEntryException();
+        }
+        if (user.getFollowedBy().isEmpty()) {
+            throw new EmptyListException();
+        }
+        return user.getFollowedBy();
+    }
+
+    public List<User> getFollowing(Long id) throws NonExistingEntryException, EmptyListException {
+        User user = find(id);
+        if (user == null) {
+            throw new NonExistingEntryException();
+        }
+        if (user.getFollowedBy().isEmpty()) {
+            throw new EmptyListException();
         }
         return user.getFollowedBy();
     }
