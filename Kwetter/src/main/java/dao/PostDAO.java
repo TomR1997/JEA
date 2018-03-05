@@ -5,6 +5,7 @@
  */
 package dao;
 
+import dao.exceptions.NonExistingEntryException;
 import domain.Post;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -20,20 +21,26 @@ public class PostDAO {
     @PersistenceContext
     private EntityManager em;
     
-    public void save(Post post){
+    public void save(Post post) throws NonExistingEntryException{
+        if (post == null){
+            throw new NonExistingEntryException();
+        }
         em.persist(post);
     }
     
-    public Post find (Long id){
-        return em.find(Post.class, id);
+    public Post find(Long id) throws NonExistingEntryException{
+        Post post = em.find(Post.class, id);
+        if (post == null){
+            throw new NonExistingEntryException();
+        }
+        return post;
     }
     
-    public void delete(Long id){
-        Post post = find(id);
+    public void delete(Long id) throws NonExistingEntryException{
+        Post post = em.find(Post.class, id);
         if(post == null){
-            //throw exception
-        }
-        
+            throw new NonExistingEntryException();
+        }      
         em.remove(post);
     }
 }

@@ -23,9 +23,9 @@ public class PostResource {
     @Inject
     private PostService postService;
     
-    @GET
+    /*@GET
     @Path("GetPost/{id}")
     public Post getPost(@PathParam("id") Long id){
         return postService.findPost(id);
-    }
+    }*/
 }

@@ -19,7 +19,7 @@ public class RoleService {
     @Inject
     private RoleDAO roleDao;
     
-    public Role findRole(String name){
+    /*public Role findRole(String name){
         return roleDao.find(name);
-    }
+    }*/
 }

@@ -5,6 +5,7 @@
  */
 package dao;
 
+import dao.exceptions.NonExistingEntryException;
 import domain.User;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -21,22 +22,37 @@ public class UserDAO {
     @PersistenceContext
     private EntityManager em;
 
-    public List<User> getAll() {
-        return em.createNamedQuery("User.allUsers").getResultList();
+    public UserDAO(EntityManager em) {
+        this.em = em;
     }
 
-    public void save(User user) {
+    public List<User> getAll() throws NonExistingEntryException {
+        List<User> users = em.createNamedQuery("User.allUsers").getResultList();
+        if(users.isEmpty()){
+            throw new NonExistingEntryException();
+        }
+        return users;
+    }
+
+    public void save(User user) throws NonExistingEntryException {
+        if(user == null){
+            throw new NonExistingEntryException();
+        }
         em.persist(user);
     }
 
-    public User find(Long id) {
-        return em.find(User.class, id);
+    public User find(Long id) throws NonExistingEntryException {
+        User user = em.find(User.class, id);
+        if(user == null){
+            throw new NonExistingEntryException();
+        }
+        return user;
     }
 
     public void followUser(User user, User following) {
         if (!user.getFollowing().contains(following)) {
             user.getFollowing().add(following);
-            em.persist(user);
+            em.merge(user);
         }
         //throw exception
     }
@@ -44,35 +60,35 @@ public class UserDAO {
     public void unfollowUser(User user, User unfollowing) {
         if (user.getFollowing().contains(unfollowing)) {
             user.getFollowing().remove(unfollowing);
-            em.persist(user);
+            em.merge(user);
         }
         //throw exception
     }
 
-    public void changeUsername(Long id, String newName) {
+    public void changeUsername(Long id, String newName) throws NonExistingEntryException {
         User user = find(id);
         if (user == null) {
-            //throw exception
+            throw new NonExistingEntryException();
         }
 
         user.setUsername(newName);
         em.persist(user);
     }
 
-    public void changeBio(Long id, String newBio) {
+    public void changeBio(Long id, String newBio) throws NonExistingEntryException {
         User user = find(id);
         if (user == null) {
-            //throw exception
+            throw new NonExistingEntryException();
         }
 
         user.setBio(newBio);
-        em.persist(user);
+        em.merge(user);
     }
     
-    public List<User> getFollowers(Long id){
+    public List<User> getFollowers(Long id) throws NonExistingEntryException{
         User user = find(id);
         if (user == null){
-            //throw exception
+            throw new NonExistingEntryException();
         }
         
         return user.getFollowedBy();

@@ -9,6 +9,8 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -18,6 +20,9 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="KWETTER_ROLE")
+@NamedQueries({
+@NamedQuery(name = "Role.deleteAllRoles", query = "DELETE FROM KWETTER_ROLE r")
+})
 public class Role implements Serializable {
     @Id
     private String name;

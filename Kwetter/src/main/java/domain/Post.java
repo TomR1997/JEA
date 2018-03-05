@@ -15,6 +15,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -27,6 +29,8 @@ public class Post implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String message;
+    
+    @Temporal(TemporalType.DATE)
     private Date messageSent;
     
     @ManyToOne

@@ -7,12 +7,15 @@ package boundary.api;
 
 import domain.User;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import service.UserService;
+import service.exceptions.NonExistingUserException;
 
 /**
  *
@@ -24,14 +27,22 @@ public class UserResource {
     @Inject
     private UserService userService;
     
-    @GET
+    /*@GET
     @Path("GetUser/{id}")
     public User getUser(@PathParam("id") Long id){
-        return userService.findUser(id);
+        try {
+            return userService.findUser(id);
+        } catch (NonExistingUserException ex) {
+            Logger.getLogger(UserResource.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     @GET
     public List<User> getAllUsers(){
-        return userService.getAll();
-    }
+        try {
+            return userService.getAll();
+        } catch (NonExistingUserException ex) {
+            Logger.getLogger(UserResource.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }*/
 }

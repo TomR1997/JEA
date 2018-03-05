@@ -5,6 +5,7 @@
  */
 package dao;
 
+import dao.exceptions.NonExistingEntryException;
 import domain.Role;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -19,11 +20,18 @@ public class RoleDAO {
     @PersistenceContext
     private EntityManager em;
     
-    public void save(Role role){
+    public void save(Role role) throws NonExistingEntryException{
+        if (role == null){
+            throw new NonExistingEntryException();
+        }
         em.persist(role);
     }
     
-    public Role find (String name){
-        return em.find(Role.class, name);
+    public Role find (String name) throws NonExistingEntryException{
+        Role role = em.find(Role.class, name);
+        if(role == null){
+            throw new NonExistingEntryException();
+        }
+        return role;
     }
 }

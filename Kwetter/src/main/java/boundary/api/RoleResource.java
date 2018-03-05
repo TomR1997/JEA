@@ -23,9 +23,9 @@ public class RoleResource {
     @Inject
     private RoleService roleService;
     
-    @GET
+    /*@GET
     @Path("GetRole/{name}")
     public Role getRole(@PathParam("name") String name){
         return roleService.findRole(name);
-    }
+    }*/
 }

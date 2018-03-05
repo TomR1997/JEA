@@ -19,9 +19,9 @@ public class PostService {
     @Inject
     private PostDAO postDao;
     
-    public Post findPost(Long id){
+    /*public Post findPost(Long id){
         return postDao.find(id);
-    }
+    }*/
     
     
 }

@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -26,7 +27,10 @@ import javax.persistence.Table;
 
 @Entity(name="KWETTER_USER")
 @Table(name="KWETTER_USER")
-@NamedQuery(name = "User.allUsers", query = "SELECT u FROM KWETTER_USER u")
+@NamedQueries({
+@NamedQuery(name = "User.allUsers", query = "SELECT u FROM KWETTER_USER u"),
+@NamedQuery(name = "User.deleteAllUsers", query = "DELETE FROM KWETTER_USER u")
+})
 public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
