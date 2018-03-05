@@ -20,6 +20,10 @@ public class PostDAO {
     
     @PersistenceContext
     private EntityManager em;
+
+    public PostDAO(EntityManager em) {
+        this.em = em;
+    }
     
     public void save(Post post) throws NonExistingEntryException{
         if (post == null){

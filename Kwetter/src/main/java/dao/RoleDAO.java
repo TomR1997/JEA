@@ -17,19 +17,24 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class RoleDAO {
+
     @PersistenceContext
     private EntityManager em;
-    
-    public void save(Role role) throws NonExistingEntryException{
-        if (role == null){
+
+    public RoleDAO(EntityManager em) {
+        this.em = em;
+    }
+
+    public void save(Role role) throws NonExistingEntryException {
+        if (role == null) {
             throw new NonExistingEntryException();
         }
         em.persist(role);
     }
-    
-    public Role find (String name) throws NonExistingEntryException{
+
+    public Role find(String name) throws NonExistingEntryException {
         Role role = em.find(Role.class, name);
-        if(role == null){
+        if (role == null) {
             throw new NonExistingEntryException();
         }
         return role;

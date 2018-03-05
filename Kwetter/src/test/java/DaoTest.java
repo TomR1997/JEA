@@ -4,51 +4,65 @@
  * and open the template in the editor.
  */
 
+import dao.PostDAO;
+import dao.RoleDAO;
 import dao.UserDAO;
 import dao.exceptions.NonExistingEntryException;
+import domain.Post;
 import domain.User;
-import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
-import service.exceptions.NonExistingUserException;
 
 /**
  *
  * @author Tomt
  */
 public class DaoTest {
-    
+
     private EntityManager em;
     private EntityManagerFactory emf;
     private UserDAO userDao;
-    
+    private PostDAO postDao;
+    private RoleDAO roleDao;
+
     @Before
     public void setUp() {
         emf = Persistence.createEntityManagerFactory("KwetterPU");
         em = emf.createEntityManager();
         userDao = new UserDAO(em);
+        postDao = new PostDAO(em);
+        roleDao = new RoleDAO(em);
     }
-    
+
     @Test
-    public void userTest() throws NonExistingEntryException{
+    public void userTest() throws NonExistingEntryException {
         em.getTransaction().begin();
         User user = userDao.getAll().get(0);
         em.close();
-        
-        Assert.assertEquals(user.getName(), userDao.getAll().get(0).getName());
+        Assert.assertSame(user, userDao.getAll().get(0));
     }
-    
-    @Test(expected = NonExistingUserException.class)
-    public void nonExistingUserExceptionTest() throws NonExistingEntryException{
+
+    @Test(expected = NonExistingEntryException.class)
+    public void nonExistingUserExceptionTest() throws NonExistingEntryException {
         em.getTransaction().begin();
-        User user = userDao.find(-1L);
+        userDao.find(-1L);
+    }
+
+    @Test
+    public void postTest() throws NonExistingEntryException {
+        em.getTransaction().begin();
+        Post post = postDao.find(1L);
+        em.close();
+        Assert.assertSame(post, postDao.find(1L));
+    }
+
+    @Test(expected = NonExistingEntryException.class)
+    public void nonExistingPostExceptionTest() throws NonExistingEntryException {
+        em.getTransaction().begin();
+        postDao.find(-1L);
     }
 }

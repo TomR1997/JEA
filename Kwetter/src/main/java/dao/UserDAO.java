@@ -52,7 +52,7 @@ public class UserDAO {
     public void followUser(User user, User following) {
         if (!user.getFollowing().contains(following)) {
             user.getFollowing().add(following);
-            em.merge(user);
+            em.persist(user);
         }
         //throw exception
     }
@@ -60,7 +60,7 @@ public class UserDAO {
     public void unfollowUser(User user, User unfollowing) {
         if (user.getFollowing().contains(unfollowing)) {
             user.getFollowing().remove(unfollowing);
-            em.merge(user);
+            em.persist(user);
         }
         //throw exception
     }
@@ -82,7 +82,7 @@ public class UserDAO {
         }
 
         user.setBio(newBio);
-        em.merge(user);
+        em.persist(user);
     }
     
     public List<User> getFollowers(Long id) throws NonExistingEntryException{
