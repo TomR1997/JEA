@@ -6,9 +6,13 @@
 package service;
 
 import dao.PostDAO;
+import dao.exceptions.NonExistingEntryException;
 import domain.Post;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import service.exceptions.NonExistingPostException;
 
 /**
  *
@@ -19,9 +23,12 @@ public class PostService {
     @Inject
     private PostDAO postDao;
     
-    /*public Post findPost(Long id){
-        return postDao.find(id);
-    }*/
-    
-    
+    public Post findPost(Long id) throws NonExistingPostException{
+        try {
+            return postDao.find(id);
+        } catch (NonExistingEntryException ex) {
+            Logger.getLogger(PostService.class.getName()).log(Level.SEVERE, null, ex);
+            throw new NonExistingPostException();
+        }
+    }   
 }

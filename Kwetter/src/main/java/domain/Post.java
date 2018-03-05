@@ -14,6 +14,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -24,6 +26,9 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name="KWETTER_POST")
+@NamedQueries({
+@NamedQuery(name = "Post.allPosts", query = "SELECT p FROM KWETTER_POST p")
+})
 public class Post implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

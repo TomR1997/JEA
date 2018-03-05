@@ -5,6 +5,7 @@
  */
 package dao;
 
+import service.exceptions.FollowingException;
 import dao.exceptions.NonExistingEntryException;
 import domain.User;
 import java.util.List;
@@ -28,14 +29,14 @@ public class UserDAO {
 
     public List<User> getAll() throws NonExistingEntryException {
         List<User> users = em.createNamedQuery("User.allUsers").getResultList();
-        if(users.isEmpty()){
+        if (users.isEmpty()) {
             throw new NonExistingEntryException();
         }
         return users;
     }
 
     public void save(User user) throws NonExistingEntryException {
-        if(user == null){
+        if (user == null) {
             throw new NonExistingEntryException();
         }
         em.persist(user);
@@ -43,26 +44,24 @@ public class UserDAO {
 
     public User find(Long id) throws NonExistingEntryException {
         User user = em.find(User.class, id);
-        if(user == null){
+        if (user == null) {
             throw new NonExistingEntryException();
         }
         return user;
     }
 
-    public void followUser(User user, User following) {
-        if (!user.getFollowing().contains(following)) {
-            user.getFollowing().add(following);
-            em.persist(user);
+    public void followUser(User user, User following) throws NonExistingEntryException {
+        if (user == null || following == null) {
+            throw new NonExistingEntryException();
         }
-        //throw exception
+        em.persist(user);
     }
 
-    public void unfollowUser(User user, User unfollowing) {
-        if (user.getFollowing().contains(unfollowing)) {
-            user.getFollowing().remove(unfollowing);
-            em.persist(user);
+    public void unfollowUser(User user, User unfollowing) throws NonExistingEntryException {
+        if (user == null || unfollowing == null) {
+            throw new NonExistingEntryException();
         }
-        //throw exception
+        em.persist(user);
     }
 
     public void changeUsername(Long id, String newName) throws NonExistingEntryException {
@@ -70,7 +69,6 @@ public class UserDAO {
         if (user == null) {
             throw new NonExistingEntryException();
         }
-
         user.setUsername(newName);
         em.persist(user);
     }
@@ -80,17 +78,15 @@ public class UserDAO {
         if (user == null) {
             throw new NonExistingEntryException();
         }
-
         user.setBio(newBio);
         em.persist(user);
     }
-    
-    public List<User> getFollowers(Long id) throws NonExistingEntryException{
+
+    public List<User> getFollowers(Long id) throws NonExistingEntryException {
         User user = find(id);
-        if (user == null){
+        if (user == null) {
             throw new NonExistingEntryException();
         }
-        
         return user.getFollowedBy();
     }
 }

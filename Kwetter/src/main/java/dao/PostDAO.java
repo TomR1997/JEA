@@ -7,9 +7,12 @@ package dao;
 
 import dao.exceptions.NonExistingEntryException;
 import domain.Post;
+import domain.User;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  *
@@ -17,34 +20,64 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class PostDAO {
-    
+
     @PersistenceContext
     private EntityManager em;
 
     public PostDAO(EntityManager em) {
         this.em = em;
     }
-    
-    public void save(Post post) throws NonExistingEntryException{
-        if (post == null){
+
+    public void save(Post post) throws NonExistingEntryException {
+        if (post == null) {
             throw new NonExistingEntryException();
         }
         em.persist(post);
     }
-    
-    public Post find(Long id) throws NonExistingEntryException{
+
+    public List<Post> getAll() throws NonExistingEntryException {
+        List<Post> posts = em.createNamedQuery("Post.allPosts").getResultList();
+        if (posts.isEmpty()) {
+            throw new NonExistingEntryException();
+        }
+        return posts;
+    }
+
+    public Post find(Long id) throws NonExistingEntryException {
         Post post = em.find(Post.class, id);
-        if (post == null){
+        if (post == null) {
             throw new NonExistingEntryException();
         }
         return post;
     }
     
-    public void delete(Long id) throws NonExistingEntryException{
+    public Post find(String search){
+        throw new NotImplementedException();
+    }
+
+    public void delete(Long id) throws NonExistingEntryException {
         Post post = em.find(Post.class, id);
-        if(post == null){
+        if (post == null) {
             throw new NonExistingEntryException();
-        }      
+        }
         em.remove(post);
+    }
+    
+    public List<Post> getLatestPosts(User user) throws NonExistingEntryException{
+        List<Post> posts = em.createNamedQuery("Post.latestPosts").getResultList();
+        throw new NotImplementedException();
+        /*if(posts == null){
+            throw new NonExistingEntryException();
+        }
+        return posts;*/
+    }
+    
+    public List<Post> getTrendingPosts(){
+        List<Post> posts = em.createNamedQuery("Post.getTrendingPosts").getResultList();
+        throw new NotImplementedException();
+        /*if(posts == null){
+            throw new NonExistingEntryException();
+        }
+        return posts;*/
     }
 }

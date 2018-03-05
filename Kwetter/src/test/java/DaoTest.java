@@ -10,6 +10,7 @@ import dao.UserDAO;
 import dao.exceptions.NonExistingEntryException;
 import domain.Post;
 import domain.User;
+import java.util.Date;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -42,8 +43,8 @@ public class DaoTest {
     public void userTest() throws NonExistingEntryException {
         em.getTransaction().begin();
         User user = userDao.getAll().get(0);
-        em.close();
         Assert.assertSame(user, userDao.getAll().get(0));
+        em.close();
     }
 
     @Test(expected = NonExistingEntryException.class)
@@ -53,11 +54,31 @@ public class DaoTest {
     }
 
     @Test
-    public void postTest() throws NonExistingEntryException {
+    public void createUserTest() throws NonExistingEntryException {
+        em.getTransaction().begin();
+        int allUsers = userDao.getAll().size();
+        User user = new User("programmeergod", "Veldhoven", "somebio", "Tom Roelofs", "someweb");
+        userDao.save(user);
+        Assert.assertEquals(allUsers + 1, userDao.getAll().size());
+        em.close();
+    }
+
+    @Test
+    public void findPostTest() throws NonExistingEntryException {
         em.getTransaction().begin();
         Post post = postDao.find(1L);
-        em.close();
         Assert.assertSame(post, postDao.find(1L));
+        em.close();
+    }
+
+    @Test
+    public void createPostTest() throws NonExistingEntryException {
+        em.getTransaction().begin();
+        int allPosts = postDao.getAll().size();
+        Post post = new Post("Hey all!", new Date());
+        postDao.save(post);
+        Assert.assertEquals(allPosts + 1, postDao.getAll().size());
+        em.close();
     }
 
     @Test(expected = NonExistingEntryException.class)
