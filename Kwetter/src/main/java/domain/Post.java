@@ -26,7 +26,13 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name="KWETTER_POST")
 @NamedQueries({
-@NamedQuery(name = "Post.allPosts", query = "SELECT p FROM Post p"),
+@NamedQuery(name = "Post.allPosts", query = "SELECT p FROM KWETTER-POST p"),
+@NamedQuery(name = "Post.getPostCountByOwner", query = "SELECT COUNT(p.id) " + "FROM KWETTER_POST p " 
+        + "WHERE p.owner = :owner_id " + "ORDER BY p.messageSent DESC"),
+@NamedQuery(name = "Post.getLatestPosts", query = "SELECT p " + "FROM KWETTER_POST p " + "WHERE p.owner = :owner_id "
+        + "ORDER BY p.messageSent DESC"),
+@NamedQuery(name = "Post.getTimeline", query 
+        = "SELECT p FROM KWETTER_POST p, KWETTER_USER u WHERE p.owner = :user_id OR (p.owner = u.followers AND u.following = :user_id)  ORDER BY p.date DESC")
 })
 public class Post implements Serializable {
     @Id

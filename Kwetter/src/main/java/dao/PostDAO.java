@@ -13,6 +13,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
@@ -76,21 +77,26 @@ public class PostDAO {
         em.remove(post);
     }
 
-    public List<Post> getLatestPosts(User user) throws NonExistingEntryException {
-        List<Post> posts = em.createNamedQuery("Post.latestPosts").getResultList();
-        throw new NotImplementedException();
-        /*if(posts == null){
-            throw new NonExistingEntryException();
-        }
-        return posts;*/
-    }
-
-    public List<Post> getTimeline(Long id) throws EmptyListException {
-        List<Post> posts = em.createNamedQuery("Post.getTimeline").getResultList();
-        throw new NotImplementedException();
-        /*if(posts.isEmpty()){
+    public List<Post> getLatestPosts(Long userId) throws NonExistingEntryException, EmptyListException {
+        Query query = em.createNamedQuery("Post.getLatestPosts");
+        List<Post> posts = query.setParameter("owner_id", userId).getResultList();
+        if (posts.isEmpty()){
             throw new EmptyListException();
         }
-        return posts;*/
+        return posts;
+    }
+
+    public List<Post> getTimeline(Long userId) throws EmptyListException {
+        Query query = em.createNamedQuery("Post.getTimeline");
+        List<Post> posts = query.setParameter("owner_id", userId).getResultList();
+        if(posts.isEmpty()){
+            throw new EmptyListException();
+        }
+        return posts;
+    }
+
+    public int getPostCount(Long userId) {
+        Query query = em.createNamedQuery("Post.getPostCountByOwner");
+        return query.setParameter("owner_id", userId).getFirstResult();
     }
 }
