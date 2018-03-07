@@ -13,6 +13,7 @@ import domain.Role;
 import domain.User;
 import java.util.ArrayList;
 import java.util.List;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
@@ -204,6 +205,47 @@ public class UserServiceTest {
         user.getFollowers().add(user2);
         when(userDao.getFollowers(user.getId())).thenReturn(user.getFollowers());
         assertTrue(!userService.getFollowers(user.getId()).isEmpty());
+    }
+
+    @Test(expected = InvalidIdException.class)
+    public void invalidIdGetFollowersTest() throws NonExistingUserException, EmptyListException, InvalidIdException {
+        userService.getFollowers(-1L);
+    }
+
+    @Test(expected = NonExistingUserException.class)
+    public void nullUserGetFollowersTest() throws NonExistingEntryException, EmptyListException, NonExistingUserException, InvalidIdException {
+        doThrow(new NonExistingEntryException()).when(userDao).getFollowers(1L);
+        userService.getFollowers(1L);
+    }
+
+    @Test(expected = EmptyListException.class)
+    public void emptyListGetFollowersTest() throws NonExistingEntryException, EmptyListException, NonExistingUserException, InvalidIdException {
+        doThrow(new EmptyListException()).when(userDao).getFollowers(1L);
+        userService.getFollowers(1L);
+    }
+
+    @Test
+    public void getFollowingTest() throws NonExistingEntryException, EmptyListException, NonExistingUserException, InvalidIdException {
+        user.getFollowing().add(user2);
+        when(userDao.getFollowing(user.getId())).thenReturn(user.getFollowing());
+        assertTrue(!userService.getFollowing(user.getId()).isEmpty());
+    }
+
+    @Test(expected = InvalidIdException.class)
+    public void invalidIdGetFollowingTest() throws NonExistingUserException, EmptyListException, InvalidIdException {
+        userService.getFollowing(-1L);
+    }
+
+    @Test(expected = NonExistingUserException.class)
+    public void nullUserGetFollowingTest() throws NonExistingEntryException, EmptyListException, NonExistingUserException, InvalidIdException {
+        doThrow(new NonExistingEntryException()).when(userDao).getFollowing(1L);
+        userService.getFollowing(1L);
+    }
+
+    @Test(expected = EmptyListException.class)
+    public void emptyListGetFollowingTest() throws NonExistingEntryException, EmptyListException, NonExistingUserException, InvalidIdException {
+        doThrow(new EmptyListException()).when(userDao).getFollowing(1L);
+        userService.getFollowing(1L);
     }
 
 }
