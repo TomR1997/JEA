@@ -35,10 +35,7 @@ public class UserDAO {
         return users;
     }
 
-    public void save(User user) throws NonExistingEntryException {
-        if (user == null) {
-            throw new NonExistingEntryException();
-        }
+    public void save(User user) {
         em.persist(user);
     }
 
@@ -58,17 +55,13 @@ public class UserDAO {
     }
 
     public void followUser(User user, User following) throws NonExistingEntryException {
-        if (user == null || following == null) {
-            throw new NonExistingEntryException();
-        }
+        user.getFollowing().add(following);
         update(user);
         save(user);
     }
 
     public void unfollowUser(User user, User unfollowing) throws NonExistingEntryException {
-        if (user == null || unfollowing == null) {
-            throw new NonExistingEntryException();
-        }
+        user.getFollowing().remove(unfollowing);
         update(user);
         save(user);
     }

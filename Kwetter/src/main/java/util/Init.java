@@ -45,11 +45,7 @@ public class Init {
     @PostConstruct
     public void init() {
         User user1 = new User("programmeergod", "Veldhoven", "somebio", "Tom Roelofs", "someweb");
-        try{
-            userDao.save(user1);
-        } catch (NonExistingEntryException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        userDao.save(user1);
         /*Role roleUser = new Role();
         Role roleModerator = new Role();
 

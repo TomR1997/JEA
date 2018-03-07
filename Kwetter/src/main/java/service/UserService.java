@@ -44,17 +44,12 @@ public class UserService {
         }
     }
 
-    public void save(User user) throws NonExistingUserException, InvalidIdException {
+    public void save(User user) throws NonExistingUserException, InvalidIdException, InvalidNameException {
         if (user == null){
             throw new NonExistingUserException("User does not exist.");
         }
-        validId(user.getId());
-        try {
-            userDao.save(user);
-        } catch (NonExistingEntryException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-            throw new NonExistingUserException("User does not exist.");
-        }
+        validUser(user);
+        userDao.save(user);
     }
 
     public List<User> getAll() throws EmptyListException {
@@ -66,34 +61,28 @@ public class UserService {
         }
     }
 
-    public void followUser(User user, User following) throws FollowingException, NonExistingUserException {
+    public void followUser(User user, User following) throws FollowingException, NonExistingUserException, NonExistingEntryException {
         if (user == null || following == null) {
             throw new NonExistingUserException("User does not exist.");
         }
         if (!user.getFollowing().contains(following)) {
-            user.getFollowing().add(following);
-            try {
-                userDao.followUser(user, following);
-            } catch (NonExistingEntryException ex) {
-                Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            userDao.followUser(user, following);
         }
-        throw new FollowingException("User is already following this user.");
+        else {
+            throw new FollowingException("User is already following this user.");
+        }
     }
 
-    public void unfollowUser(User user, User unfollowing) throws NonExistingEntryException, UnfollowingException {
+    public void unfollowUser(User user, User unfollowing) throws UnfollowingException, NonExistingUserException, NonExistingEntryException {
         if (user == null || unfollowing == null) {
-            throw new NonExistingEntryException("User does not exist.");
+            throw new NonExistingUserException("User does not exist.");
         }
         if (user.getFollowing().contains(unfollowing)) {
-            user.getFollowing().remove(unfollowing);
-            try {
-                userDao.unfollowUser(user, unfollowing);
-            } catch (NonExistingEntryException ex) {
-                Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            userDao.unfollowUser(user, unfollowing);
         }
-        throw new UnfollowingException("User is not following this user.");
+        else {
+            throw new UnfollowingException("User is not following this user.");
+        }
     }
 
     public void changeUsername(Long id, String newName) throws InvalidIdException, InvalidNameException, NonExistingUserException {
@@ -151,8 +140,14 @@ public class UserService {
     }
 
     private void validName(String name) throws InvalidNameException {
-        if (name == null || name.isEmpty()) {
+        if (name == null || name.isEmpty() || name.length() >= 255) {
             throw new InvalidNameException("Invalid name.");
         }
+    }
+    
+    private void validUser(User user) throws InvalidNameException, InvalidIdException{
+        validId(user.getId());
+        validName(user.getUsername());
+        validName(user.getName());
     }
 }
