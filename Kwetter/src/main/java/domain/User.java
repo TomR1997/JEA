@@ -54,7 +54,7 @@ public class User implements Serializable {
     private List<User> following;
     
     @ManyToMany(mappedBy = "following")
-    private List<User> followedBy;
+    private List<User> followers;
 
     @OneToMany(mappedBy="owner")
     private List<Post> posts;
@@ -67,7 +67,7 @@ public class User implements Serializable {
         this.role = role;
         this.web = web;
         this.following = following;
-        this.followedBy = followedBy;
+        this.followers = followedBy;
         this.posts = posts;
     }
         
@@ -162,12 +162,12 @@ public class User implements Serializable {
         this.following = following;
     }
 
-    public List<User> getFollowedBy() {
-        return followedBy;
+    public List<User> getFollowers() {
+        return followers;
     }
 
-    public void setFollowedBy(List<User> followedBy) {
-        this.followedBy = followedBy;
+    public void setFollowers(List<User> followedBy) {
+        this.followers = followedBy;
     }
    
 }

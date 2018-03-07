@@ -21,7 +21,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import org.mockito.runners.MockitoJUnitRunner;
 import service.exceptions.FollowingException;
@@ -46,6 +46,8 @@ public class UserServiceTest {
     private User user3;
     private User user4;
     private List<User> users;
+    private final String newName = "newName";
+    private final String newBio = "newBio";
 
     @Before
     public void setUp() {
@@ -64,7 +66,6 @@ public class UserServiceTest {
     public void findUserTest() throws NonExistingEntryException, NonExistingUserException, InvalidIdException {
         when(userDao.find(user.getId())).thenReturn(user);
         User u = userService.findUser(user.getId());
-
         assertSame(user, u);
     }
 
@@ -92,66 +93,117 @@ public class UserServiceTest {
     }
 
     @Test(expected = InvalidNameException.class)
-    public void invalidNameSaveTest() throws NonExistingUserException, InvalidIdException, InvalidNameException{
+    public void invalidNameSaveTest() throws NonExistingUserException, InvalidIdException, InvalidNameException {
         user.setName("");
         userService.save(user);
         user.setName("a");
         user.setUsername("");
         userService.save(user);
     }
-    
+
     @Test(expected = NonExistingUserException.class)
-    public void nullUserSaveTest() throws NonExistingUserException, InvalidIdException, InvalidNameException{
+    public void nullUserSaveTest() throws NonExistingUserException, InvalidIdException, InvalidNameException {
         userService.save(user3);
     }
-    
+
     @Test
-    public void getAllTest() throws EmptyListException{       
+    public void getAllTest() throws EmptyListException {
         when(userDao.getAll()).thenReturn(users);
         assertTrue(!userService.getAll().isEmpty());
     }
-    
+
     @Test(expected = EmptyListException.class)
-    public void emptyListGetAllTest() throws EmptyListException{
+    public void emptyListGetAllTest() throws EmptyListException {
         users.removeAll(users);
         when(userDao.getAll()).thenThrow(new EmptyListException());
         userService.getAll();
     }
-    
+
     @Test
-    public void followUserTest() throws FollowingException, NonExistingUserException, NonExistingEntryException{
+    public void followUserTest() throws FollowingException, NonExistingUserException, NonExistingEntryException {
         doNothing().when(userDao).followUser(user, user2);
         userService.followUser(user, user2);
     }
-    
+
     @Test(expected = NonExistingUserException.class)
-    public void nullUserFollowUserTest() throws NonExistingUserException, FollowingException, NonExistingEntryException{
+    public void nullUserFollowUserTest() throws NonExistingUserException, FollowingException, NonExistingEntryException {
         userService.followUser(user3, user2);
         userService.followUser(user2, user3);
     }
-    
+
     @Test(expected = FollowingException.class)
-    public void alreadyFollowingFollowUserTest() throws FollowingException, NonExistingUserException, NonExistingEntryException{
+    public void alreadyFollowingFollowUserTest() throws FollowingException, NonExistingUserException, NonExistingEntryException {
         user.getFollowing().add(user2);
         userService.followUser(user, user2);
     }
 
     @Test
-    public void unfollowUser() throws NonExistingEntryException, UnfollowingException, NonExistingUserException, FollowingException{
+    public void unfollowUser() throws NonExistingEntryException, UnfollowingException, NonExistingUserException, FollowingException {
         user.getFollowing().add(user2);
         doNothing().when(userDao).unfollowUser(user, user2);
         userService.unfollowUser(user, user2);
     }
-    
+
     @Test(expected = NonExistingUserException.class)
     public void nullUserUnfollowUserTest() throws NonExistingUserException, NonExistingEntryException, UnfollowingException {
         userService.unfollowUser(user3, user2);
         userService.unfollowUser(user2, user3);
     }
-    
+
     @Test(expected = UnfollowingException.class)
-    public void notFollowingUnfollowUserTest() throws UnfollowingException, NonExistingUserException, NonExistingEntryException{
+    public void notFollowingUnfollowUserTest() throws UnfollowingException, NonExistingUserException, NonExistingEntryException {
         userService.unfollowUser(user, user2);
     }
-    
+
+    @Test
+    public void changeUsernameTest() throws NonExistingEntryException, InvalidIdException, InvalidNameException, NonExistingUserException {
+        doNothing().when(userDao).changeUsername(user.getId(), newName);
+        userService.changeUsername(user.getId(), newName);
+    }
+
+    @Test(expected = InvalidIdException.class)
+    public void invalidIdChangeUsernameTest() throws InvalidIdException, InvalidNameException, NonExistingUserException {
+        userService.changeUsername(-1L, newName);
+    }
+
+    @Test(expected = InvalidNameException.class)
+    public void invalidNameChangeUsernameTest() throws InvalidIdException, InvalidNameException, NonExistingUserException {
+        userService.changeUsername(user.getId(), "");
+    }
+
+    @Test(expected = NonExistingUserException.class)
+    public void nullUserChangeUsernameTest() throws InvalidIdException, InvalidNameException, NonExistingUserException, NonExistingEntryException {
+        doThrow(new NonExistingEntryException()).when(userDao).changeUsername(user.getId(), newName);
+        userService.changeUsername(user.getId(), newName);
+    }
+
+    @Test
+    public void changeBioTest() throws NonExistingEntryException, InvalidIdException, InvalidNameException, NonExistingUserException {
+        doNothing().when(userDao).changeBio(user.getId(), newBio);
+        userService.changeUsername(user.getId(), newBio);
+    }
+
+    @Test(expected = InvalidIdException.class)
+    public void invalidIdChangeBioTest() throws InvalidIdException, InvalidNameException, NonExistingUserException {
+        userService.changeUsername(-1L, newBio);
+    }
+
+    @Test(expected = InvalidNameException.class)
+    public void invalidNameChangeBioTest() throws InvalidIdException, InvalidNameException, NonExistingUserException {
+        userService.changeBio(user.getId(), "");
+    }
+
+    @Test(expected = NonExistingUserException.class)
+    public void nullUserChangeBioTest() throws InvalidIdException, InvalidNameException, NonExistingUserException, NonExistingEntryException {
+        doThrow(new NonExistingEntryException()).when(userDao).changeBio(user.getId(), newBio);
+        userService.changeBio(user.getId(), newBio);
+    }
+
+    @Test
+    public void getFollowersTest() throws NonExistingEntryException, EmptyListException, NonExistingUserException, InvalidIdException {
+        user.getFollowers().add(user2);
+        when(userDao.getFollowers(user.getId())).thenReturn(user.getFollowers());
+        assertTrue(!userService.getFollowers(user.getId()).isEmpty());
+    }
+
 }

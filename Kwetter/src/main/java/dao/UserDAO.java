@@ -91,10 +91,10 @@ public class UserDAO {
         if (user == null) {
             throw new NonExistingEntryException();
         }
-        if (user.getFollowedBy().isEmpty()) {
+        if (user.getFollowers().isEmpty()) {
             throw new EmptyListException();
         }
-        return user.getFollowedBy();
+        return user.getFollowers();
     }
 
     public List<User> getFollowing(Long id) throws NonExistingEntryException, EmptyListException {
@@ -102,10 +102,10 @@ public class UserDAO {
         if (user == null) {
             throw new NonExistingEntryException();
         }
-        if (user.getFollowedBy().isEmpty()) {
+        if (user.getFollowers().isEmpty()) {
             throw new EmptyListException();
         }
-        return user.getFollowedBy();
+        return user.getFollowers();
     }
    
     public int getFollowerAmount(Long id) throws EmptyListException{
