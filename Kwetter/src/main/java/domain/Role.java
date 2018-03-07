@@ -20,9 +20,6 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="KWETTER_ROLE")
-@NamedQueries({
-@NamedQuery(name = "Role.deleteAllRoles", query = "DELETE FROM KWETTER_ROLE r")
-})
 public class Role implements Serializable {
     @Id
     private String name;

@@ -5,8 +5,10 @@
  */
 package dao;
 
+import dao.exceptions.EmptyListException;
 import dao.exceptions.NonExistingEntryException;
 import domain.Post;
+import domain.Role;
 import domain.User;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -35,10 +37,17 @@ public class PostDAO {
         em.persist(post);
     }
 
-    public List<Post> getAll() throws NonExistingEntryException {
+    public void update(Post post) throws NonExistingEntryException {
+        if (post == null) {
+            throw new NonExistingEntryException();
+        }
+        em.merge(post);
+    }
+
+    public List<Post> getAll() throws EmptyListException {
         List<Post> posts = em.createNamedQuery("Post.allPosts").getResultList();
         if (posts.isEmpty()) {
-            throw new NonExistingEntryException();
+            throw new EmptyListException();
         }
         return posts;
     }
@@ -50,9 +59,14 @@ public class PostDAO {
         }
         return post;
     }
-    
-    public Post find(String search){
+
+    public Post find(String tags) throws NonExistingEntryException {
+        Post post = null;
+        if (post == null) {
+            throw new NonExistingEntryException();
+        }
         throw new NotImplementedException();
+        //return post;
     }
 
     public void delete(Long id) throws NonExistingEntryException {
@@ -62,8 +76,8 @@ public class PostDAO {
         }
         em.remove(post);
     }
-    
-    public List<Post> getLatestPosts(User user) throws NonExistingEntryException{
+
+    public List<Post> getLatestPosts(User user) throws NonExistingEntryException {
         List<Post> posts = em.createNamedQuery("Post.latestPosts").getResultList();
         throw new NotImplementedException();
         /*if(posts == null){
@@ -71,12 +85,12 @@ public class PostDAO {
         }
         return posts;*/
     }
-    
-    public List<Post> getTrendingPosts(){
-        List<Post> posts = em.createNamedQuery("Post.getTrendingPosts").getResultList();
+
+    public List<Post> getTimeline(Long id) throws EmptyListException {
+        List<Post> posts = em.createNamedQuery("Post.getTimeline").getResultList();
         throw new NotImplementedException();
-        /*if(posts == null){
-            throw new NonExistingEntryException();
+        /*if(posts.isEmpty()){
+            throw new EmptyListException();
         }
         return posts;*/
     }

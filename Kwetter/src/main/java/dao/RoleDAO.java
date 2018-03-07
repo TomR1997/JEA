@@ -32,6 +32,13 @@ public class RoleDAO {
         em.persist(role);
     }
 
+    public void update(Role role) throws NonExistingEntryException {
+        if (role == null) {
+            throw new NonExistingEntryException();
+        }
+        em.merge(role);
+    }
+
     public Role find(String name) throws NonExistingEntryException {
         Role role = em.find(Role.class, name);
         if (role == null) {

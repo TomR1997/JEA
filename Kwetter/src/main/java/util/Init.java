@@ -44,9 +44,13 @@ public class Init {
 
     @PostConstruct
     public void init() {
-        System.out.println("Init begin......................");
-
-        Role roleUser = new Role();
+        User user1 = new User("programmeergod", "Veldhoven", "somebio", "Tom Roelofs", "someweb");
+        try{
+            userDao.save(user1);
+        } catch (NonExistingEntryException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        /*Role roleUser = new Role();
         Role roleModerator = new Role();
 
         roleUser.setName(RoleName.USER.toString());
@@ -85,8 +89,14 @@ public class Init {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+        try {
+            userDao.followUser(user1, user2);
+        } catch (NonExistingEntryException ex) {
+            Logger.getLogger(Init.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
-        /*Post post1 = new Post("First post PagChomp", new Date(), user1);
+
+        Post post1 = new Post("First post PagChomp", new Date(), user1);
         Post post2 = new Post("Hey all!", new Date(), user2);
         Post post3 = new Post("Hey all!", new Date(), user3);
         Post post4 = new Post("Hey all!", new Date(), user4);
@@ -96,17 +106,19 @@ public class Init {
         Post post8 = new Post("Hey all!", new Date(), user8);
         Post post9 = new Post("Hey all!", new Date(), user9);
         Post post10 = new Post("Hey all!", new Date(), user10);
-        
-        postDao.save(post1);
-        postDao.save(post2);
-        postDao.save(post3);
-        postDao.save(post4);
-        postDao.save(post5);
-        postDao.save(post6);
-        postDao.save(post7);
-        postDao.save(post8);
-        postDao.save(post9);
-        postDao.save(post10);*/
-        System.out.println("Init done.......................");
+        try {
+            postDao.save(post1);
+            postDao.save(post2);
+            postDao.save(post3);
+            postDao.save(post4);
+            postDao.save(post5);
+            postDao.save(post6);
+            postDao.save(post7);
+            postDao.save(post8);
+            postDao.save(post9);
+            postDao.save(post10);
+        } catch (NonExistingEntryException ex) {
+            Logger.getLogger(Init.class.getName()).log(Level.SEVERE, null, ex);
+        }*/
     }
 }

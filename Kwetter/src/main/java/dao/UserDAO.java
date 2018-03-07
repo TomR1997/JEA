@@ -6,7 +6,6 @@
 package dao;
 
 import dao.exceptions.EmptyListException;
-import service.exceptions.FollowingException;
 import dao.exceptions.NonExistingEntryException;
 import domain.User;
 import java.util.List;
@@ -43,6 +42,13 @@ public class UserDAO {
         em.persist(user);
     }
 
+    public void update(User user) throws NonExistingEntryException {
+        if (user == null) {
+            throw new NonExistingEntryException();
+        }
+        em.merge(user);
+    }
+
     public User find(Long id) throws NonExistingEntryException {
         User user = em.find(User.class, id);
         if (user == null) {
@@ -55,14 +61,16 @@ public class UserDAO {
         if (user == null || following == null) {
             throw new NonExistingEntryException();
         }
-        em.persist(user);
+        update(user);
+        save(user);
     }
 
     public void unfollowUser(User user, User unfollowing) throws NonExistingEntryException {
         if (user == null || unfollowing == null) {
             throw new NonExistingEntryException();
         }
-        em.persist(user);
+        update(user);
+        save(user);
     }
 
     public void changeUsername(Long id, String newName) throws NonExistingEntryException {
@@ -71,7 +79,8 @@ public class UserDAO {
             throw new NonExistingEntryException();
         }
         user.setUsername(newName);
-        em.persist(user);
+        update(user);
+        save(user);
     }
 
     public void changeBio(Long id, String newBio) throws NonExistingEntryException {
@@ -80,7 +89,8 @@ public class UserDAO {
             throw new NonExistingEntryException();
         }
         user.setBio(newBio);
-        em.persist(user);
+        update(user);
+        save(user);
     }
 
     public List<User> getFollowers(Long id) throws NonExistingEntryException, EmptyListException {
@@ -103,5 +113,13 @@ public class UserDAO {
             throw new EmptyListException();
         }
         return user.getFollowedBy();
+    }
+   
+    public int getFollowerAmount(Long id) throws EmptyListException{
+        return em.createNamedQuery("User.getFollowerAmount").executeUpdate();
+    }
+    
+    public int getFollowingAmount(Long id) throws EmptyListException{
+        return em.createNamedQuery("User.getFollowingAmount").executeUpdate();
     }
 }

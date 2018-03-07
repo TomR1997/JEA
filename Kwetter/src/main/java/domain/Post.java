@@ -7,7 +7,6 @@ package domain;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,7 +26,7 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name="KWETTER_POST")
 @NamedQueries({
-@NamedQuery(name = "Post.allPosts", query = "SELECT p FROM KWETTER_POST p")
+@NamedQuery(name = "Post.allPosts", query = "SELECT p FROM Post p"),
 })
 public class Post implements Serializable {
     @Id

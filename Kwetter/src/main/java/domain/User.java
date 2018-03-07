@@ -13,12 +13,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -29,7 +31,10 @@ import javax.persistence.Table;
 @Table(name="KWETTER_USER")
 @NamedQueries({
 @NamedQuery(name = "User.allUsers", query = "SELECT u FROM KWETTER_USER u"),
-@NamedQuery(name = "User.deleteAllUsers", query = "DELETE FROM KWETTER_USER u")
+/*@NamedQuery(name = "User.getFollowingAmount", query = "SELECT COUNT(u) FROM KWETTER_USER u " + "INNER JOIN Follow f ON "
+        + "f.followers_id = u.id " + "WHERE u.id = :follower"),
+@NamedQuery(name = "User.getFollowerAmount", query = "SELECT COUNT(u) FROM KWETTER_USER u " + "INNER JOIN Follow f ON "
+        + "f.following_id = u.id " + "WHERE u.id = :following")*/
 })
 public class User implements Serializable {
     @Id
