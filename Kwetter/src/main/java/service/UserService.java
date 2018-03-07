@@ -15,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import service.exceptions.InvalidAmountException;
 import service.exceptions.InvalidIdException;
 import service.exceptions.InvalidNameException;
 import service.exceptions.NonExistingUserException;
@@ -33,7 +34,7 @@ public class UserService {
     public void setUserDao(UserDAO userDao) {
         this.userDao = userDao;
     }
-    
+
     public User findUser(Long id) throws NonExistingUserException, InvalidIdException {
         validId(id);
         try {
@@ -45,7 +46,7 @@ public class UserService {
     }
 
     public void save(User user) throws NonExistingUserException, InvalidIdException, InvalidNameException {
-        if (user == null){
+        if (user == null) {
             throw new NonExistingUserException("User does not exist.");
         }
         validUser(user);
@@ -67,8 +68,7 @@ public class UserService {
         }
         if (!user.getFollowing().contains(following)) {
             userDao.followUser(user, following);
-        }
-        else {
+        } else {
             throw new FollowingException("User is already following this user.");
         }
     }
@@ -79,8 +79,7 @@ public class UserService {
         }
         if (user.getFollowing().contains(unfollowing)) {
             userDao.unfollowUser(user, unfollowing);
-        }
-        else {
+        } else {
             throw new UnfollowingException("User is not following this user.");
         }
     }
@@ -133,6 +132,24 @@ public class UserService {
         }
     }
 
+    public int getFollowerAmount(Long id) throws EmptyListException, InvalidAmountException {
+        int followers = userDao.getFollowerAmount(id);
+        validAmount(followers);
+        return followers;
+    }
+
+    public int getFollowingAmount(Long id) throws EmptyListException, InvalidAmountException {
+        int following = userDao.getFollowingAmount(id);
+        validAmount(following);
+        return following;
+    }
+
+    private void validAmount(int amount) throws InvalidAmountException {
+        if (amount <= 0) {
+            throw new InvalidAmountException("Invalid amount.");
+        }
+    }
+
     private void validId(Long id) throws InvalidIdException {
         if (id <= 0) {
             throw new InvalidIdException("Invalid id.");
@@ -144,8 +161,8 @@ public class UserService {
             throw new InvalidNameException("Invalid name.");
         }
     }
-    
-    private void validUser(User user) throws InvalidNameException, InvalidIdException{
+
+    private void validUser(User user) throws InvalidNameException, InvalidIdException {
         validId(user.getId());
         validName(user.getUsername());
         validName(user.getName());

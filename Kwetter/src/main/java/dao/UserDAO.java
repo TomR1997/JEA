@@ -12,6 +12,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -108,11 +109,13 @@ public class UserDAO {
         return user.getFollowers();
     }
    
-    public int getFollowerAmount(Long id) throws EmptyListException{
-        return em.createNamedQuery("User.getFollowerAmount").executeUpdate();
+    public int getFollowerAmount(Long id){
+        Query query = em.createNamedQuery("User.getFollowerCount");
+        return query.setParameter("follower", id).getFirstResult();
     }
     
-    public int getFollowingAmount(Long id) throws EmptyListException{
-        return em.createNamedQuery("User.getFollowingAmount").executeUpdate();
+    public int getFollowingAmount(Long id){
+        Query query = em.createNamedQuery("User.getFollowingCount");
+        return query.setParameter("follower", id).getFirstResult();
     }
 }

@@ -6,7 +6,6 @@
 package domain;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,7 +19,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -31,10 +29,10 @@ import javax.validation.constraints.NotNull;
 @Table(name="KWETTER_USER")
 @NamedQueries({
 @NamedQuery(name = "User.allUsers", query = "SELECT u FROM KWETTER_USER u"),
-/*@NamedQuery(name = "User.getFollowingAmount", query = "SELECT COUNT(u) FROM KWETTER_USER u " + "INNER JOIN Follow f ON "
+@NamedQuery(name = "User.getFollowingCount", query = "SELECT COUNT(u) FROM KWETTER_USER u " + "INNER JOIN Follow f ON "
         + "f.followers_id = u.id " + "WHERE u.id = :follower"),
-@NamedQuery(name = "User.getFollowerAmount", query = "SELECT COUNT(u) FROM KWETTER_USER u " + "INNER JOIN Follow f ON "
-        + "f.following_id = u.id " + "WHERE u.id = :following")*/
+@NamedQuery(name = "User.getFollowerCount", query = "SELECT COUNT(u) FROM KWETTER_USER u " + "INNER JOIN Follow f ON "
+        + "f.following_id = u.id " + "WHERE u.id = :following")
 })
 public class User implements Serializable {
     @Id
@@ -51,9 +49,11 @@ public class User implements Serializable {
     private String web;
     
     @ManyToMany
+    @JoinTable(name ="follow")
     private List<User> following;
     
     @ManyToMany(mappedBy = "following")
+    @JoinTable(name ="follow")
     private List<User> followers;
 
     @OneToMany(mappedBy="owner")

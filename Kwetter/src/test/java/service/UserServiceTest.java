@@ -13,6 +13,7 @@ import domain.Role;
 import domain.User;
 import java.util.ArrayList;
 import java.util.List;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
@@ -25,6 +26,7 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import org.mockito.runners.MockitoJUnitRunner;
 import service.exceptions.FollowingException;
+import service.exceptions.InvalidAmountException;
 import service.exceptions.InvalidIdException;
 import service.exceptions.InvalidNameException;
 import service.exceptions.NonExistingUserException;
@@ -245,4 +247,31 @@ public class UserServiceTest {
         userService.getFollowing(1L);
     }
 
+    @Test
+    public void getFollowerAmount() throws EmptyListException, InvalidAmountException {
+        user.getFollowers().add(user2);
+        when(userDao.getFollowerAmount(user.getId())).thenReturn(user.getFollowers().size());
+        int followers = userService.getFollowerAmount(user.getId());
+        assertEquals(user.getFollowers().size(), followers);
+    }
+
+    @Test(expected = InvalidAmountException.class)
+    public void invalidAmountGetFollowerAmount() throws EmptyListException, InvalidAmountException {
+        when(userDao.getFollowerAmount(user.getId())).thenReturn(user.getFollowers().size());
+        userService.getFollowerAmount(user.getId());
+    }
+
+    @Test
+    public void getFollowingAmount() throws EmptyListException, InvalidAmountException {
+        user.getFollowing().add(user2);
+        when(userDao.getFollowingAmount(user.getId())).thenReturn(user.getFollowing().size());
+        int following = userService.getFollowingAmount(user.getId());
+        assertEquals(user.getFollowing().size(), following);
+    }
+
+    @Test(expected = InvalidAmountException.class)
+    public void invalidAmountGetFollowingAmount() throws EmptyListException, InvalidAmountException {
+        when(userDao.getFollowingAmount(user.getId())).thenReturn(user.getFollowing().size());
+        userService.getFollowingAmount(user.getId());
+    }
 }
