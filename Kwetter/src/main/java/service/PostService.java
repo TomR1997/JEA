@@ -28,7 +28,12 @@ public class PostService {
     @Inject
     private PostDAO postDao;
 
-    public Post findPost(Long id) throws NonExistingPostException {
+    public void setPostDao(PostDAO postDao) {
+        this.postDao = postDao;
+    }
+
+    public Post findPost(Long id) throws NonExistingPostException, InvalidIdException {
+        validId(id);
         try {
             return postDao.find(id);
         } catch (NonExistingEntryException ex) {
@@ -46,17 +51,7 @@ public class PostService {
         }
     }
 
-    public Post find(Long id) throws NonExistingEntryException, InvalidIdException {
-        validId(id);
-        try {
-            return postDao.find(id);
-        } catch (NonExistingEntryException ex) {
-            Logger.getLogger(PostService.class.getName()).log(Level.SEVERE, null, ex);
-            throw new NonExistingEntryException();
-        }
-    }
-
-    public Post find(String tags) throws NonExistingEntryException, InvalidNameException {
+    public Post findPost(String tags) throws NonExistingEntryException, InvalidNameException {
         validName(tags);
         try {
             return postDao.find(tags);
@@ -66,7 +61,7 @@ public class PostService {
         }
     }
 
-    public void delete(Long id) throws NonExistingEntryException, InvalidIdException {
+    public void deletePost(Long id) throws NonExistingEntryException, InvalidIdException {
         validId(id);
         try {
             postDao.delete(id);
@@ -83,7 +78,7 @@ public class PostService {
     }
 
     private void validName(String name) throws InvalidNameException {
-        if (name == null || name.isEmpty()) {
+        if (name == null || name.isEmpty() || name.length() >= 255) {
             throw new InvalidNameException();
         }
     }

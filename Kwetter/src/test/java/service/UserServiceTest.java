@@ -13,7 +13,6 @@ import domain.Role;
 import domain.User;
 import java.util.ArrayList;
 import java.util.List;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
@@ -45,7 +44,6 @@ public class UserServiceTest {
     private User user;
     private User user2;
     private User user3;
-    private User user4;
     private List<User> users;
     private final String newName = "newName";
     private final String newBio = "newBio";
@@ -60,7 +58,6 @@ public class UserServiceTest {
         users = new ArrayList<>();
         users.add(user);
         user3 = null;
-        user4 = null;
     }
 
     @Test

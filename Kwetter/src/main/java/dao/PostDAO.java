@@ -8,7 +8,6 @@ package dao;
 import dao.exceptions.EmptyListException;
 import dao.exceptions.NonExistingEntryException;
 import domain.Post;
-import domain.Role;
 import domain.User;
 import java.util.List;
 import javax.ejb.Stateless;
