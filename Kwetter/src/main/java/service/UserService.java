@@ -30,7 +30,12 @@ public class UserService {
     @Inject
     private UserDAO userDao;
 
-    public User findUser(Long id) throws NonExistingUserException {
+    public void setUserDao(UserDAO userDao) {
+        this.userDao = userDao;
+    }
+    
+    public User findUser(Long id) throws NonExistingUserException, InvalidIdException {
+        validId(id);
         try {
             return userDao.find(id);
         } catch (NonExistingEntryException ex) {
@@ -39,7 +44,11 @@ public class UserService {
         }
     }
 
-    public void save(User user) throws NonExistingUserException {
+    public void save(User user) throws NonExistingUserException, InvalidIdException {
+        if (user == null){
+            throw new NonExistingUserException("User does not exist.");
+        }
+        validId(user.getId());
         try {
             userDao.save(user);
         } catch (NonExistingEntryException ex) {
@@ -109,7 +118,8 @@ public class UserService {
         }
     }
 
-    public List<User> getFollowers(Long id) throws NonExistingUserException, EmptyListException {
+    public List<User> getFollowers(Long id) throws NonExistingUserException, EmptyListException, InvalidIdException {
+        validId(id);
         try {
             return userDao.getFollowers(id);
         } catch (NonExistingEntryException ex) {
@@ -121,7 +131,8 @@ public class UserService {
         }
     }
 
-    public List<User> getFollowing(Long id) throws NonExistingUserException, EmptyListException {
+    public List<User> getFollowing(Long id) throws NonExistingUserException, EmptyListException, InvalidIdException {
+        validId(id);
         try {
             return userDao.getFollowing(id);
         } catch (NonExistingEntryException ex) {
@@ -135,13 +146,13 @@ public class UserService {
 
     private void validId(Long id) throws InvalidIdException {
         if (id <= 0) {
-            throw new InvalidIdException();
+            throw new InvalidIdException("Invalid id.");
         }
     }
 
     private void validName(String name) throws InvalidNameException {
         if (name == null || name.isEmpty()) {
-            throw new InvalidNameException();
+            throw new InvalidNameException("Invalid name.");
         }
     }
 }
