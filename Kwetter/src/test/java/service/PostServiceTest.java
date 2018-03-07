@@ -96,4 +96,6 @@ public class PostServiceTest {
         doThrow(new NonExistingEntryException()).when(postDao).delete(post.getId());
         postService.deletePost(post.getId());
     }
+    
+    //latestposts && timelinetests
 }

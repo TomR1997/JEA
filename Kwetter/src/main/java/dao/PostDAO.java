@@ -77,7 +77,7 @@ public class PostDAO {
         em.remove(post);
     }
 
-    public List<Post> getLatestPosts(Long userId) throws NonExistingEntryException, EmptyListException {
+    public List<Post> getLatestPosts(Long userId) throws EmptyListException {
         Query query = em.createNamedQuery("Post.getLatestPosts");
         List<Post> posts = query.setParameter("owner_id", userId).getResultList();
         if (posts.isEmpty()){

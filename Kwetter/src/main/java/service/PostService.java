@@ -71,6 +71,24 @@ public class PostService {
         }
     }
 
+    public List<Post> getLatestPosts(Long userId) throws EmptyListException {
+        try {
+            return postDao.getLatestPosts(userId);
+        } catch (EmptyListException ex) {
+            Logger.getLogger(PostService.class.getName()).log(Level.SEVERE, null, ex);
+            throw new EmptyListException();
+        }
+    }
+
+    public List<Post> getTimeline(Long userId) throws EmptyListException {
+        try {
+            return postDao.getTimeline(userId);
+        } catch (EmptyListException ex) {
+            Logger.getLogger(PostService.class.getName()).log(Level.SEVERE, null, ex);
+            throw new EmptyListException();
+        }
+    }
+
     private void validId(Long id) throws InvalidIdException {
         if (id <= 0) {
             throw new InvalidIdException();
