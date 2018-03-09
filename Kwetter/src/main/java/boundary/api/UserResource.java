@@ -116,7 +116,43 @@ public class UserResource {
         } catch (NonExistingUserException ex) {
             response.addMessage("De gebruiker bestaat niet.");
         }
-        
+
+        return new Gson().toJson(response);
+    }
+
+    @PUT
+    @Path("changeUsername")
+    public String changeUsername(Long id, String newName) {
+        UpdateResponse<User> response = new UpdateResponse<>(false);
+        try {
+            userService.changeUsername(id, newName);
+            response.setSuccess(true);
+        } catch (InvalidIdException ex) {
+            response.addMessage("Het opgegeven id is ongeldig.");
+        } catch (InvalidNameException ex) {
+            response.addMessage("De opgegeven naam is ongeldig.");
+        } catch (NonExistingUserException ex) {
+            response.addMessage("De gebruiker bestaat niet.");
+        }
+
+        return new Gson().toJson(response);
+    }
+
+    @PUT
+    @Path("changeBio")
+    public String changeBio(Long id, String newBio) {
+        UpdateResponse<User> response = new UpdateResponse<>(false);
+        try {
+            userService.changeBio(id, newBio);
+            response.setSuccess(true);
+        } catch (InvalidIdException ex) {
+            response.addMessage("Het opgegeven id is ongeldig.");
+        } catch (InvalidNameException ex) {
+            response.addMessage("De opgegeven bio is ongeldig.");
+        } catch (NonExistingUserException ex) {
+            response.addMessage("De gebruiker bestaat niet.");
+        }
+
         return new Gson().toJson(response);
     }
 }

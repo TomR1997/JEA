@@ -12,6 +12,7 @@ import java.util.List;
  * @author Tomt
  */
 public class UpdateResponse<T> extends ResponseBase {
+    public T Record;
     
     public UpdateResponse(boolean success, List<String> messages) {
         super(success, messages);
@@ -19,6 +20,14 @@ public class UpdateResponse<T> extends ResponseBase {
 
     public UpdateResponse(boolean success) {
         super(success);
+    }
+
+    public T getRecord() {
+        return Record;
+    }
+
+    public void setRecord(T Record) {
+        this.Record = Record;
     }
     
 }
