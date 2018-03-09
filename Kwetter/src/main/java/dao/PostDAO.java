@@ -31,9 +31,6 @@ public class PostDAO {
     }
 
     public void save(Post post) throws NonExistingEntryException {
-        if (post == null) {
-            throw new NonExistingEntryException();
-        }
         em.persist(post);
     }
 
@@ -61,12 +58,7 @@ public class PostDAO {
     }
 
     public List<Post> find(String tags) throws NonExistingEntryException {
-        Post post = null;
-        if (post == null) {
-            throw new NonExistingEntryException();
-        }
         throw new NotImplementedException();
-        //return post;
     }
 
     public void delete(Long id) throws NonExistingEntryException {

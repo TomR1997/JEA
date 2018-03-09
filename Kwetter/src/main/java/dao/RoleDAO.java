@@ -26,9 +26,6 @@ public class RoleDAO {
     }
 
     public void save(Role role) throws NonExistingEntryException {
-        if (role == null) {
-            throw new NonExistingEntryException();
-        }
         em.persist(role);
     }
 
