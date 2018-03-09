@@ -16,5 +16,9 @@ public class CreateResponse<T> extends ResponseBase {
     public CreateResponse(boolean success, List<String> messages) {
         super(success, messages);
     }
+
+    public CreateResponse(boolean success) {
+        super(success);
+    }
     
 }

@@ -16,5 +16,9 @@ public class UpdateResponse<T> extends ResponseBase {
     public UpdateResponse(boolean success, List<String> messages) {
         super(success, messages);
     }
+
+    public UpdateResponse(boolean success) {
+        super(success);
+    }
     
 }

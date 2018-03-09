@@ -25,5 +25,9 @@ public class DeleteResponse<T> extends ResponseBase {
     public void setRecord(T Record) {
         this.Record = Record;
     }
+
+    public DeleteResponse(boolean success) {
+        super(success);
+    }
      
 }

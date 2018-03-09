@@ -18,6 +18,10 @@ public class GetMultipleResponse<T> extends ResponseBase {
         super(success, messages);
     }
 
+    public GetMultipleResponse(boolean success) {
+        super(success);
+    }
+
     public List<T> getRecords() {
         return Records;
     }

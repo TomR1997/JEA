@@ -14,8 +14,17 @@ public class ResponseBase {
         this.success = success;
         this.messages = messages;
     }
+
+    public ResponseBase(boolean success) {
+        this.success = success;
+    }
     
     public void addMessage(String message){
         this.messages.add(message);
     }
+
+    public void setSuccess(boolean success) {
+        this.success = success;
+    }
+    
 }

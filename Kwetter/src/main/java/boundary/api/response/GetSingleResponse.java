@@ -15,6 +15,10 @@ import java.util.List;
 public class GetSingleResponse<T> extends ResponseBase {
     public T Record;
 
+    public GetSingleResponse(boolean success) {
+        super(success);
+    }
+    
     public GetSingleResponse(boolean success, List<String> messages) {
         super(success, messages);
     }

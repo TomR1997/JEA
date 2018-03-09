@@ -62,23 +62,33 @@ public class UserService {
         }
     }
 
-    public void followUser(User user, User following) throws FollowingException, NonExistingUserException, NonExistingEntryException {
+    public void followUser(User user, User following) throws FollowingException, NonExistingUserException {
         if (user == null || following == null) {
             throw new NonExistingUserException("User does not exist.");
         }
         if (!user.getFollowing().contains(following)) {
-            userDao.followUser(user, following);
+            try {
+                userDao.followUser(user, following);
+            } catch (NonExistingEntryException ex) {
+                Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+                throw new NonExistingUserException("User does not exist.");
+            }
         } else {
             throw new FollowingException("User is already following this user.");
         }
     }
 
-    public void unfollowUser(User user, User unfollowing) throws UnfollowingException, NonExistingUserException, NonExistingEntryException {
+    public void unfollowUser(User user, User unfollowing) throws UnfollowingException, NonExistingUserException {
         if (user == null || unfollowing == null) {
             throw new NonExistingUserException("User does not exist.");
         }
         if (user.getFollowing().contains(unfollowing)) {
-            userDao.unfollowUser(user, unfollowing);
+            try {
+                userDao.unfollowUser(user, unfollowing);
+            } catch (NonExistingEntryException ex) {
+                Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
+                throw new NonExistingUserException("User does not exist.");
+            }
         } else {
             throw new UnfollowingException("User is not following this user.");
         }
