@@ -5,6 +5,7 @@
  */
 package boundary.api;
 
+import boundary.api.response.ResponseBase;
 import domain.User;
 import java.util.List;
 import java.util.logging.Level;
@@ -15,6 +16,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import service.UserService;
+import service.exceptions.InvalidIdException;
 import service.exceptions.NonExistingUserException;
 
 /**
@@ -29,7 +31,7 @@ public class UserResource {
     
     /*@GET
     @Path("GetUser/{id}")
-    public User getUser(@PathParam("id") Long id){
+    public User getUser(@PathParam("id") Long id) throws InvalidIdException{
         try {
             return userService.findUser(id);
         } catch (NonExistingUserException ex) {
@@ -37,7 +39,7 @@ public class UserResource {
         }
     }
     
-    @GET
+    /*@GET
     public List<User> getAllUsers(){
         try {
             return userService.getAll();

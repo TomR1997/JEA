@@ -51,7 +51,7 @@ public class PostService {
         }
     }
 
-    public Post findPost(String tags) throws NonExistingEntryException, InvalidNameException {
+    public List<Post> findPost(String tags) throws NonExistingEntryException, InvalidNameException {
         validName(tags);
         try {
             return postDao.find(tags);

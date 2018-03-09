@@ -60,7 +60,7 @@ public class PostDAO {
         return post;
     }
 
-    public Post find(String tags) throws NonExistingEntryException {
+    public List<Post> find(String tags) throws NonExistingEntryException {
         Post post = null;
         if (post == null) {
             throw new NonExistingEntryException();
