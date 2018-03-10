@@ -119,7 +119,7 @@ public class PostResource {
         } catch (InvalidNameException ex) {
             response.addMessage("Opgegeven id is ongeldig.");
         }
-        response.setSuccess(true);
+        
         return new Gson().toJson(response);
     }
 }
