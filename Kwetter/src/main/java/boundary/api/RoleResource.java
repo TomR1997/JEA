@@ -5,13 +5,20 @@
  */
 package boundary.api;
 
+import boundary.api.response.CreateResponse;
+import boundary.api.response.GetSingleResponse;
+import com.google.gson.Gson;
 import domain.Role;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import service.RoleService;
+import service.exceptions.NonExistingRoleException;
 
 /**
  *
@@ -23,9 +30,31 @@ public class RoleResource {
     @Inject
     private RoleService roleService;
     
-    /*@GET
+    @GET
     @Path("GetRole/{name}")
-    public Role getRole(@PathParam("name") String name){
-        return roleService.findRole(name);
-    }*/
+    public String findRole(@PathParam("name") String name){
+        GetSingleResponse<Role> response = new GetSingleResponse<>(false);
+        try {
+            response.setRecord(roleService.findRole(name));
+            response.setSuccess(true);
+        } catch (NonExistingRoleException ex) {
+            response.addMessage("De opgegeven rol bestaat niet.");
+        }
+        
+        return new Gson().toJson(response);
+    }
+    
+    @POST
+    @Path("saveRole")
+    public String saveRole(Role role){
+        CreateResponse<String> response = new CreateResponse<>(false);
+        try {
+            roleService.saveRole(role);
+            response.setSuccess(true);
+        } catch (NonExistingRoleException ex) {
+            response.addMessage("Role bevat niet de juiste waardes.");
+        }
+        
+        return new Gson().toJson(response);
+    }
 }
