@@ -51,13 +51,13 @@ public class PostService {
         }
     }
 
-    public List<Post> findPost(String tags) throws NonExistingEntryException, InvalidNameException {
+    public List<Post> findPost(String tags) throws EmptyListException, InvalidNameException {
         validName(tags);
         try {
             return postDao.find(tags);
         } catch (NonExistingEntryException ex) {
             Logger.getLogger(PostService.class.getName()).log(Level.SEVERE, null, ex);
-            throw new NonExistingEntryException();
+            throw new EmptyListException();
         }
     }
 

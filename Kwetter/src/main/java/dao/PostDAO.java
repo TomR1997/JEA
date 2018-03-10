@@ -57,8 +57,19 @@ public class PostDAO {
         return post;
     }
 
-    public List<Post> find(String tags) throws NonExistingEntryException {
-        throw new NotImplementedException();
+    /**
+     * UPDATE QUERY
+     * @param tags
+     * @return
+     * @throws NonExistingEntryException 
+     */
+    public List<Post> find(String tags) throws NonExistingEntryException, EmptyListException {
+        Query query = em.createNamedQuery("Post.findPosts");
+        List<Post> posts = query.setParameter("tags", tags).getResultList();
+        if (posts.isEmpty()){
+            throw new EmptyListException();
+        }
+        return posts;
     }
 
     public void delete(Long id) throws NonExistingEntryException {
