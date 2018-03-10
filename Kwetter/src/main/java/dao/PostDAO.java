@@ -8,13 +8,11 @@ package dao;
 import dao.exceptions.EmptyListException;
 import dao.exceptions.NonExistingEntryException;
 import domain.Post;
-import domain.User;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  *
@@ -62,6 +60,7 @@ public class PostDAO {
      * @param tags
      * @return
      * @throws NonExistingEntryException 
+     * @throws dao.exceptions.EmptyListException 
      */
     public List<Post> find(String tags) throws NonExistingEntryException, EmptyListException {
         Query query = em.createNamedQuery("Post.findPosts");
