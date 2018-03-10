@@ -38,7 +38,7 @@ public class PostService {
             return postDao.find(id);
         } catch (NonExistingEntryException ex) {
             Logger.getLogger(PostService.class.getName()).log(Level.SEVERE, null, ex);
-            throw new NonExistingPostException();
+            throw new NonExistingPostException("No post was found.");
         }
     }
 
@@ -47,7 +47,7 @@ public class PostService {
             return postDao.getAll();
         } catch (EmptyListException ex) {
             Logger.getLogger(PostService.class.getName()).log(Level.SEVERE, null, ex);
-            throw new EmptyListException();
+            throw new EmptyListException("No posts were found.");
         }
     }
 
@@ -57,7 +57,7 @@ public class PostService {
             return postDao.find(tags);
         } catch (NonExistingEntryException ex) {
             Logger.getLogger(PostService.class.getName()).log(Level.SEVERE, null, ex);
-            throw new EmptyListException();
+            throw new EmptyListException("No posts were found.");
         }
     }
 
@@ -67,7 +67,7 @@ public class PostService {
             postDao.delete(id);
         } catch (NonExistingEntryException ex) {
             Logger.getLogger(PostService.class.getName()).log(Level.SEVERE, null, ex);
-            throw new NonExistingEntryException();
+            throw new NonExistingEntryException("No post was found.");
         }
     }
 
@@ -76,7 +76,7 @@ public class PostService {
             return postDao.getLatestPosts(userId);
         } catch (EmptyListException ex) {
             Logger.getLogger(PostService.class.getName()).log(Level.SEVERE, null, ex);
-            throw new EmptyListException();
+            throw new EmptyListException("No posts were found.");
         }
     }
 
@@ -85,7 +85,7 @@ public class PostService {
             return postDao.getTimeline(userId);
         } catch (EmptyListException ex) {
             Logger.getLogger(PostService.class.getName()).log(Level.SEVERE, null, ex);
-            throw new EmptyListException();
+            throw new EmptyListException("No posts were found.");
         }
     }
 

@@ -33,19 +33,19 @@ public class RoleService {
             return roleDao.find(name);
         } catch (NonExistingEntryException ex) {
             Logger.getLogger(RoleService.class.getName()).log(Level.SEVERE, null, ex);
-            throw new NonExistingRoleException();
+            throw new NonExistingRoleException("No role was found.");
         }
     }
 
     public void saveRole(Role role) throws NonExistingRoleException {
         if (role == null) {
-            throw new NonExistingRoleException();
+            throw new NonExistingRoleException("No role was found.");
         }
         try {
             roleDao.save(role);
         } catch (NonExistingEntryException ex) {
             Logger.getLogger(RoleService.class.getName()).log(Level.SEVERE, null, ex);
-            throw new NonExistingRoleException();
+            throw new NonExistingRoleException("No role was found.");
         }
     }
 }
