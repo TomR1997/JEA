@@ -26,6 +26,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import service.UserService;
 import service.exceptions.FollowingException;
+import service.exceptions.InvalidAmountException;
 import service.exceptions.InvalidIdException;
 import service.exceptions.InvalidNameException;
 import service.exceptions.NonExistingUserException;
@@ -47,7 +48,7 @@ public class UserResource {
     public String findUser(@PathParam("id") Long id) throws InvalidIdException {
         GetSingleResponse<User> response = new GetSingleResponse<>(false);
         try {
-            response.Record = userService.findUser(id);
+            response.setRecord(userService.findUser(id));
             response.setSuccess(true);
         } catch (NonExistingUserException ex) {
             response.addMessage("De gebruiker bestaat niet.");
@@ -61,7 +62,7 @@ public class UserResource {
     public String getAllUsers() {
         GetMultipleResponse<User> response = new GetMultipleResponse<>(false);
         try {
-            response.Records = userService.getAll();
+            response.setRecords(userService.getAll());
             response.setSuccess(true);
         } catch (EmptyListException ex) {
             response.addMessage("Er zijn geen gebruikers gevonden.");
@@ -151,6 +152,70 @@ public class UserResource {
             response.addMessage("De opgegeven bio is ongeldig.");
         } catch (NonExistingUserException ex) {
             response.addMessage("De gebruiker bestaat niet.");
+        }
+
+        return new Gson().toJson(response);
+    }
+
+    @GET
+    @Path("getFollowers/{id}")
+    public String getFollowers(@PathParam("id") Long id) {
+        GetMultipleResponse<User> response = new GetMultipleResponse<>(false);
+        try {
+            response.setRecords(userService.getFollowers(id));
+            response.setSuccess(true);
+        } catch (NonExistingUserException ex) {
+            response.addMessage("De gebruiker bestaat niet.");
+        } catch (EmptyListException ex) {
+            response.addMessage("U heeft geen volgers.");
+        } catch (InvalidIdException ex) {
+            response.addMessage("Opgegeven id is ongeldig.");
+        }
+
+        return new Gson().toJson(response);
+    }
+
+    @GET
+    @Path("getFollowing/{id}")
+    public String getFollowing(@PathParam("id") Long id) {
+        GetMultipleResponse<User> response = new GetMultipleResponse<>(false);
+        try {
+            response.setRecords(userService.getFollowing(id));
+            response.setSuccess(true);
+        } catch (NonExistingUserException ex) {
+            response.addMessage("De gebruiker bestaat niet.");
+        } catch (EmptyListException ex) {
+            response.addMessage("U heeft geen volgers.");
+        } catch (InvalidIdException ex) {
+            response.addMessage("Opgegeven id is ongeldig.");
+        }
+
+        return new Gson().toJson(response);
+    }
+
+    @GET
+    @Path("getFollowerAmount/{id}")
+    public String getFollowerAmount(@PathParam("id") Long id) {
+        GetSingleResponse<Integer> response = new GetSingleResponse<>(false);
+        try {
+            response.setRecord(userService.getFollowerAmount(id));
+            response.setSuccess(true);
+        } catch (InvalidAmountException ex) {
+            response.addMessage("U heeft geen volgers.");
+        }
+
+        return new Gson().toJson(response);
+    }
+
+    @GET
+    @Path("getFollowingAmount/{id}")
+    public String getFollowingAmount(@PathParam("id") Long id) {
+        GetSingleResponse<Integer> response = new GetSingleResponse<>(false);
+        try {
+            response.setRecord(userService.getFollowingAmount(id));
+            response.setSuccess(true);
+        } catch (InvalidAmountException ex) {
+            response.addMessage("U volgt niemand.");
         }
 
         return new Gson().toJson(response);

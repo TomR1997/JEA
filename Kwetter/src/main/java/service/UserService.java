@@ -142,13 +142,13 @@ public class UserService {
         }
     }
 
-    public int getFollowerAmount(Long id) throws EmptyListException, InvalidAmountException {
+    public int getFollowerAmount(Long id) throws InvalidAmountException {
         int followers = userDao.getFollowerAmount(id);
         validAmount(followers);
         return followers;
     }
 
-    public int getFollowingAmount(Long id) throws EmptyListException, InvalidAmountException {
+    public int getFollowingAmount(Long id) throws InvalidAmountException {
         int following = userDao.getFollowingAmount(id);
         validAmount(following);
         return following;
