@@ -12,7 +12,7 @@ import java.util.List;
  * @author Tomt
  */
 public class UpdateResponse<T> extends ResponseBase {
-    public T Record;
+    private T Record;
     
     public UpdateResponse(boolean success, List<String> messages) {
         super(success, messages);

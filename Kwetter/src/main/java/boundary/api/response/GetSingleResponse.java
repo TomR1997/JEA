@@ -13,7 +13,7 @@ import java.util.List;
  */
   
 public class GetSingleResponse<T> extends ResponseBase {
-    public T Record;
+    private T Record;
 
     public GetSingleResponse(boolean success) {
         super(success);

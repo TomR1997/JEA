@@ -12,7 +12,7 @@ import java.util.List;
  * @author Tomt
  */
 public class DeleteResponse<T> extends ResponseBase {
-    public T Record;
+    private T Record;
 
     public DeleteResponse(boolean success, List<String> messages) {
         super(success, messages);

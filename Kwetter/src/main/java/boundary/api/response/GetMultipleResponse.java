@@ -12,7 +12,7 @@ import java.util.List;
  * @author Tomt
  */
 public class GetMultipleResponse<T> extends ResponseBase {
-    public List<T> Records;
+    private List<T> Records;
 
     public GetMultipleResponse(boolean success, List<String> messages) {
         super(success, messages);
