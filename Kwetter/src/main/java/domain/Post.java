@@ -33,7 +33,8 @@ import javax.persistence.TemporalType;
         + "ORDER BY p.messageSent DESC"),
 @NamedQuery(name = "Post.getTimeline", query 
         = "SELECT p FROM KWETTER_POST p, KWETTER_USER u WHERE p.owner = :user_id OR (p.owner = u.followers AND u.following = :user_id)  ORDER BY p.date DESC"),
-@NamedQuery(name = "Post.findPosts", query = "SELECT p FROM KWETTER_POST WHERE message LIKE %:tags%")
+@NamedQuery(name = "Post.findPosts", query = "SELECT p FROM KWETTER_POST"
+        + "WHERE message LIKE %:tags% OR p.owner LIKE %:tags% ")
 })
 public class Post implements Serializable {
     @Id

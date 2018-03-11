@@ -55,13 +55,6 @@ public class PostDAO {
         return post;
     }
 
-    /**
-     * UPDATE QUERY
-     * @param tags
-     * @return
-     * @throws NonExistingEntryException 
-     * @throws dao.exceptions.EmptyListException 
-     */
     public List<Post> find(String tags) throws NonExistingEntryException, EmptyListException {
         Query query = em.createNamedQuery("Post.findPosts");
         List<Post> posts = query.setParameter("tags", tags).getResultList();
