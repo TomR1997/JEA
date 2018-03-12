@@ -23,7 +23,7 @@ import static org.junit.Assert.*;
  */
 public class RoleDAOTest {
 
-    private EntityManager em;
+    /*private EntityManager em;
     private EntityManagerFactory emf;
     private RoleDAO roleDao;
 
@@ -40,5 +40,5 @@ public class RoleDAOTest {
         Role role = roleDao.find("Moderator");
         assertNotNull(role);
         em.close();
-    }
+    }*/
 }

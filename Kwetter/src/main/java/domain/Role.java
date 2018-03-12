@@ -5,6 +5,7 @@
  */
 package domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Entity;
@@ -25,6 +26,7 @@ public class Role implements Serializable {
     private String name;
     
     @OneToMany(mappedBy="role")
+    @JsonIgnore
     private List<User> users;
 
     public Role() {

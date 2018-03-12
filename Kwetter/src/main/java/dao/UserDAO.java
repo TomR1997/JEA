@@ -24,6 +24,9 @@ public class UserDAO {
     @PersistenceContext
     private EntityManager em;
 
+    public UserDAO(){
+    }
+    
     public UserDAO(EntityManager em) {
         this.em = em;
     }
@@ -111,11 +114,11 @@ public class UserDAO {
    
     public int getFollowerAmount(Long id){
         Query query = em.createNamedQuery("User.getFollowerCount");
-        return query.setParameter("follower", id).getFirstResult();
+        return query.setParameter("following", id).getFirstResult();
     }
     
     public int getFollowingAmount(Long id){
         Query query = em.createNamedQuery("User.getFollowingCount");
-        return query.setParameter("follower", id).getFirstResult();
+        return query.setParameter("followers", id).getFirstResult();
     }
 }

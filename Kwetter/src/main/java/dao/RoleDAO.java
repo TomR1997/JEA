@@ -21,6 +21,9 @@ public class RoleDAO {
     @PersistenceContext
     private EntityManager em;
 
+    public RoleDAO(){
+    }
+    
     public RoleDAO(EntityManager em) {
         this.em = em;
     }

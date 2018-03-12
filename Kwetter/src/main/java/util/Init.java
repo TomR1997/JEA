@@ -44,9 +44,7 @@ public class Init {
 
     @PostConstruct
     public void init() {
-        User user1 = new User("programmeergod", "Veldhoven", "somebio", "Tom Roelofs", "someweb");
-        userDao.save(user1);
-        /*Role roleUser = new Role();
+        Role roleUser = new Role();
         Role roleModerator = new Role();
 
         roleUser.setName(RoleName.USER.toString());
@@ -70,22 +68,18 @@ public class Init {
         User user9 = new User("KochFractaller", "Eindhoven", "somebio", "Tomek Koch", roleUser, "someweb");
         User user10 = new User("ThreadFred", "Veldhoven", "somebio", "Fred Vred", roleUser, "someweb");
 
-        try {
-            userDao.save(user1);
-            userDao.save(user2);
-            userDao.save(user3);
-            userDao.save(user4);
-            userDao.save(user5);
-            userDao.save(user6);
-            userDao.save(user7);
-            userDao.save(user8);
-            userDao.save(user9);
-            userDao.save(user10);
-        } catch (NonExistingEntryException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        userDao.save(user1);
+        userDao.save(user2);
+        userDao.save(user3);
+        userDao.save(user4);
+        userDao.save(user5);
+        userDao.save(user6);
+        userDao.save(user7);
+        userDao.save(user8);
+        userDao.save(user9);
+        userDao.save(user10);
 
-        try {
+        /*try {
             userDao.followUser(user1, user2);
         } catch (NonExistingEntryException ex) {
             Logger.getLogger(Init.class.getName()).log(Level.SEVERE, null, ex);

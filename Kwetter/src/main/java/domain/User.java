@@ -5,6 +5,7 @@
  */
 package domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Entity;
@@ -29,10 +30,10 @@ import javax.persistence.Table;
 @Table(name="KWETTER_USER")
 @NamedQueries({
 @NamedQuery(name = "User.allUsers", query = "SELECT u FROM KWETTER_USER u"),
-@NamedQuery(name = "User.getFollowingCount", query = "SELECT COUNT(u) FROM KWETTER_USER u " + "INNER JOIN Follow f ON "
-        + "f.followers_id = u.id " + "WHERE u.id = :follower"),
-@NamedQuery(name = "User.getFollowerCount", query = "SELECT COUNT(u) FROM KWETTER_USER u " + "INNER JOIN Follow f ON "
-        + "f.following_id = u.id " + "WHERE u.id = :following")
+@NamedQuery(name = "User.getFollowingCount", query = "SELECT COUNT(u.id) FROM KWETTER_USER u " + "LEFT JOIN u.following f "
+        + "WHERE u.followers = :followers"),
+@NamedQuery(name = "User.getFollowerCount", query = "SELECT COUNT(u.id) FROM KWETTER_USER u " + "LEFT JOIN u.followers f "
+        + "WHERE u.following = :following")
 })
 public class User implements Serializable {
     @Id
@@ -50,8 +51,10 @@ public class User implements Serializable {
     
     @ManyToMany
     @JoinTable(name ="follow")
+    @JsonIgnore
     private List<User> following;
     
+    @JsonIgnore
     @ManyToMany(mappedBy = "following")
     @JoinTable(name ="follow")
     private List<User> followers;

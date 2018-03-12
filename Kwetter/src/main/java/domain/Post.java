@@ -5,6 +5,7 @@
  */
 package domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Entity;
@@ -23,7 +24,7 @@ import javax.persistence.TemporalType;
  *
  * @author Tomt
  */
-@Entity
+@Entity(name = "KWETTER_POST")
 @Table(name="KWETTER_POST")
 @NamedQueries({
 @NamedQuery(name = "Post.allPosts", query = "SELECT p FROM KWETTER_POST p"),
@@ -32,9 +33,9 @@ import javax.persistence.TemporalType;
 @NamedQuery(name = "Post.getLatestPosts", query = "SELECT p " + "FROM KWETTER_POST p " + "WHERE p.owner = :owner_id "
         + "ORDER BY p.messageSent DESC"),
 @NamedQuery(name = "Post.getTimeline", query 
-        = "SELECT p FROM KWETTER_POST p, KWETTER_USER u WHERE p.owner = :user_id OR (p.owner = u.followers AND u.following = :user_id)  ORDER BY p.date DESC"),
-@NamedQuery(name = "Post.findPosts", query = "SELECT p FROM KWETTER_POST"
-        + "WHERE message LIKE %:tags% OR p.owner LIKE %:tags% ")
+        = "SELECT p FROM KWETTER_POST p, KWETTER_USER u WHERE p.owner = :user_id OR (p.owner = u.followers AND u.following = :user_id)  ORDER BY p.messageSent DESC")/*,
+@NamedQuery(name = "Post.findPosts", query = "SELECT p FROM KWETTER_POST "
+        + "WHERE message LIKE :tags OR p.owner LIKE :tags ")*/
 })
 public class Post implements Serializable {
     @Id
@@ -47,6 +48,7 @@ public class Post implements Serializable {
     
     @ManyToOne
     @JoinColumn(name="owner_id")
+    @JsonIgnore
     private User owner;
     
     public Post() {

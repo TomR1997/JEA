@@ -86,7 +86,7 @@ public class PostServiceTest {
         postService.deletePost(post.getId());
     }
     
-    @Test(expected = NonExistingPostException.class)
+    @Test(expected = NonExistingEntryException.class)
     public void nullPostDeletePostTest() throws NonExistingEntryException, InvalidIdException{
         doThrow(new NonExistingEntryException()).when(postDao).delete(post.getId());
         postService.deletePost(post.getId());

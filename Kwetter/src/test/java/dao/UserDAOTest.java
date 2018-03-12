@@ -24,7 +24,7 @@ import static org.junit.Assert.*;
  */
 public class UserDAOTest {
 
-    private EntityManager em;
+    /*private EntityManager em;
     private EntityManagerFactory emf;
     private UserDAO userDao;
     private User user1;
@@ -125,6 +125,6 @@ public class UserDAOTest {
         em.getTransaction().begin();
         assertTrue(!userDao.getFollowing(1L).isEmpty());
         em.close();
-    }
+    }*/
 
 }
