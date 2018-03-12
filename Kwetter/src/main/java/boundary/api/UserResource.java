@@ -89,7 +89,7 @@ public class UserResource {
         return new Gson().toJson(response);
     }
 
-    @PUT
+    /*@PUT
     @Path("followUser/{user}/{follow}")
     public String followUser(@PathParam("user") User user, @PathParam("follow") User follow) {
         UpdateResponse<User> response = new UpdateResponse<>(false);
@@ -119,7 +119,7 @@ public class UserResource {
         }
 
         return new Gson().toJson(response);
-    }
+    }*/
 
     @PUT
     @Path("changeUsername/{id}/{newName}")

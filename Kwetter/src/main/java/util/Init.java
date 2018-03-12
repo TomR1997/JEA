@@ -83,7 +83,7 @@ public class Init {
             userDao.followUser(user1, user2);
         } catch (NonExistingEntryException ex) {
             Logger.getLogger(Init.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/
 
 
         Post post1 = new Post("First post PagChomp", new Date(), user1);
@@ -109,6 +109,6 @@ public class Init {
             postDao.save(post10);
         } catch (NonExistingEntryException ex) {
             Logger.getLogger(Init.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
+        }
     }
 }
