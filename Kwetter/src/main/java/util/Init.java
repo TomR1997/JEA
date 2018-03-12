@@ -57,8 +57,8 @@ public class Init {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        User user1 = new User("programmeergod", "Veldhoven", "somebio", "Tom Roelofs", roleModerator, "someweb");
-        User user2 = new User("wiekentmiljonair", "Veldhoven", "somebio", "Rom Toelofs", roleModerator, "someweb");
+        User user1 = new User("programmeergod", "Veldhoven", "somebio", "Tom Roelofs", roleModerator, "someweb", new ArrayList<User>(), new ArrayList<User>(), new ArrayList<Post>());
+        User user2 = new User("wiekentmiljonair", "Veldhoven", "somebio", "Rom Toelofs", roleModerator, "someweb", new ArrayList<User>(), new ArrayList<User>(), new ArrayList<Post>());
         User user3 = new User("OneManLeft", "Eindhoven", "somebio", "Oliver Queen", roleUser, "someweb");
         User user4 = new User("PickleRick", "Eindhoven", "somebio", "Rick Sanchez", roleUser, "someweb");
         User user5 = new User("Mortymer", "Eindhoven", "somebio", "Morty", roleUser, "someweb");
@@ -79,11 +79,11 @@ public class Init {
         userDao.save(user9);
         userDao.save(user10);
 
-        /*try {
+        try {
             userDao.followUser(user1, user2);
         } catch (NonExistingEntryException ex) {
             Logger.getLogger(Init.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
+        }
 
 
         Post post1 = new Post("First post PagChomp", new Date(), user1);
