@@ -90,8 +90,8 @@ public class UserResource {
     }
 
     @PUT
-    @Path("followUser")
-    public String followUser(User user, User follow) {
+    @Path("followUser/{user}/{follow}")
+    public String followUser(@PathParam("user") User user, @PathParam("follow") User follow) {
         UpdateResponse<User> response = new UpdateResponse<>(false);
         try {
             userService.followUser(user, follow);
@@ -106,8 +106,8 @@ public class UserResource {
     }
 
     @PUT
-    @Path("unfollowUser")
-    public String unfollowUser(User user, User unfollow) {
+    @Path("unfollowUser/{user}/{unfollow}")
+    public String unfollowUser(@PathParam("user") User user, @PathParam("unfollow") User unfollow) {
         UpdateResponse<User> response = new UpdateResponse<>(false);
         try {
             userService.unfollowUser(user, unfollow);
@@ -122,8 +122,8 @@ public class UserResource {
     }
 
     @PUT
-    @Path("changeUsername")
-    public String changeUsername(Long id, String newName) {
+    @Path("changeUsername/{id}/{newName}")
+    public String changeUsername(@PathParam("id") Long id, @PathParam("newName") String newName) {
         UpdateResponse<User> response = new UpdateResponse<>(false);
         try {
             userService.changeUsername(id, newName);
@@ -140,8 +140,8 @@ public class UserResource {
     }
 
     @PUT
-    @Path("changeBio")
-    public String changeBio(Long id, String newBio) {
+    @Path("changeBio/{id}/{newBio}")
+    public String changeBio(@PathParam("id") Long id, @PathParam("newBio") String newBio) {
         UpdateResponse<User> response = new UpdateResponse<>(false);
         try {
             userService.changeBio(id, newBio);
