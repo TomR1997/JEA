@@ -124,6 +124,36 @@ public class PostService {
             throw new NonExistingPostException("Post does not exist.");
         }
     }
+    
+    public void unlikePost(Long postId, Long userId) throws NonExistingUserException, InvalidIdException, NonExistingPostException, LikePostException{
+        User user = null;
+        Post post = null;
+        try{
+            user = userService.findUser(userId);
+        } catch(NonExistingUserException ex){
+            throw new NonExistingUserException();
+        } catch (InvalidIdException ex) {
+            throw new InvalidIdException();
+        }
+        
+        try{
+            post = postDao.find(postId);
+        } catch (NonExistingEntryException ex) {
+            Logger.getLogger(PostService.class.getName()).log(Level.SEVERE, null, ex);
+            throw new NonExistingPostException("Post does not exist.");
+        }
+        
+        if (!post.getLikedBy().contains(user)){
+            throw new LikePostException("User hasn't liked this post.");
+        }
+        
+        try{
+            postDao.unlikePost(post, user);
+        } catch(NonExistingEntryException ex){
+            Logger.getLogger(PostService.class.getName()).log(Level.SEVERE, null, ex);
+            throw new NonExistingPostException("Post does not exist.");
+        }
+    }
 
     private void validId(Long id) throws InvalidIdException {
         if (id <= 0) {

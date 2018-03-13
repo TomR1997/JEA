@@ -28,8 +28,8 @@ public class PostDAO {
     public PostDAO(EntityManager em) {
         this.em = em;
     }
-    
-    public PostDAO(){
+
+    public PostDAO() {
     }
 
     public void save(Post post) throws NonExistingEntryException {
@@ -61,8 +61,8 @@ public class PostDAO {
 
     public List<Post> find(String tags) throws NonExistingEntryException, EmptyListException {
         Query query = em.createNamedQuery("Post.findPosts");
-        List<Post> posts = query.setParameter("tags", "%"+tags+"%").setMaxResults(20).getResultList();
-        if (posts.isEmpty()){
+        List<Post> posts = query.setParameter("tags", "%" + tags + "%").setMaxResults(20).getResultList();
+        if (posts.isEmpty()) {
             throw new EmptyListException();
         }
         return posts;
@@ -79,7 +79,7 @@ public class PostDAO {
     public List<Post> getLatestPosts(Long userId) throws EmptyListException {
         Query query = em.createNamedQuery("Post.getLatestPosts");
         List<Post> posts = query.setParameter("owner_id", userId).setMaxResults(20).getResultList();
-        if (posts.isEmpty()){
+        if (posts.isEmpty()) {
             throw new EmptyListException();
         }
         return posts;
@@ -88,7 +88,7 @@ public class PostDAO {
     public List<Post> getTimeline(Long userId) throws EmptyListException {
         Query query = em.createNamedQuery("Post.getTimeline");
         List<Post> posts = query.setParameter("owner_id", userId).setMaxResults(20).getResultList();
-        if(posts.isEmpty()){
+        if (posts.isEmpty()) {
             throw new EmptyListException();
         }
         return posts;
@@ -98,9 +98,15 @@ public class PostDAO {
         Query query = em.createNamedQuery("Post.getPostCountByOwner");
         return query.setParameter("owner_id", userId).getFirstResult();
     }
-    
-    public void likePost(Post post, User user) throws NonExistingEntryException{
+
+    public void likePost(Post post, User user) throws NonExistingEntryException {
         post.getLikedBy().add(user);
+        update(post);
+        save(post);
+    }
+
+    public void unlikePost(Post post, User user) throws NonExistingEntryException {
+        post.getLikedBy().remove(user);
         update(post);
         save(post);
     }

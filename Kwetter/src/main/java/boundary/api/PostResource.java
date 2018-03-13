@@ -163,5 +163,24 @@ public class PostResource {
             response.addMessage("U heeft de post al geliked.");
         }
         return new Gson().toJson(response);
+    }
+    
+    @PUT
+    @Path("unlikePost/{postId}/{userId}")
+    public String unlikePost(@PathParam("postId") Long postId, @PathParam("userId")Long userId){
+        CreateResponse<Long> response = new CreateResponse<>(false);
+        try {
+            postService.unlikePost(postId, userId);
+            response.setSuccess(true);
+        } catch (InvalidIdException ex) {
+            response.addMessage("Opgegeven id is ongeldig.");
+        } catch (NonExistingUserException ex) {
+            response.addMessage("Opgegeven user bestaat niet.");
+        } catch (NonExistingPostException ex) {
+            response.addMessage("Opgegeven post bestaat niet.");
+        } catch (LikePostException ex) {
+            response.addMessage("U heeft deze post nog niet geliked.");
+        }
+        return new Gson().toJson(response);
     } 
 }
