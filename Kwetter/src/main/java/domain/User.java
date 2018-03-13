@@ -5,7 +5,6 @@
  */
 package domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Entity;
@@ -59,6 +58,10 @@ public class User implements Serializable {
 
     @OneToMany(mappedBy="owner")
     private List<Post> posts;
+    
+    @ManyToMany(mappedBy = "likedBy")
+    @JoinTable(name ="likedby")
+    private List<Post> likedPosts;
 
     public User(String username, String location, String bio, String name, Role role, String web, List<User> following, List<User> followedBy, List<Post> posts) {
         this.username = username;
@@ -70,6 +73,19 @@ public class User implements Serializable {
         this.following = following;
         this.followers = followedBy;
         this.posts = posts;
+    }
+    
+        public User(String username, String location, String bio, String name, Role role, String web, List<User> following, List<User> followedBy, List<Post> posts, List<Post> likedPosts) {
+        this.username = username;
+        this.location = location;
+        this.bio = bio;
+        this.name = name;
+        this.role = role;
+        this.web = web;
+        this.following = following;
+        this.followers = followedBy;
+        this.posts = posts;
+        this.likedPosts = likedPosts;
     }
         
     public User(String username, String location, String bio, String name, Role role, String web) {
@@ -88,6 +104,17 @@ public class User implements Serializable {
         this.name = name;
         this.web = web;
     }
+
+    public List<Post> getLikedPosts() {
+        return likedPosts;
+    }
+
+    public void setLikedPosts(List<Post> likedPosts) {
+        this.likedPosts = likedPosts;
+    }
+    
+    
+    
     public List<Post> getPosts() {
         return posts;
     }

@@ -6,6 +6,7 @@
 package boundary.api;
 
 import boundary.api.dto.PostDTO;
+import boundary.api.response.CreateResponse;
 import boundary.api.response.DeleteResponse;
 import boundary.api.response.GetMultipleResponse;
 import boundary.api.response.GetSingleResponse;
@@ -15,16 +16,21 @@ import dao.exceptions.NonExistingEntryException;
 import domain.Post;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import service.PostService;
 import service.exceptions.InvalidIdException;
 import service.exceptions.InvalidNameException;
+import service.exceptions.LikePostException;
 import service.exceptions.NonExistingPostException;
+import service.exceptions.NonExistingUserException;
 
 /**
  *
@@ -139,4 +145,23 @@ public class PostResource {
         
         return new Gson().toJson(response);
     }
+    
+    @PUT
+    @Path("likePost/{postId}/{userId}")
+    public String likePost(@PathParam("postId") Long postId, @PathParam("userId")Long userId){
+        CreateResponse<Long> response = new CreateResponse<>(false);
+        try {
+            postService.likePost(postId, userId);
+            response.setSuccess(true);
+        } catch (InvalidIdException ex) {
+            response.addMessage("Opgegeven id is ongeldig.");
+        } catch (NonExistingUserException ex) {
+            response.addMessage("Opgegeven user bestaat niet.");
+        } catch (NonExistingPostException ex) {
+            response.addMessage("Opgegeven post bestaat niet.");
+        } catch (LikePostException ex) {
+            response.addMessage("U heeft de post al geliked.");
+        }
+        return new Gson().toJson(response);
+    } 
 }

@@ -8,11 +8,14 @@ package domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -32,8 +35,8 @@ import javax.persistence.TemporalType;
         + "WHERE p.owner = :owner_id " + "ORDER BY p.messageSent DESC"),
 @NamedQuery(name = "Post.getLatestPosts", query = "SELECT p " + "FROM KWETTER_POST p " + "WHERE p.owner.id = :owner_id "
         + "ORDER BY p.messageSent DESC"),
-@NamedQuery(name = "Post.getTimeline", query = "SELECT p FROM KWETTER_POST p, KWETTER_USER u "
-        + "WHERE p.owner.id = :owner_id OR (p.owner = u.followers AND u.following = :owner_id) ORDER BY p.messageSent DESC"),
+/*@NamedQuery(name = "Post.getTimeline", query = "SELECT p FROM KWETTER_POST p, Follow f "
+        + "WHERE f.followers_id = :owner_id OR p.owner.id = :owner_id"),*/
 @NamedQuery(name = "Post.findPosts", query = "SELECT p FROM KWETTER_POST p "
         + "WHERE p.message LIKE :tags OR p.owner.username LIKE :tags ")
 })
@@ -50,6 +53,10 @@ public class Post implements Serializable {
     @JoinColumn(name="owner_id")
     private User owner;
     
+    @ManyToMany
+    @JoinTable(name ="likedby")
+    private List<User> likedBy;
+    
     public Post() {
     }
 
@@ -58,10 +65,25 @@ public class Post implements Serializable {
         this.messageSent = messageSent;
         this.owner = owner;
     }
+    
+    public Post(String message, Date messageSent, User owner, List<User> likedBy) {
+        this.message = message;
+        this.messageSent = messageSent;
+        this.owner = owner;
+        this.likedBy = likedBy;
+    }
 
     public Post(String message, Date date) {
         this.message = message;
         this.messageSent = date;
+    }
+
+    public List<User> getLikedBy() {
+        return likedBy;
+    }
+
+    public void setLikedBy(List<User> likedBy) {
+        this.likedBy = likedBy;
     }
     
     public User getOwner() {

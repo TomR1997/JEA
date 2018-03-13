@@ -57,16 +57,16 @@ public class Init {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        User user1 = new User("programmeergod", "Veldhoven", "somebio", "Tom Roelofs", roleModerator, "someweb", new ArrayList<User>(), new ArrayList<User>(), new ArrayList<Post>());
-        User user2 = new User("wiekentmiljonair", "Veldhoven", "somebio", "Rom Toelofs", roleModerator, "someweb", new ArrayList<User>(), new ArrayList<User>(), new ArrayList<Post>());
-        User user3 = new User("OneManLeft", "Eindhoven", "somebio", "Oliver Queen", roleUser, "someweb", new ArrayList<User>(), new ArrayList<User>(), new ArrayList<Post>());
-        User user4 = new User("PickleRick", "Eindhoven", "somebio", "Rick Sanchez", roleUser, "someweb", new ArrayList<User>(), new ArrayList<User>(), new ArrayList<Post>());
-        User user5 = new User("Mortymer", "Eindhoven", "somebio", "Morty", roleUser, "someweb", new ArrayList<User>(), new ArrayList<User>(), new ArrayList<Post>());
-        User user6 = new User("Devil666", "Veldhoven", "somebio", "Teemo", roleUser, "someweb", new ArrayList<User>(), new ArrayList<User>(), new ArrayList<Post>());
-        User user7 = new User("Shovel", "Waalre", "somebio", "Robert", roleUser, "someweb", new ArrayList<User>(), new ArrayList<User>(), new ArrayList<Post>());
-        User user8 = new User("UseCaseDiagram", "Veldhoven", "somebio", "Sjaak Afhaak", roleUser, "someweb", new ArrayList<User>(), new ArrayList<User>(), new ArrayList<Post>());
-        User user9 = new User("KochFractaller", "Eindhoven", "somebio", "Tomek Koch", roleUser, "someweb", new ArrayList<User>(), new ArrayList<User>(), new ArrayList<Post>());
-        User user10 = new User("ThreadFred", "Veldhoven", "somebio", "Fred Vred", roleUser, "someweb", new ArrayList<User>(), new ArrayList<User>(), new ArrayList<Post>());
+        User user1 = new User("programmeergod", "Veldhoven", "somebio", "Tom Roelofs", roleModerator, "someweb", new ArrayList<User>(), new ArrayList<User>(), new ArrayList<Post>(), new ArrayList<Post>());
+        User user2 = new User("wiekentmiljonair", "Veldhoven", "somebio", "Rom Toelofs", roleModerator, "someweb", new ArrayList<User>(), new ArrayList<User>(), new ArrayList<Post>(), new ArrayList<Post>());
+        User user3 = new User("OneManLeft", "Eindhoven", "somebio", "Oliver Queen", roleUser, "someweb", new ArrayList<User>(), new ArrayList<User>(), new ArrayList<Post>(), new ArrayList<Post>());
+        User user4 = new User("PickleRick", "Eindhoven", "somebio", "Rick Sanchez", roleUser, "someweb", new ArrayList<User>(), new ArrayList<User>(), new ArrayList<Post>(), new ArrayList<Post>());
+        User user5 = new User("Mortymer", "Eindhoven", "somebio", "Morty", roleUser, "someweb", new ArrayList<User>(), new ArrayList<User>(), new ArrayList<Post>(), new ArrayList<Post>());
+        User user6 = new User("Devil666", "Veldhoven", "somebio", "Teemo", roleUser, "someweb", new ArrayList<User>(), new ArrayList<User>(), new ArrayList<Post>(), new ArrayList<Post>());
+        User user7 = new User("Shovel", "Waalre", "somebio", "Robert", roleUser, "someweb", new ArrayList<User>(), new ArrayList<User>(), new ArrayList<Post>(), new ArrayList<Post>());
+        User user8 = new User("UseCaseDiagram", "Veldhoven", "somebio", "Sjaak Afhaak", roleUser, "someweb", new ArrayList<User>(), new ArrayList<User>(), new ArrayList<Post>(), new ArrayList<Post>());
+        User user9 = new User("KochFractaller", "Eindhoven", "somebio", "Tomek Koch", roleUser, "someweb", new ArrayList<User>(), new ArrayList<User>(), new ArrayList<Post>(), new ArrayList<Post>());
+        User user10 = new User("ThreadFred", "Veldhoven", "somebio", "Fred Vred", roleUser, "someweb", new ArrayList<User>(), new ArrayList<User>(), new ArrayList<Post>(), new ArrayList<Post>());
 
         userDao.save(user1);
         userDao.save(user2);
@@ -86,16 +86,16 @@ public class Init {
         }
 
 
-        Post post1 = new Post("First post PagChomp", new Date(), user1);
-        Post post2 = new Post("Hey all!", new Date(), user2);
-        Post post3 = new Post("Hey all!", new Date(), user3);
-        Post post4 = new Post("Hey all!", new Date(), user4);
-        Post post5 = new Post("Hey all!", new Date(), user5);
-        Post post6 = new Post("Hey all!", new Date(), user6);
-        Post post7 = new Post("Hey all!", new Date(), user7);
-        Post post8 = new Post("Hey all!", new Date(), user8);
-        Post post9 = new Post("Hey all!", new Date(), user9);
-        Post post10 = new Post("Hey all!", new Date(), user10);
+        Post post1 = new Post("First post PagChomp", new Date(), user1, new ArrayList<User>());
+        Post post2 = new Post("Hey all!", new Date(), user2, new ArrayList<User>());
+        Post post3 = new Post("Hey all!", new Date(), user3, new ArrayList<User>());
+        Post post4 = new Post("Hey all!", new Date(), user4, new ArrayList<User>());
+        Post post5 = new Post("Hey all!", new Date(), user5, new ArrayList<User>());
+        Post post6 = new Post("Hey all!", new Date(), user6, new ArrayList<User>());
+        Post post7 = new Post("Hey all!", new Date(), user7, new ArrayList<User>());
+        Post post8 = new Post("Hey all!", new Date(), user8, new ArrayList<User>());
+        Post post9 = new Post("Hey all!", new Date(), user9, new ArrayList<User>());
+        Post post10 = new Post("Hey all!", new Date(), user10, new ArrayList<User>());
         try {
             postDao.save(post1);
             postDao.save(post2);
@@ -110,5 +110,11 @@ public class Init {
         } catch (NonExistingEntryException ex) {
             Logger.getLogger(Init.class.getName()).log(Level.SEVERE, null, ex);
         }
+        try{
+            postDao.likePost(post1, user2);
+        } catch (NonExistingEntryException ex){
+            Logger.getLogger(Init.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 }

@@ -8,6 +8,7 @@ package dao;
 import dao.exceptions.EmptyListException;
 import dao.exceptions.NonExistingEntryException;
 import domain.Post;
+import domain.User;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -96,5 +97,11 @@ public class PostDAO {
     public int getPostCount(Long userId) {
         Query query = em.createNamedQuery("Post.getPostCountByOwner");
         return query.setParameter("owner_id", userId).getFirstResult();
+    }
+    
+    public void likePost(Post post, User user) throws NonExistingEntryException{
+        post.getLikedBy().add(user);
+        update(post);
+        save(post);
     }
 }
