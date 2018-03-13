@@ -5,6 +5,7 @@
  */
 package boundary.api;
 
+import boundary.api.dto.RoleDTO;
 import boundary.api.response.CreateResponse;
 import boundary.api.response.GetSingleResponse;
 import com.google.gson.Gson;
@@ -33,9 +34,9 @@ public class RoleResource {
     @GET
     @Path("GetRole/{name}")
     public String findRole(@PathParam("name") String name){
-        GetSingleResponse<Role> response = new GetSingleResponse<>(false);
+        GetSingleResponse<RoleDTO> response = new GetSingleResponse<>(false);
         try {
-            response.setRecord(roleService.findRole(name));
+            response.setRecord(new RoleDTO(roleService.findRole(name)));
             response.setSuccess(true);
         } catch (NonExistingRoleException ex) {
             response.addMessage("De opgegeven rol bestaat niet.");

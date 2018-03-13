@@ -106,9 +106,13 @@ public class PostResource {
     @GET
     @Path("getTimeline/{userId}")
     public String getTimeline(@PathParam("userId") Long userId) {
-        GetMultipleResponse<Post> response = new GetMultipleResponse<>(false);
+        GetMultipleResponse<PostDTO> response = new GetMultipleResponse<>(false);
+        List<PostDTO> posts = new ArrayList<>();
         try {
-            response.setRecords(postService.getTimeline(userId));
+            for(int i = 0; i < postService.getTimeline(userId).size(); i++){
+                posts.add(new PostDTO(postService.getTimeline(userId).get(i)));
+            }
+            response.setRecords(posts);
             response.setSuccess(true);
         } catch (EmptyListException ex) {
             response.addMessage("Er zijn geen posts gevonden.");
@@ -119,9 +123,13 @@ public class PostResource {
     @GET
     @Path("findPosts/{tags}")
     public String findPosts(@PathParam("tags") String tags) {
-        GetMultipleResponse<Post> response = new GetMultipleResponse<>(false);
+        GetMultipleResponse<PostDTO> response = new GetMultipleResponse<>(false);
+        List<PostDTO> posts = new ArrayList<>();
         try {
-            response.setRecords(postService.findPost(tags));
+            for(int i = 0; i < postService.findPost(tags).size(); i++){
+                posts.add(new PostDTO(postService.findPost(tags).get(i)));
+            }
+            response.setRecords(posts);
             response.setSuccess(true);
         } catch (EmptyListException ex) {
             response.addMessage("Er zijn geen posts gevonden.");
