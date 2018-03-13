@@ -5,6 +5,7 @@
  */
 package boundary.api;
 
+import boundary.api.dto.UserDTO;
 import boundary.api.response.CreateResponse;
 import boundary.api.response.GetMultipleResponse;
 import boundary.api.response.GetSingleResponse;
@@ -14,6 +15,7 @@ import com.google.gson.Gson;
 import dao.exceptions.EmptyListException;
 import dao.exceptions.NonExistingEntryException;
 import domain.User;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -46,9 +48,9 @@ public class UserResource {
     @GET
     @Path("findUser/{id}")
     public String findUser(@PathParam("id") Long id) throws InvalidIdException {
-        GetSingleResponse<User> response = new GetSingleResponse<>(false);
+        GetSingleResponse<UserDTO> response = new GetSingleResponse<>(false);
         try {
-            response.setRecord(userService.findUser(id));
+            response.setRecord(new UserDTO(userService.findUser(id)));
             response.setSuccess(true);
         } catch (NonExistingUserException ex) {
             response.addMessage("De gebruiker bestaat niet.");
@@ -60,9 +62,13 @@ public class UserResource {
     @GET
     @Path("getAllUsers")
     public String getAllUsers() {
-        GetMultipleResponse<User> response = new GetMultipleResponse<>(false);
+        GetMultipleResponse<UserDTO> response = new GetMultipleResponse<>(false);
+        List<UserDTO> users = new ArrayList<>();
         try {
-            response.setRecords(userService.getAll());
+            for(int i = 0; i < userService.getAll().size(); i++){
+                users.add(new UserDTO(userService.getAll().get(i)));
+            }
+            response.setRecords(users);
             response.setSuccess(true);
         } catch (EmptyListException ex) {
             response.addMessage("Er zijn geen gebruikers gevonden.");
@@ -74,7 +80,7 @@ public class UserResource {
     @POST
     @Path("saveUser")
     public String saveUser(User user) {
-        CreateResponse<User> response = new CreateResponse<>(false);
+        CreateResponse<UserDTO> response = new CreateResponse<>(false);
         try {
             userService.save(user);
             response.setSuccess(true);
@@ -160,9 +166,13 @@ public class UserResource {
     @GET
     @Path("getFollowers/{id}")
     public String getFollowers(@PathParam("id") Long id) {
-        GetMultipleResponse<User> response = new GetMultipleResponse<>(false);
+        GetMultipleResponse<UserDTO> response = new GetMultipleResponse<>(false);
+        List<UserDTO> followers = new ArrayList<>();
         try {
-            response.setRecords(userService.getFollowers(id));
+            for(int i = 0; i < userService.getFollowers(id).size(); i++){
+                followers.add(new UserDTO(userService.getFollowers(id).get(i)));
+            }
+            response.setRecords(followers);
             response.setSuccess(true);
         } catch (NonExistingUserException ex) {
             response.addMessage("De gebruiker bestaat niet.");
@@ -178,9 +188,13 @@ public class UserResource {
     @GET
     @Path("getFollowing/{id}")
     public String getFollowing(@PathParam("id") Long id) {
-        GetMultipleResponse<User> response = new GetMultipleResponse<>(false);
+        GetMultipleResponse<UserDTO> response = new GetMultipleResponse<>(false);
+        List<UserDTO> following = new ArrayList<>();
         try {
-            response.setRecords(userService.getFollowing(id));
+            for(int i = 0; i < userService.getFollowing(id).size(); i++){
+                following.add(new UserDTO(userService.getFollowing(id).get(i)));
+            }
+            response.setRecords(following);
             response.setSuccess(true);
         } catch (NonExistingUserException ex) {
             response.addMessage("De gebruiker bestaat niet.");

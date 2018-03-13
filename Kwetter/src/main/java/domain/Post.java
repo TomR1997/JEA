@@ -48,7 +48,6 @@ public class Post implements Serializable {
     
     @ManyToOne
     @JoinColumn(name="owner_id")
-    @JsonIgnore
     private User owner;
     
     public Post() {

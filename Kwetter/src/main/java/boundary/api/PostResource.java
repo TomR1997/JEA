@@ -5,6 +5,7 @@
  */
 package boundary.api;
 
+import boundary.api.dto.PostDTO;
 import boundary.api.response.DeleteResponse;
 import boundary.api.response.GetMultipleResponse;
 import boundary.api.response.GetSingleResponse;
@@ -12,8 +13,8 @@ import com.google.gson.Gson;
 import dao.exceptions.EmptyListException;
 import dao.exceptions.NonExistingEntryException;
 import domain.Post;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -39,9 +40,9 @@ public class PostResource {
     @GET
     @Path("findPost/{id}")
     public String findPost(@PathParam("id") Long id) {
-        GetSingleResponse<Post> response = new GetSingleResponse<>(false);
+        GetSingleResponse<PostDTO> response = new GetSingleResponse<>(false);
         try {
-            response.setRecord(postService.findPost(id));
+            response.setRecord(new PostDTO(postService.findPost(id)));
             response.setSuccess(true);
         } catch (NonExistingPostException ex) {
             response.addMessage("De post bestaat niet.");
@@ -55,9 +56,13 @@ public class PostResource {
     @GET
     @Path("getAllPosts")
     public String getAllPosts() {
-        GetMultipleResponse<Post> response = new GetMultipleResponse<>(false);
+        GetMultipleResponse<PostDTO> response = new GetMultipleResponse<>(false);
+        List<PostDTO> posts = new ArrayList<>();
         try {
-            response.setRecords(postService.getAll());
+            for(int i = 0; i < postService.getAll().size(); i++){
+                posts.add(new PostDTO(postService.getAll().get(i)));
+            }
+            response.setRecords(posts);
             response.setSuccess(true);
         } catch (EmptyListException ex) {
             response.addMessage("Er zijn geen posts gevonden.");
@@ -84,9 +89,13 @@ public class PostResource {
     @GET
     @Path("getLatestPosts/{userId}")
     public String getLatestPosts(@PathParam("userId") Long userId) {
-        GetMultipleResponse<Post> response = new GetMultipleResponse<>(false);
+        GetMultipleResponse<PostDTO> response = new GetMultipleResponse<>(false);
+        List<PostDTO> latestPosts = new ArrayList<>();
         try {
-            response.setRecords(postService.getLatestPosts(userId));
+            for(int i = 0; i < postService.getLatestPosts(userId).size(); i++){
+                latestPosts.add(new PostDTO(postService.getLatestPosts(userId).get(i)));
+            }
+            response.setRecords(latestPosts);
             response.setSuccess(true);
         } catch (EmptyListException ex) {
             response.addMessage("Er zijn geen posts gevonden.");

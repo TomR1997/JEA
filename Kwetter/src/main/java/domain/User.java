@@ -51,10 +51,8 @@ public class User implements Serializable {
     
     @ManyToMany
     @JoinTable(name ="follow")
-    @JsonIgnore
     private List<User> following;
     
-    @JsonIgnore
     @ManyToMany(mappedBy = "following")
     @JoinTable(name ="follow")
     private List<User> followers;
