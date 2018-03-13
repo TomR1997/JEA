@@ -10,6 +10,7 @@ import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import org.mockito.runners.MockitoJUnitRunner;
 import service.exceptions.NonExistingRoleException;
@@ -45,5 +46,11 @@ public class RoleServiceTest {
     public void exceptionFindRoleTest() throws NonExistingEntryException, NonExistingRoleException {
         when(roleDao.find(role.getName())).thenThrow(new NonExistingEntryException());
         roleService.findRole(role.getName());
+    }
+    
+    @Test
+    public void saveRoleTest() throws NonExistingRoleException, NonExistingEntryException{
+        doNothing().when(roleDao).save(role);
+        roleService.saveRole(role);
     }
 }

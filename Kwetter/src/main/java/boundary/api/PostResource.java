@@ -13,11 +13,8 @@ import boundary.api.response.GetSingleResponse;
 import com.google.gson.Gson;
 import dao.exceptions.EmptyListException;
 import dao.exceptions.NonExistingEntryException;
-import domain.Post;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -132,8 +129,8 @@ public class PostResource {
         GetMultipleResponse<PostDTO> response = new GetMultipleResponse<>(false);
         List<PostDTO> posts = new ArrayList<>();
         try {
-            for(int i = 0; i < postService.findPost(tags).size(); i++){
-                posts.add(new PostDTO(postService.findPost(tags).get(i)));
+            for(int i = 0; i < postService.findPosts(tags).size(); i++){
+                posts.add(new PostDTO(postService.findPosts(tags).get(i)));
             }
             response.setRecords(posts);
             response.setSuccess(true);

@@ -21,6 +21,7 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import org.mockito.runners.MockitoJUnitRunner;
 import service.exceptions.InvalidIdException;
+import service.exceptions.InvalidNameException;
 import service.exceptions.NonExistingPostException;
 
 /**
@@ -43,7 +44,7 @@ public class PostServiceTest {
         postService = new PostService();
         postService.setPostDao(postDao);
         user = new User("programmeergod", "Veldhoven", "somebio", "Tom Roelofs", new Role(), "someweb", new ArrayList<User>(), new ArrayList<User>(), new ArrayList<Post>());
-        post = new Post("First post PagChomp", new Date(), user);
+        post = new Post("First post PagChomp", new Date(), user, new ArrayList<User>());
         post.setId(1L);
         posts = new ArrayList<>();
         posts.add(post);
@@ -92,5 +93,41 @@ public class PostServiceTest {
         postService.deletePost(post.getId());
     }
     
-    //latestposts && timelinetests
+    @Test
+    public void findPostsTest() throws EmptyListException, InvalidNameException{
+        String tag = "sometag";
+        when(postDao.findPosts(tag)).thenReturn(posts);
+        assertTrue(!postService.findPosts(tag).isEmpty());
+    }
+    
+    @Test(expected = EmptyListException.class)
+    public void emptyListFindPostsTest() throws EmptyListException, InvalidNameException{
+        when(postDao.findPosts("a")).thenThrow(new EmptyListException());
+        postService.findPosts("a");
+    }
+    
+    @Test(expected = EmptyListException.class)
+    public void emptyListGetLatestPostsTest() throws EmptyListException{
+        when(postDao.getLatestPosts(1L)).thenThrow(new EmptyListException());
+        postService.getLatestPosts(1L);
+    }
+    
+    @Test
+    public void getLatestPostsTest() throws EmptyListException{
+        when(postDao.getLatestPosts(1L)).thenReturn(posts);
+        assertTrue(!postService.getLatestPosts(1L).isEmpty());
+    }
+    
+    @Test
+    public void getTimelineTest() throws EmptyListException{
+        when(postDao.getTimeline(1L)).thenReturn(posts);
+        assertTrue(!postService.getTimeline(1L).isEmpty());
+    }
+    
+    @Test(expected = EmptyListException.class)
+    public void emptyListGetTimelineTest() throws EmptyListException{
+        when(postDao.getTimeline(1L)).thenThrow(new EmptyListException());
+        postService.getTimeline(1L);
+    }
+    
 }

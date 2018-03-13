@@ -59,7 +59,7 @@ public class PostDAO {
         return post;
     }
 
-    public List<Post> find(String tags) throws NonExistingEntryException, EmptyListException {
+    public List<Post> findPosts(String tags) throws EmptyListException {
         Query query = em.createNamedQuery("Post.findPosts");
         List<Post> posts = query.setParameter("tags", "%" + tags + "%").setMaxResults(20).getResultList();
         if (posts.isEmpty()) {

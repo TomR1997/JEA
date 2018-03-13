@@ -57,11 +57,11 @@ public class PostService {
         }
     }
 
-    public List<Post> findPost(String tags) throws EmptyListException, InvalidNameException {
+    public List<Post> findPosts(String tags) throws EmptyListException, InvalidNameException {
         validName(tags);
         try {
-            return postDao.find(tags);
-        } catch (NonExistingEntryException ex) {
+            return postDao.findPosts(tags);
+        } catch (EmptyListException ex) {
             Logger.getLogger(PostService.class.getName()).log(Level.SEVERE, null, ex);
             throw new EmptyListException("No posts were found.");
         }
