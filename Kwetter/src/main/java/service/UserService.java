@@ -75,9 +75,6 @@ public class UserService {
             throw new NonExistingUserException("User does not exist.");
         }
 
-        if (user == null || following == null) {
-            throw new NonExistingUserException("User does not exist.");
-        }
         if (!user.getFollowing().contains(following)) {
             try {
                 userDao.followUser(user, following);
@@ -103,9 +100,6 @@ public class UserService {
             throw new NonExistingUserException("User does not exist.");
         }
 
-        if (user == null || unfollowing == null) {
-            throw new NonExistingUserException("User does not exist.");
-        }
         if (user.getFollowing().contains(unfollowing)) {
             try {
                 userDao.unfollowUser(user, unfollowing);

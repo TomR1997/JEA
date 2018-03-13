@@ -41,6 +41,7 @@ public class UserServiceTest {
     private User user;
     private User user2;
     private User user3;
+    private User user4;
     private List<User> users;
     private final String newName = "newName";
     private final String newBio = "newBio";
@@ -51,7 +52,10 @@ public class UserServiceTest {
         userService.setUserDao(userDao);
         user = new User("programmeergod", "Veldhoven", "somebio", "Tom Roelofs", new Role(), "someweb", new ArrayList<User>(), new ArrayList<User>(), new ArrayList<Post>());
         user2 = new User("godprogrammeer", "Hovenveld", "biosome", "Roelofs Tom", new Role(), "websome", new ArrayList<User>(), new ArrayList<User>(), new ArrayList<Post>());
+        user4 = new User("godprogrammeer", "Hovenveld", "biosome", "Roelofs Tom", new Role(), "websome", new ArrayList<User>(), new ArrayList<User>(), new ArrayList<Post>());
         user.setId(1L);
+        user2.setId(2L);
+        user4.setId(4L);
         users = new ArrayList<>();
         users.add(user);
         user3 = null;
@@ -116,37 +120,47 @@ public class UserServiceTest {
 
     @Test
     public void followUserTest() throws FollowingException, NonExistingUserException, NonExistingEntryException, InvalidIdException {
+        when(userDao.find(1L)).thenReturn(user);
+        when(userDao.find(2L)).thenReturn(user2);
         doNothing().when(userDao).followUser(user, user2);
         userService.followUser(user.getId(), user2.getId());
     }
 
     @Test(expected = NonExistingUserException.class)
     public void nullUserFollowUserTest() throws NonExistingUserException, FollowingException, NonExistingEntryException, InvalidIdException {
-        userService.followUser(user3.getId(), user2.getId());
-        userService.followUser(user2.getId(), user3.getId());
+        when(userDao.find(user4.getId())).thenThrow(new NonExistingEntryException());
+        userService.followUser(user4.getId(), user2.getId());
+        userService.followUser(user2.getId(), user4.getId());
     }
 
     @Test(expected = FollowingException.class)
     public void alreadyFollowingFollowUserTest() throws FollowingException, NonExistingUserException, NonExistingEntryException, InvalidIdException {
+        when(userDao.find(user.getId())).thenReturn(user);
+        when(userDao.find(user2.getId())).thenReturn(user2);
         user.getFollowing().add(user2);
         userService.followUser(user.getId(), user2.getId());
     }
 
     @Test
-    public void unfollowUser() throws NonExistingEntryException, UnfollowingException, NonExistingUserException, FollowingException {
+    public void unfollowUser() throws NonExistingEntryException, UnfollowingException, NonExistingUserException, FollowingException, InvalidIdException {
+        when(userDao.find(1L)).thenReturn(user);
+        when(userDao.find(2L)).thenReturn(user2);
+
         user.getFollowing().add(user2);
         doNothing().when(userDao).unfollowUser(user, user2);
         userService.unfollowUser(user.getId(), user2.getId());
     }
 
     @Test(expected = NonExistingUserException.class)
-    public void nullUserUnfollowUserTest() throws NonExistingUserException, NonExistingEntryException, UnfollowingException {
-        userService.unfollowUser(user3.getId(), user2.getId());
-        userService.unfollowUser(user2.getId(), user3.getId());
+    public void nullUserUnfollowUserTest() throws NonExistingUserException, NonExistingEntryException, UnfollowingException, InvalidIdException {
+        when(userDao.find(user.getId())).thenThrow(new NonExistingEntryException());
+        userService.unfollowUser(user.getId(), user2.getId());
     }
 
     @Test(expected = UnfollowingException.class)
-    public void notFollowingUnfollowUserTest() throws UnfollowingException, NonExistingUserException, NonExistingEntryException {
+    public void notFollowingUnfollowUserTest() throws UnfollowingException, NonExistingUserException, NonExistingEntryException, InvalidIdException {
+        when(userDao.find(user.getId())).thenReturn(user);
+        when(userDao.find(user2.getId())).thenReturn(user2);
         userService.unfollowUser(user.getId(), user2.getId());
     }
 
