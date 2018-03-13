@@ -27,7 +27,7 @@ import static org.junit.Assert.*;
  */
 public class PostDAOTest {
 
-    private EntityManager em;
+    /*private EntityManager em;
     private EntityManagerFactory emf;
     private EntityTransaction tx;
     private PostDAO postDao;
@@ -74,7 +74,7 @@ public class PostDAOTest {
         postDao.save(p);
         tx.commit();
         assertTrue(!postDao.getLatestPosts(1L).isEmpty());
-    }
+    }*/
     
 
 }
