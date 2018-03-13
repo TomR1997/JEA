@@ -35,7 +35,7 @@ public class UserDAOTest {
 
     @Before
     public void setUp() {
-        emf = Persistence.createEntityManagerFactory("KwetterPU");
+        emf = Persistence.createEntityManagerFactory("kwettertestpu");
         em = emf.createEntityManager();
         userDao = new UserDAO(em);
         user1 = new User();
@@ -45,12 +45,13 @@ public class UserDAOTest {
     @Test
     public void userGetAllTest() throws EmptyListException {
         em.getTransaction().begin();
+        em.persist(user1);;
         User user = userDao.getAll().get(0);
         assertSame(user, userDao.getAll().get(0));
         em.close();
     }
 
-    @Test(expected = NonExistingEntryException.class)
+    /*@Test(expected = NonExistingEntryException.class)
     public void nonExistingUserExceptionTest() throws NonExistingEntryException {
         em.getTransaction().begin();
         userDao.find(-1L);
