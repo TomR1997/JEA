@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import org.mockito.runners.MockitoJUnitRunner;
 import service.exceptions.NonExistingRoleException;
@@ -52,5 +53,17 @@ public class RoleServiceTest {
     public void saveRoleTest() throws NonExistingRoleException, NonExistingEntryException{
         doNothing().when(roleDao).save(role);
         roleService.saveRole(role);
+    }
+    
+    @Test(expected = NonExistingRoleException.class)
+    public void invalidSaveRoleTest() throws NonExistingEntryException, NonExistingRoleException{
+        doThrow(new NonExistingEntryException()).when(roleDao).save(role);
+        roleService.saveRole(role);
+    }
+    
+    @Test(expected = NonExistingRoleException.class)
+    public void nullSaveRoleTest() throws NonExistingRoleException{
+        Role nullRole = null;
+        roleService.saveRole(nullRole);
     }
 }
