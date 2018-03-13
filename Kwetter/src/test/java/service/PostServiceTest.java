@@ -1,6 +1,7 @@
 package service;
 
 import dao.PostDAO;
+import dao.UserDAO;
 import dao.exceptions.EmptyListException;
 import dao.exceptions.NonExistingEntryException;
 import domain.Post;
@@ -17,12 +18,15 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import org.mockito.runners.MockitoJUnitRunner;
 import service.exceptions.InvalidIdException;
 import service.exceptions.InvalidNameException;
+import service.exceptions.LikePostException;
 import service.exceptions.NonExistingPostException;
+import service.exceptions.NonExistingUserException;
 
 /**
  *
@@ -33,8 +37,13 @@ public class PostServiceTest {
 
     @Mock
     private PostDAO postDao;
+    @Mock
+    private UserDAO userDao;
     @InjectMocks
     private PostService postService;
+    @InjectMocks
+    private UserService userService;
+    
     private Post post;
     private User user;
     private List<Post> posts;
@@ -42,8 +51,11 @@ public class PostServiceTest {
     @Before
     public void setUp() {
         postService = new PostService();
+        userService = new UserService();
+        userService.setUserDao(userDao);
         postService.setPostDao(postDao);
-        user = new User("programmeergod", "Veldhoven", "somebio", "Tom Roelofs", new Role(), "someweb", new ArrayList<User>(), new ArrayList<User>(), new ArrayList<Post>());
+        user = new User("programmeergod", "Veldhoven", "somebio", "Tom Roelofs", new Role(), "someweb", new ArrayList<User>(), new ArrayList<User>(), new ArrayList<Post>(), new ArrayList<Post>());
+        user.setId(1L);
         post = new Post("First post PagChomp", new Date(), user, new ArrayList<User>());
         post.setId(1L);
         posts = new ArrayList<>();
@@ -129,5 +141,32 @@ public class PostServiceTest {
         when(postDao.getTimeline(1L)).thenThrow(new EmptyListException());
         postService.getTimeline(1L);
     }
+    
+    @Test(expected = InvalidIdException.class)
+    public void invalidIdLikePostTest() throws NonExistingUserException, InvalidIdException, NonExistingPostException, LikePostException{
+        when(userService.findUser(-1L)).thenThrow(new InvalidIdException());
+        postService.likePost(post.getId(), user.getId());
+    }
+    
+    @Test(expected = NonExistingUserException.class)
+    public void nullUserLikePostTest() throws NonExistingUserException, InvalidIdException, NonExistingPostException, LikePostException, NonExistingEntryException{
+        when(userDao.find(1L)).thenThrow(new NonExistingEntryException());
+        when(userService.findUser(user.getId())).thenThrow(new NonExistingUserException());
+        postService.likePost(post.getId(), user.getId());
+    }
+
+    @Test(expected = InvalidIdException.class)
+    public void invalidIdUnlikePostTest() throws NonExistingUserException, InvalidIdException, NonExistingPostException, LikePostException{
+        when(userService.findUser(-1L)).thenThrow(new InvalidIdException());
+        postService.unlikePost(post.getId(), user.getId());
+    }
+    
+    @Test(expected = NonExistingUserException.class)
+    public void nullUserUnlikePostTest() throws NonExistingUserException, InvalidIdException, NonExistingPostException, LikePostException, NonExistingEntryException{
+        when(userDao.find(1L)).thenThrow(new NonExistingEntryException());
+        when(userService.findUser(user.getId())).thenThrow(new NonExistingUserException());
+        postService.unlikePost(post.getId(), user.getId());
+    }
+
     
 }

@@ -8,9 +8,11 @@ package dao;
 import dao.exceptions.EmptyListException;
 import dao.exceptions.NonExistingEntryException;
 import domain.Post;
+import domain.User;
 import java.util.Date;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -25,54 +27,54 @@ import static org.junit.Assert.*;
  */
 public class PostDAOTest {
 
-    /*private EntityManager em;
+    private EntityManager em;
     private EntityManagerFactory emf;
+    private EntityTransaction tx;
     private PostDAO postDao;
 
     @Before
     public void setUp() {
-        emf = Persistence.createEntityManagerFactory("KwetterPU");
+        emf = Persistence.createEntityManagerFactory("kwettertestpu");
         em = emf.createEntityManager();
+        tx = em.getTransaction();
         postDao = new PostDAO(em);
     }
 
     @Test
     public void findPostTest() throws NonExistingEntryException {
-        em.getTransaction().begin();
+        tx.begin();
+        Post p = new Post();
+        p.setId(1L);
+        postDao.save(p);
+        tx.commit();
         Post post = postDao.find(1L);
         assertSame(post, postDao.find(1L));
-        em.close();
     }
 
     @Test
     public void createPostTest() throws NonExistingEntryException, EmptyListException {
-        em.getTransaction().begin();
+        tx.begin();
         int allPosts = postDao.getAll().size();
         Post post = new Post("Hey all!", new Date());
         postDao.save(post);
+        tx.commit();
         assertEquals(allPosts + 1, postDao.getAll().size());
-        em.close();
     }
 
     @Test(expected = NonExistingEntryException.class)
     public void nonExistingPostExceptionTest() throws NonExistingEntryException {
-        em.getTransaction().begin();
+        tx.begin();
         postDao.find(-1L);
-        em.close();
     }
     
     @Test
-    public void getLatestPostsTest() throws EmptyListException{
-        em.getTransaction().begin();
+    public void getLatestPostsTest() throws EmptyListException, NonExistingEntryException{
+        tx.begin();
+        Post p = new Post("a", new Date(), new User());
+        postDao.save(p);
+        tx.commit();
         assertTrue(!postDao.getLatestPosts(1L).isEmpty());
-        em.close();
     }
     
-    @Test
-    public void getTimelineTest() throws EmptyListException{
-        em.getTransaction().begin();
-        assertTrue(!postDao.getTimeline(1L).isEmpty());
-        em.close();
-    }*/
 
 }

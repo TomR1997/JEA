@@ -7,7 +7,7 @@
             <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
         </properties>
     </persistence-unit>
-<!--    <persistence-unit name="kwettertestpu" transaction-type="RESOURCE_LOCAL">
+    <persistence-unit name="kwettertestpu" transaction-type="RESOURCE_LOCAL">
         <jta-data-source>java:app/kwettermysql</jta-data-source>
         <class>domain.Post</class>
         <class>domain.User</class>
@@ -22,5 +22,5 @@
             <property name="eclipselink.logging.logger" value="DefaultLogger"/>
             <property name="eclipselink.logging.level" value="FINE"/>
         </properties>
-    </persistence-unit>-->
+    </persistence-unit>
 </persistence>

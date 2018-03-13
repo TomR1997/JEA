@@ -9,6 +9,7 @@ import dao.exceptions.NonExistingEntryException;
 import domain.Role;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -23,22 +24,23 @@ import static org.junit.Assert.*;
  */
 public class RoleDAOTest {
 
-    /*private EntityManager em;
+    private EntityManager em;
     private EntityManagerFactory emf;
+    private EntityTransaction tx;
     private RoleDAO roleDao;
 
     @Before
     public void setUp() {
-        emf = Persistence.createEntityManagerFactory("KwetterPU");
+        emf = Persistence.createEntityManagerFactory("kwettertestpu");
         em = emf.createEntityManager();
+        tx = em.getTransaction();
         roleDao = new RoleDAO(em);
     }
 
     @Test
     public void findRoleTest() throws NonExistingEntryException {
-        em.getTransaction().begin();
+        tx.begin();
         Role role = roleDao.find("Moderator");
         assertNotNull(role);
-        em.close();
-    }*/
+    }
 }
