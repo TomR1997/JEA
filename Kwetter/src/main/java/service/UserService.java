@@ -62,7 +62,19 @@ public class UserService {
         }
     }
 
-    public void followUser(User user, User following) throws FollowingException, NonExistingUserException {
+    public void followUser(Long userId, Long followingId) throws FollowingException, NonExistingUserException, InvalidIdException {
+        validId(userId);
+        validId(followingId);
+        User user = null;
+        User following = null;
+        try {
+            user = userDao.find(userId);
+            following = userDao.find(followingId);
+        } catch (NonExistingEntryException ex) {
+            Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
+            throw new NonExistingUserException("User does not exist.");
+        }
+
         if (user == null || following == null) {
             throw new NonExistingUserException("User does not exist.");
         }
@@ -78,7 +90,19 @@ public class UserService {
         }
     }
 
-    public void unfollowUser(User user, User unfollowing) throws UnfollowingException, NonExistingUserException {
+    public void unfollowUser(Long userId, Long unfollowingId) throws UnfollowingException, NonExistingUserException, InvalidIdException {
+        validId(userId);
+        validId(unfollowingId);
+        User user = null;
+        User unfollowing = null;
+        try {
+            user = userDao.find(userId);
+            unfollowing = userDao.find(unfollowingId);
+        } catch (NonExistingEntryException ex) {
+            Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
+            throw new NonExistingUserException("User does not exist.");
+        }
+
         if (user == null || unfollowing == null) {
             throw new NonExistingUserException("User does not exist.");
         }

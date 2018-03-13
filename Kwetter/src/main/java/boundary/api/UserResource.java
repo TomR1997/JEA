@@ -95,37 +95,41 @@ public class UserResource {
         return new Gson().toJson(response);
     }
 
-    /*@PUT
-    @Path("followUser/{user}/{follow}")
-    public String followUser(@PathParam("user") User user, @PathParam("follow") User follow) {
-        UpdateResponse<User> response = new UpdateResponse<>(false);
+    @PUT
+    @Path("followUser/{userId}/{followingId}")
+    public String followUser(@PathParam("userId") Long userId, @PathParam("followingId") Long followingId) {
+        UpdateResponse<Long> response = new UpdateResponse<>(false);
         try {
-            userService.followUser(user, follow);
+            userService.followUser(userId, followingId);
             response.setSuccess(true);
         } catch (FollowingException ex) {
             response.addMessage("U volgt deze gebruiker al.");
         } catch (NonExistingUserException ex) {
             response.addMessage("De gebruiker bestaat niet.");
+        } catch (InvalidIdException ex) {
+            response.addMessage("Opgegeven id is ongeldig.");
         }
 
         return new Gson().toJson(response);
     }
 
     @PUT
-    @Path("unfollowUser/{user}/{unfollow}")
-    public String unfollowUser(@PathParam("user") User user, @PathParam("unfollow") User unfollow) {
+    @Path("unfollowUser/{userId}/{unfollowId}")
+    public String unfollowUser(@PathParam("userId") Long userId, @PathParam("unfollowId") Long unfollowId) {
         UpdateResponse<User> response = new UpdateResponse<>(false);
         try {
-            userService.unfollowUser(user, unfollow);
+            userService.unfollowUser(userId, unfollowId);
             response.setSuccess(true);
         } catch (UnfollowingException ex) {
             response.addMessage("U volgt deze gebruiker niet.");
         } catch (NonExistingUserException ex) {
             response.addMessage("De gebruiker bestaat niet.");
+        } catch (InvalidIdException ex) {
+            response.addMessage("Opgegeven id is ongeldig.");
         }
 
         return new Gson().toJson(response);
-    }*/
+    }
 
     @PUT
     @Path("changeUsername/{id}/{newName}")

@@ -10,8 +10,6 @@ import boundary.api.response.CreateResponse;
 import boundary.api.response.GetSingleResponse;
 import com.google.gson.Gson;
 import domain.Role;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.GET;

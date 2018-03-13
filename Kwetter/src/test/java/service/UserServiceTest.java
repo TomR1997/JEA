@@ -115,39 +115,39 @@ public class UserServiceTest {
     }
 
     @Test
-    public void followUserTest() throws FollowingException, NonExistingUserException, NonExistingEntryException {
+    public void followUserTest() throws FollowingException, NonExistingUserException, NonExistingEntryException, InvalidIdException {
         doNothing().when(userDao).followUser(user, user2);
-        userService.followUser(user, user2);
+        userService.followUser(user.getId(), user2.getId());
     }
 
     @Test(expected = NonExistingUserException.class)
-    public void nullUserFollowUserTest() throws NonExistingUserException, FollowingException, NonExistingEntryException {
-        userService.followUser(user3, user2);
-        userService.followUser(user2, user3);
+    public void nullUserFollowUserTest() throws NonExistingUserException, FollowingException, NonExistingEntryException, InvalidIdException {
+        userService.followUser(user3.getId(), user2.getId());
+        userService.followUser(user2.getId(), user3.getId());
     }
 
     @Test(expected = FollowingException.class)
-    public void alreadyFollowingFollowUserTest() throws FollowingException, NonExistingUserException, NonExistingEntryException {
+    public void alreadyFollowingFollowUserTest() throws FollowingException, NonExistingUserException, NonExistingEntryException, InvalidIdException {
         user.getFollowing().add(user2);
-        userService.followUser(user, user2);
+        userService.followUser(user.getId(), user2.getId());
     }
 
     @Test
     public void unfollowUser() throws NonExistingEntryException, UnfollowingException, NonExistingUserException, FollowingException {
         user.getFollowing().add(user2);
         doNothing().when(userDao).unfollowUser(user, user2);
-        userService.unfollowUser(user, user2);
+        userService.unfollowUser(user.getId(), user2.getId());
     }
 
     @Test(expected = NonExistingUserException.class)
     public void nullUserUnfollowUserTest() throws NonExistingUserException, NonExistingEntryException, UnfollowingException {
-        userService.unfollowUser(user3, user2);
-        userService.unfollowUser(user2, user3);
+        userService.unfollowUser(user3.getId(), user2.getId());
+        userService.unfollowUser(user2.getId(), user3.getId());
     }
 
     @Test(expected = UnfollowingException.class)
     public void notFollowingUnfollowUserTest() throws UnfollowingException, NonExistingUserException, NonExistingEntryException {
-        userService.unfollowUser(user, user2);
+        userService.unfollowUser(user.getId(), user2.getId());
     }
 
     @Test
