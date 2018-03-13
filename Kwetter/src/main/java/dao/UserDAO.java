@@ -106,10 +106,10 @@ public class UserDAO {
         if (user == null) {
             throw new NonExistingEntryException();
         }
-        if (user.getFollowers().isEmpty()) {
+        if (user.getFollowing().isEmpty()) {
             throw new EmptyListException();
         }
-        return user.getFollowers();
+        return user.getFollowing();
     }
    
     public int getFollowerAmount(Long id){

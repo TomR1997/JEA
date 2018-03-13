@@ -60,7 +60,7 @@ public class PostDAO {
 
     public List<Post> find(String tags) throws NonExistingEntryException, EmptyListException {
         Query query = em.createNamedQuery("Post.findPosts");
-        List<Post> posts = query.setParameter("tags", "%"+tags+"%").getResultList();
+        List<Post> posts = query.setParameter("tags", "%"+tags+"%").setMaxResults(20).getResultList();
         if (posts.isEmpty()){
             throw new EmptyListException();
         }
@@ -77,7 +77,7 @@ public class PostDAO {
 
     public List<Post> getLatestPosts(Long userId) throws EmptyListException {
         Query query = em.createNamedQuery("Post.getLatestPosts");
-        List<Post> posts = query.setParameter("owner_id", userId).getResultList();
+        List<Post> posts = query.setParameter("owner_id", userId).setMaxResults(20).getResultList();
         if (posts.isEmpty()){
             throw new EmptyListException();
         }
@@ -86,7 +86,7 @@ public class PostDAO {
 
     public List<Post> getTimeline(Long userId) throws EmptyListException {
         Query query = em.createNamedQuery("Post.getTimeline");
-        List<Post> posts = query.setParameter("owner_id", userId).getResultList();
+        List<Post> posts = query.setParameter("owner_id", userId).setMaxResults(20).getResultList();
         if(posts.isEmpty()){
             throw new EmptyListException();
         }
