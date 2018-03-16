@@ -49,14 +49,17 @@ public class UserResource {
     private UserService userService;
 
     @GET
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("findUser/{id}")
-    public String findUser(@PathParam("id") Long id) throws InvalidIdException {
+    public String findUser(@PathParam("id") Long id) {
         GetSingleResponse<UserDTO> response = new GetSingleResponse<>(false);
         try {
             response.setRecord(new UserDTO(userService.findUser(id)));
             response.setSuccess(true);
         } catch (NonExistingUserException ex) {
             response.addMessage("De gebruiker bestaat niet.");
+        } catch (InvalidIdException ex) {
+            response.addMessage("Opgegeven id is ongeldig.");
         }
 
         return new Gson().toJson(response);

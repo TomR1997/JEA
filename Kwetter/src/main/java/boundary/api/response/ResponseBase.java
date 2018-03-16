@@ -1,5 +1,6 @@
 package boundary.api.response;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,11 +13,12 @@ public class ResponseBase {
 
     public ResponseBase(boolean success, List<String> messages) {
         this.success = success;
-        this.messages = messages;
+        this.messages = new ArrayList<>();
     }
 
     public ResponseBase(boolean success) {
         this.success = success;
+        this.messages = new ArrayList<>();
     }
     
     public void addMessage(String message){
