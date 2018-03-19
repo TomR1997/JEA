@@ -5,11 +5,10 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
     <h:head>
-        <title>Facelet Title</title>
+        <title>Admin console</title>
     </h:head>
     <h:body>
         <h:form>
-            <p:growl id="posts" life="2000" />
             <p:dataTable var="user" value="#{adminController.users}">
                 <p:column headerText="Id">
                     <h:outputText value="#{user.id}" />
@@ -29,7 +28,7 @@
             <p:inputText value="#{adminController.input}"/>
             <p:commandButton value="Search" id="ajax" update="posts" actionListener="#{adminController.searchPost}" styleClass="ui-priority-primary" />
             
-            <p:dataTable var="post" value="#{adminController.posts}">
+            <p:dataTable id ="posts" var="post" value="#{adminController.posts}">
                 <p:column headerText="Id">
                     <h:outputText value="#{post.id}" />
                 </p:column>
