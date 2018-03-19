@@ -30,7 +30,7 @@
             
             <p:dataTable id ="posts" var="post" value="#{adminController.posts}">
                 <p:column headerText="Id">
-                    <h:outputText value="#{post.id}" />
+                    <h:outputText id="postid" value="#{post.id}"/>
                 </p:column>
 
                 <p:column headerText="Message">
@@ -39,6 +39,10 @@
 
                 <p:column headerText="Date sent">
                     <h:outputText value="#{post.messageSent}" />
+                </p:column>
+                
+                <p:column>
+                    <p:commandButton value="Delete" id="ajax" update="posts" actionListener="#{adminController.deletePost(postid)}" styleClass="ui-priority-primary" />
                 </p:column>
             </p:dataTable>
         </h:form>

@@ -38,6 +38,7 @@ public class AdminController implements Serializable{
     private List<User> users;
     private String input;
     private List<Post> posts;
+    private Long id;
     
     public AdminController(){
     }
@@ -49,6 +50,14 @@ public class AdminController implements Serializable{
         } catch (EmptyListException ex) {
             Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public List<Post> getPosts() {
@@ -81,6 +90,22 @@ public class AdminController implements Serializable{
         } catch (EmptyListException ex) {
             Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InvalidNameException ex) {
+            Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void deletePost(Long id){
+        try {
+            postService.deletePost(id);
+        } catch (NonExistingEntryException ex) {
+            Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvalidIdException ex) {
+            Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        try {
+            posts = postService.getAll();
+        } catch (EmptyListException ex) {
             Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
