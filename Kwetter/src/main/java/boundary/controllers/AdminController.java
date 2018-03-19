@@ -7,6 +7,7 @@ package boundary.controllers;
 
 import dao.exceptions.EmptyListException;
 import dao.exceptions.NonExistingEntryException;
+import domain.Post;
 import domain.User;
 import java.io.Serializable;
 import java.util.List;
@@ -19,6 +20,7 @@ import javax.inject.Named;
 import service.PostService;
 import service.UserService;
 import service.exceptions.InvalidIdException;
+import service.exceptions.InvalidNameException;
 
 /**
  *
@@ -34,12 +36,51 @@ public class AdminController implements Serializable{
     private PostService postService;
     
     private List<User> users;
+    private String input;
+    private List<Post> posts;
+    
+    public AdminController(){
+    }
     
     @PostConstruct
     public void init(){
         try {
             users = userService.getAll();
         } catch (EmptyListException ex) {
+            Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
+    }
+
+    public String getInput() {
+        return input;
+    }
+
+    public void setInput(String input) {
+        this.input = input;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+    
+    public void searchPost(){
+        try {
+            posts = postService.findPosts(input);
+        } catch (EmptyListException ex) {
+            Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvalidNameException ex) {
             Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
