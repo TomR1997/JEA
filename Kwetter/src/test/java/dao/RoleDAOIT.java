@@ -22,9 +22,9 @@ import static org.junit.Assert.*;
  *
  * @author Tomt
  */
-public class RoleDAOTest {
+public class RoleDAOIT {
 
-    /*private EntityManager em;
+    private EntityManager em;
     private EntityManagerFactory emf;
     private EntityTransaction tx;
     private RoleDAO roleDao;
@@ -41,5 +41,5 @@ public class RoleDAOTest {
     public void findRoleTest() throws NonExistingEntryException {
         tx.begin();
         Role role = roleDao.find("Moderator");
-    }*/
+    }
 }

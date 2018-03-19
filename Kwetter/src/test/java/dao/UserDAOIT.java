@@ -29,7 +29,7 @@ import static org.junit.Assert.*;
  *
  * @author Tomt
  */
-public class UserDAOTest {
+public class UserDAOIT {
 
     /*private EntityManager em;
     private EntityManagerFactory emf;
