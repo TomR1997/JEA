@@ -9,26 +9,19 @@ import boundary.api.dto.UserDTO;
 import boundary.api.response.CreateResponse;
 import boundary.api.response.GetMultipleResponse;
 import boundary.api.response.GetSingleResponse;
-import boundary.api.response.ResponseBase;
 import boundary.api.response.UpdateResponse;
 import com.google.gson.Gson;
 import dao.exceptions.EmptyListException;
-import dao.exceptions.NonExistingEntryException;
 import domain.User;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 import service.UserService;
 import service.exceptions.FollowingException;
 import service.exceptions.InvalidAmountException;
@@ -49,7 +42,7 @@ public class UserResource {
     private UserService userService;
 
     @GET
-    @Path("findUser/{id}")
+    @Path("{id}")
     public String findUser(@PathParam("id") Long id) {
         GetSingleResponse<UserDTO> response = new GetSingleResponse<>(false);
         try {
@@ -65,7 +58,6 @@ public class UserResource {
     }
 
     @GET
-    @Path("getAllUsers")
     public String getAllUsers() {
         GetMultipleResponse<UserDTO> response = new GetMultipleResponse<>(false);
         List<UserDTO> users = new ArrayList<>();

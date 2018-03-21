@@ -18,6 +18,7 @@ import javax.inject.Inject;
 import service.exceptions.InvalidAmountException;
 import service.exceptions.InvalidIdException;
 import service.exceptions.InvalidNameException;
+import service.exceptions.LoginException;
 import service.exceptions.NonExistingUserException;
 import service.exceptions.UnfollowingException;
 
@@ -170,6 +171,16 @@ public class UserService {
         int following = userDao.getFollowingAmount(id);
         validAmount(following);
         return following;
+    }
+    
+    public boolean login(String username, String password) throws InvalidNameException, LoginException{
+        validName(username);
+        validName(password);
+        boolean success = userDao.login(username, password);
+        if (!success){
+            throw new LoginException("Credentials are not valid.");
+        }
+        return success;
     }
 
     private void validAmount(int amount) throws InvalidAmountException {
