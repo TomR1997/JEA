@@ -75,7 +75,7 @@ public class UserResource {
     }
 
     @POST
-    @Path("saveUser")
+    @Path("save")
     public String saveUser(User user) {
         CreateResponse<UserDTO> response = new CreateResponse<>(false);
         try {
@@ -93,7 +93,7 @@ public class UserResource {
     }
 
     @PUT
-    @Path("followUser/{userId}/{followingId}")
+    @Path("follow/{userId}/{followingId}")
     public String followUser(@PathParam("userId") Long userId, @PathParam("followingId") Long followingId) {
         UpdateResponse<Long> response = new UpdateResponse<>(false);
         try {
@@ -111,7 +111,7 @@ public class UserResource {
     }
 
     @PUT
-    @Path("unfollowUser/{userId}/{unfollowId}")
+    @Path("unfollow/{userId}/{unfollowId}")
     public String unfollowUser(@PathParam("userId") Long userId, @PathParam("unfollowId") Long unfollowId) {
         UpdateResponse<User> response = new UpdateResponse<>(false);
         try {

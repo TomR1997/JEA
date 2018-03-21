@@ -41,7 +41,7 @@ public class PostResource {
     private PostService postService;
 
     @GET
-    @Path("findPost/{id}")
+    @Path("{id}")
     public String findPost(@PathParam("id") Long id) {
         GetSingleResponse<PostDTO> response = new GetSingleResponse<>(false);
         try {
@@ -57,7 +57,6 @@ public class PostResource {
     }
 
     @GET
-    @Path("getAllPosts")
     public String getAllPosts() {
         GetMultipleResponse<PostDTO> response = new GetMultipleResponse<>(false);
         List<PostDTO> posts = new ArrayList<>();
@@ -74,7 +73,7 @@ public class PostResource {
     }
 
     @DELETE
-    @Path("deletePost/{id}")
+    @Path("delete/{id}")
     public String deletePost(@PathParam("id") Long id) {
         DeleteResponse<Long> response = new DeleteResponse<>(false);
         try {
@@ -90,7 +89,7 @@ public class PostResource {
     }
 
     @GET
-    @Path("getLatestPosts/{userId}")
+    @Path("getLatest/{userId}")
     public String getLatestPosts(@PathParam("userId") Long userId) {
         GetMultipleResponse<PostDTO> response = new GetMultipleResponse<>(false);
         List<PostDTO> latestPosts = new ArrayList<>();
@@ -124,7 +123,7 @@ public class PostResource {
     }
 
     @GET
-    @Path("findPosts/{tags}")
+    @Path("find/{tags}")
     public String findPosts(@PathParam("tags") String tags) {
         GetMultipleResponse<PostDTO> response = new GetMultipleResponse<>(false);
         List<PostDTO> posts = new ArrayList<>();
@@ -144,7 +143,7 @@ public class PostResource {
     }
     
     @PUT
-    @Path("likePost/{postId}/{userId}")
+    @Path("like/{postId}/{userId}")
     public String likePost(@PathParam("postId") Long postId, @PathParam("userId")Long userId){
         CreateResponse<Long> response = new CreateResponse<>(false);
         try {
@@ -163,7 +162,7 @@ public class PostResource {
     }
     
     @PUT
-    @Path("unlikePost/{postId}/{userId}")
+    @Path("unlike/{postId}/{userId}")
     public String unlikePost(@PathParam("postId") Long postId, @PathParam("userId")Long userId){
         CreateResponse<Long> response = new CreateResponse<>(false);
         try {
