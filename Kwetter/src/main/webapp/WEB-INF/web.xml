@@ -22,4 +22,18 @@
         <welcome-file>faces/adminconsole.xhtml</welcome-file>
 <!--        <welcome-file>faces/login.xhtml</welcome-file>-->
     </welcome-file-list>
+    <login-config>
+        <auth-method>BASIC</auth-method>
+        <realm-name>security_realm</realm-name>
+    </login-config>
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Secure Pages</web-resource-name>
+            <description/>
+            <url-pattern>/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>regular_role</role-name>
+        </auth-constraint>
+    </security-constraint>
 </web-app>

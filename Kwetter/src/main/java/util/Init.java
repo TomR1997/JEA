@@ -5,10 +5,12 @@
  */
 package util;
 
+import dao.GroupDAO;
 import dao.PostDAO;
 import dao.RoleDAO;
 import dao.UserDAO;
 import dao.exceptions.NonExistingEntryException;
+import domain.Group;
 import domain.Post;
 import domain.Role;
 import domain.RoleName;
@@ -41,6 +43,8 @@ public class Init {
     private RoleDAO roleDao;
     @Inject
     private PostDAO postDao;
+    @Inject
+    private GroupDAO groupDao;
 
     @PostConstruct
     public void init() {
@@ -67,6 +71,8 @@ public class Init {
         User user8 = new User("UseCaseDiagram", "Veldhoven", "somebio", "Sjaak Afhaak", roleUser, "someweb", new ArrayList<User>(), new ArrayList<User>(), new ArrayList<Post>(), new ArrayList<Post>(), "123");
         User user9 = new User("KochFractaller", "Eindhoven", "somebio", "Tomek Koch", roleUser, "someweb", new ArrayList<User>(), new ArrayList<User>(), new ArrayList<Post>(), new ArrayList<Post>(), "123");
         User user10 = new User("ThreadFred", "Veldhoven", "somebio", "Fred Vred", roleUser, "someweb", new ArrayList<User>(), new ArrayList<User>(), new ArrayList<Post>(), new ArrayList<Post>(), "123");
+        User user11 = new User("steve", "Veldhoven", "somebio", "steve", roleUser, "someweb", new ArrayList<User>(), new ArrayList<User>(), new ArrayList<Post>(), new ArrayList<Post>()
+                , "f148389d080cfe85952998a8a367e2f7eaf35f2d72d2599a5b0412fe4094d65c", new ArrayList<Group>());
 
         userDao.save(user1);
         userDao.save(user2);
@@ -78,6 +84,14 @@ public class Init {
         userDao.save(user8);
         userDao.save(user9);
         userDao.save(user10);
+        
+        Group group = new Group();
+        group.setGroupName("regulars");
+        group.setUsers(new ArrayList<User>());
+        groupDao.save(group);
+        userDao.save(user11);
+        group.getUsers().add(user11);
+        groupDao.update(group);
 
         try {
             userDao.followUser(user1, user2);

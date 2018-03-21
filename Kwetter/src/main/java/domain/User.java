@@ -63,9 +63,11 @@ public class User implements Serializable {
     
     @ManyToMany(mappedBy = "likedBy")
     @JoinTable(name ="likedby")
-    private List<Post> likedPosts;
-    
+    private List<Post> likedPosts; 
     private String password;
+    
+    @ManyToMany(mappedBy = "users")
+    private List<Group> groups;  
 
     public User(String username, String location, String bio, String name, Role role, String web, List<User> following, List<User> followedBy, List<Post> posts) {
         this.username = username;
@@ -79,7 +81,22 @@ public class User implements Serializable {
         this.posts = posts;
     }
     
-        public User(String username, String location, String bio, String name, Role role, String web, List<User> following, List<User> followedBy, List<Post> posts, List<Post> likedPosts, String password) {
+    public User(String username, String location, String bio, String name, Role role, String web, List<User> following, List<User> followedBy, List<Post> posts, List<Post> likedPosts, String password, List<Group> groups) {
+        this.username = username;
+        this.location = location;
+        this.bio = bio;
+        this.name = name;
+        this.role = role;
+        this.web = web;
+        this.following = following;
+        this.followers = followedBy;
+        this.posts = posts;
+        this.likedPosts = likedPosts;
+        this.password = password;
+        this.groups = groups;
+    }
+    
+    public User(String username, String location, String bio, String name, Role role, String web, List<User> following, List<User> followedBy, List<Post> posts, List<Post> likedPosts, String password) {
         this.username = username;
         this.location = location;
         this.bio = bio;
@@ -210,6 +227,13 @@ public class User implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
-   
+
+    public List<Group> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(List<Group> groups) {
+        this.groups = groups;
+    }
     
 }
