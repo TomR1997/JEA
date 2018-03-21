@@ -38,7 +38,7 @@ public class AdminController implements Serializable{
     private List<User> users;
     private String input;
     private List<Post> posts;
-    private Long id;
+
     
     public AdminController(){
     }
@@ -50,14 +50,6 @@ public class AdminController implements Serializable{
         } catch (EmptyListException ex) {
             Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public List<Post> getPosts() {

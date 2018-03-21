@@ -20,5 +20,6 @@
     </session-config>
     <welcome-file-list>
         <welcome-file>faces/adminconsole.xhtml</welcome-file>
+<!--        <welcome-file>faces/login.xhtml</welcome-file>-->
     </welcome-file-list>
 </web-app>
