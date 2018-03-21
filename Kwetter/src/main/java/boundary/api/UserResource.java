@@ -49,7 +49,6 @@ public class UserResource {
     private UserService userService;
 
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
     @Path("findUser/{id}")
     public String findUser(@PathParam("id") Long id) {
         GetSingleResponse<UserDTO> response = new GetSingleResponse<>(false);
