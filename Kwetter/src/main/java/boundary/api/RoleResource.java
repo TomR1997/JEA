@@ -30,7 +30,7 @@ public class RoleResource {
     private RoleService roleService;
     
     @GET
-    @Path("GetRole/{name}")
+    @Path("{name}")
     public String findRole(@PathParam("name") String name){
         GetSingleResponse<RoleDTO> response = new GetSingleResponse<>(false);
         try {
@@ -44,7 +44,7 @@ public class RoleResource {
     }
     
     @POST
-    @Path("saveRole")
+    @Path("save")
     public String saveRole(Role role){
         CreateResponse<String> response = new CreateResponse<>(false);
         try {

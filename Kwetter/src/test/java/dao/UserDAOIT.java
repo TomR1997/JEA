@@ -31,15 +31,12 @@ import static org.junit.Assert.*;
  */
 public class UserDAOIT {
 
-    /*private EntityManager em;
+    private EntityManager em;
     private EntityManagerFactory emf;
     private EntityTransaction tx;
     private UserDAO userDao;
     private User user1;
     private User user2;
-
-    public UserDAOTest() {
-    }
 
     @Before
     public void setUp() {
@@ -141,6 +138,6 @@ public class UserDAOIT {
         userDao.save(user1);
         tx.commit();
         assertTrue(!userDao.getFollowing(1L).isEmpty());
-    }*/
+    }
 
 }

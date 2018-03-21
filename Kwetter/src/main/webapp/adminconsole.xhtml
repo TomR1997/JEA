@@ -1,0 +1,51 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Admin console</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <p:dataTable var="user" value="#{adminController.users}">
+                <p:column headerText="Id">
+                    <h:outputText value="#{user.id}" />
+                </p:column>
+
+                <p:column headerText="Username">
+                    <h:outputText value="#{user.username}" />
+                </p:column>
+
+                <p:column headerText="Name">
+                    <h:outputText value="#{user.name}" />
+                </p:column>
+            </p:dataTable>
+            
+            <br/>
+            
+            <p:inputText value="#{adminController.input}"/>
+            <p:commandButton value="Search" id="ajax" update="posts" actionListener="#{adminController.searchPost}" styleClass="ui-priority-primary" />
+            
+            <p:dataTable id ="posts" var="post" value="#{adminController.posts}">
+                <p:column headerText="Id">
+                    <h:outputText id="postid" value="#{post.id}"/>
+                </p:column>
+
+                <p:column headerText="Message">
+                    <h:outputText value="#{post.message}" />
+                </p:column>
+
+                <p:column headerText="Date sent">
+                    <h:outputText value="#{post.messageSent}" />
+                </p:column>
+                
+                <p:column headerText="Delete">
+                    <p:commandButton value="Delete" id="ajax" update="posts" actionListener="#{adminController.deletePost(post.id)}" styleClass="ui-priority-primary" />
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </h:body>
+</html>
+

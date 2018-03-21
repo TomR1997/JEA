@@ -54,7 +54,7 @@ public class PostServiceTest {
         userService = new UserService();
         userService.setUserDao(userDao);
         postService.setPostDao(postDao);
-        user = new User("programmeergod", "Veldhoven", "somebio", "Tom Roelofs", new Role(), "someweb", new ArrayList<User>(), new ArrayList<User>(), new ArrayList<Post>(), new ArrayList<Post>());
+        user = new User("programmeergod", "Veldhoven", "somebio", "Tom Roelofs", new Role(), "someweb", new ArrayList<User>(), new ArrayList<User>(), new ArrayList<Post>(), new ArrayList<Post>(), "123");
         user.setId(1L);
         post = new Post("First post PagChomp", new Date(), user, new ArrayList<User>());
         post.setId(1L);
