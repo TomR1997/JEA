@@ -57,16 +57,16 @@ public class Init {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        User user1 = new User("programmeergod", "Veldhoven", "somebio", "Tom Roelofs", roleModerator, "someweb", new ArrayList<User>(), new ArrayList<User>(), new ArrayList<Post>(), new ArrayList<Post>());
-        User user2 = new User("wiekentmiljonair", "Veldhoven", "somebio", "Rom Toelofs", roleModerator, "someweb", new ArrayList<User>(), new ArrayList<User>(), new ArrayList<Post>(), new ArrayList<Post>());
-        User user3 = new User("OneManLeft", "Eindhoven", "somebio", "Oliver Queen", roleUser, "someweb", new ArrayList<User>(), new ArrayList<User>(), new ArrayList<Post>(), new ArrayList<Post>());
-        User user4 = new User("PickleRick", "Eindhoven", "somebio", "Rick Sanchez", roleUser, "someweb", new ArrayList<User>(), new ArrayList<User>(), new ArrayList<Post>(), new ArrayList<Post>());
-        User user5 = new User("Mortymer", "Eindhoven", "somebio", "Morty", roleUser, "someweb", new ArrayList<User>(), new ArrayList<User>(), new ArrayList<Post>(), new ArrayList<Post>());
-        User user6 = new User("Devil666", "Veldhoven", "somebio", "Teemo", roleUser, "someweb", new ArrayList<User>(), new ArrayList<User>(), new ArrayList<Post>(), new ArrayList<Post>());
-        User user7 = new User("Shovel", "Waalre", "somebio", "Robert", roleUser, "someweb", new ArrayList<User>(), new ArrayList<User>(), new ArrayList<Post>(), new ArrayList<Post>());
-        User user8 = new User("UseCaseDiagram", "Veldhoven", "somebio", "Sjaak Afhaak", roleUser, "someweb", new ArrayList<User>(), new ArrayList<User>(), new ArrayList<Post>(), new ArrayList<Post>());
-        User user9 = new User("KochFractaller", "Eindhoven", "somebio", "Tomek Koch", roleUser, "someweb", new ArrayList<User>(), new ArrayList<User>(), new ArrayList<Post>(), new ArrayList<Post>());
-        User user10 = new User("ThreadFred", "Veldhoven", "somebio", "Fred Vred", roleUser, "someweb", new ArrayList<User>(), new ArrayList<User>(), new ArrayList<Post>(), new ArrayList<Post>());
+        User user1 = new User("programmeergod", "Veldhoven", "somebio", "Tom Roelofs", roleModerator, "someweb", new ArrayList<User>(), new ArrayList<User>(), new ArrayList<Post>(), new ArrayList<Post>(), "123");
+        User user2 = new User("wiekentmiljonair", "Veldhoven", "somebio", "Rom Toelofs", roleModerator, "someweb", new ArrayList<User>(), new ArrayList<User>(), new ArrayList<Post>(), new ArrayList<Post>(), "123");
+        User user3 = new User("OneManLeft", "Eindhoven", "somebio", "Oliver Queen", roleUser, "someweb", new ArrayList<User>(), new ArrayList<User>(), new ArrayList<Post>(), new ArrayList<Post>(), "123");
+        User user4 = new User("PickleRick", "Eindhoven", "somebio", "Rick Sanchez", roleUser, "someweb", new ArrayList<User>(), new ArrayList<User>(), new ArrayList<Post>(), new ArrayList<Post>(), "123");
+        User user5 = new User("Mortymer", "Eindhoven", "somebio", "Morty", roleUser, "someweb", new ArrayList<User>(), new ArrayList<User>(), new ArrayList<Post>(), new ArrayList<Post>(), "123");
+        User user6 = new User("Devil666", "Veldhoven", "somebio", "Teemo", roleUser, "someweb", new ArrayList<User>(), new ArrayList<User>(), new ArrayList<Post>(), new ArrayList<Post>(), "123");
+        User user7 = new User("Shovel", "Waalre", "somebio", "Robert", roleUser, "someweb", new ArrayList<User>(), new ArrayList<User>(), new ArrayList<Post>(), new ArrayList<Post>(), "123");
+        User user8 = new User("UseCaseDiagram", "Veldhoven", "somebio", "Sjaak Afhaak", roleUser, "someweb", new ArrayList<User>(), new ArrayList<User>(), new ArrayList<Post>(), new ArrayList<Post>(), "123");
+        User user9 = new User("KochFractaller", "Eindhoven", "somebio", "Tomek Koch", roleUser, "someweb", new ArrayList<User>(), new ArrayList<User>(), new ArrayList<Post>(), new ArrayList<Post>(), "123");
+        User user10 = new User("ThreadFred", "Veldhoven", "somebio", "Fred Vred", roleUser, "someweb", new ArrayList<User>(), new ArrayList<User>(), new ArrayList<Post>(), new ArrayList<Post>(), "123");
 
         userDao.save(user1);
         userDao.save(user2);

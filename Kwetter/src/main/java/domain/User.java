@@ -62,6 +62,8 @@ public class User implements Serializable {
     @ManyToMany(mappedBy = "likedBy")
     @JoinTable(name ="likedby")
     private List<Post> likedPosts;
+    
+    private String password;
 
     public User(String username, String location, String bio, String name, Role role, String web, List<User> following, List<User> followedBy, List<Post> posts) {
         this.username = username;
@@ -75,7 +77,7 @@ public class User implements Serializable {
         this.posts = posts;
     }
     
-        public User(String username, String location, String bio, String name, Role role, String web, List<User> following, List<User> followedBy, List<Post> posts, List<Post> likedPosts) {
+        public User(String username, String location, String bio, String name, Role role, String web, List<User> following, List<User> followedBy, List<Post> posts, List<Post> likedPosts, String password) {
         this.username = username;
         this.location = location;
         this.bio = bio;
@@ -86,6 +88,7 @@ public class User implements Serializable {
         this.followers = followedBy;
         this.posts = posts;
         this.likedPosts = likedPosts;
+        this.password = password;
     }
         
     public User(String username, String location, String bio, String name, Role role, String web) {
@@ -197,5 +200,14 @@ public class User implements Serializable {
     public void setFollowers(List<User> followedBy) {
         this.followers = followedBy;
     }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
    
+    
 }
