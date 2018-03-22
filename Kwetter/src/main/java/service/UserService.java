@@ -172,16 +172,6 @@ public class UserService {
         validAmount(following);
         return following;
     }
-    
-    public boolean login(String username, String password) throws InvalidNameException, LoginException{
-        validName(username);
-        validName(password);
-        boolean success = userDao.login(username, password);
-        if (!success){
-            throw new LoginException("Credentials are not valid.");
-        }
-        return success;
-    }
 
     private void validAmount(int amount) throws InvalidAmountException {
         if (amount <= 0) {

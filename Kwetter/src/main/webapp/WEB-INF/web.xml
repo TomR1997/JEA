@@ -24,7 +24,7 @@
     </welcome-file-list>
     <login-config>
         <auth-method>BASIC</auth-method>
-        <realm-name>security_realm</realm-name>
+        <realm-name>file</realm-name>
     </login-config>
     <security-constraint>
         <web-resource-collection>

@@ -121,10 +121,4 @@ public class UserDAO {
         Query query = em.createNamedQuery("User.getFollowingCount");
         return query.setParameter("followers", id).getFirstResult();
     }
-    
-    public boolean login(String username, String password){
-        Query query = em.createNamedQuery("User.authenticateUser");
-        int userId = query.setParameter("username", username).setParameter("password", password).getFirstResult();
-        return userId > 0;
-    }
 }
