@@ -74,24 +74,6 @@ public class UserResource {
         return new Gson().toJson(response);
     }
 
-    @POST
-    @Path("save")
-    public String saveUser(User user) {
-        CreateResponse<UserDTO> response = new CreateResponse<>(false);
-        try {
-            userService.save(user);
-            response.setSuccess(true);
-        } catch (NonExistingUserException ex) {
-            response.addMessage("De gebruiker ontbreekt data.");
-        } catch (InvalidIdException ex) {
-            response.addMessage("De id is ongeldig.");
-        } catch (InvalidNameException ex) {
-            response.addMessage("De opgegeven naam is ongeldig.");
-        }
-
-        return new Gson().toJson(response);
-    }
-
     @PUT
     @Path("follow/{userId}/{followingId}")
     public String followUser(@PathParam("userId") Long userId, @PathParam("followingId") Long followingId) {
@@ -165,7 +147,7 @@ public class UserResource {
     }
 
     @GET
-    @Path("getFollowers/{id}")
+    @Path("followers/{id}")
     public String getFollowers(@PathParam("id") Long id) {
         GetMultipleResponse<UserDTO> response = new GetMultipleResponse<>(false);
         List<UserDTO> followers = new ArrayList<>();
@@ -187,7 +169,7 @@ public class UserResource {
     }
 
     @GET
-    @Path("getFollowing/{id}")
+    @Path("following/{id}")
     public String getFollowing(@PathParam("id") Long id) {
         GetMultipleResponse<UserDTO> response = new GetMultipleResponse<>(false);
         List<UserDTO> following = new ArrayList<>();
@@ -209,7 +191,7 @@ public class UserResource {
     }
 
     @GET
-    @Path("getFollowerAmount/{id}")
+    @Path("followeramount/{id}")
     public String getFollowerAmount(@PathParam("id") Long id) {
         GetSingleResponse<Integer> response = new GetSingleResponse<>(false);
         try {
@@ -223,7 +205,7 @@ public class UserResource {
     }
 
     @GET
-    @Path("getFollowingAmount/{id}")
+    @Path("followingamount/{id}")
     public String getFollowingAmount(@PathParam("id") Long id) {
         GetSingleResponse<Integer> response = new GetSingleResponse<>(false);
         try {

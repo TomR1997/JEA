@@ -43,17 +43,4 @@ public class RoleResource {
         return new Gson().toJson(response);
     }
     
-    @POST
-    @Path("save")
-    public String saveRole(Role role){
-        CreateResponse<String> response = new CreateResponse<>(false);
-        try {
-            roleService.saveRole(role);
-            response.setSuccess(true);
-        } catch (NonExistingRoleException ex) {
-            response.addMessage("Role bevat niet de juiste waardes.");
-        }
-        
-        return new Gson().toJson(response);
-    }
 }
