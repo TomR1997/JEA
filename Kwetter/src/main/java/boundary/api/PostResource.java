@@ -89,7 +89,7 @@ public class PostResource {
     }
 
     @GET
-    @Path("getLatest/{userId}")
+    @Path("latest/{userId}")
     public String getLatestPosts(@PathParam("userId") Long userId) {
         GetMultipleResponse<PostDTO> response = new GetMultipleResponse<>(false);
         List<PostDTO> latestPosts = new ArrayList<>();
@@ -106,7 +106,7 @@ public class PostResource {
     }
 
     @GET
-    @Path("getTimeline/{userId}")
+    @Path("timeline/{userId}")
     public String getTimeline(@PathParam("userId") Long userId) {
         GetMultipleResponse<PostDTO> response = new GetMultipleResponse<>(false);
         List<PostDTO> posts = new ArrayList<>();
