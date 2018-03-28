@@ -11,7 +11,8 @@ import { HomePageComponent } from './home-page/home-page.component';
   declarations: [
     AppComponent,
     ProfilePageComponent,
-    HomePageComponent
+    HomePageComponent,
+    HeaderBarComponent
   ],
   imports: [
     BrowserModule
