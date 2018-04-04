@@ -3,21 +3,23 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import {of} from 'rxjs/observable/of';
 import {catchError, tap} from 'rxjs/operators';
+import { Post } from '../models/post'
 
 @Injectable()
 export class PostService {
 
     private baseUrl = 'http://localhost:8080/Kwetter/api/';
+    private postURL = 'posts';
 
     constructor(private http: HttpClient) {
     }
 
-    getAllLocationPrices(): Observable<LocationPrice[]> {
-        const url = this.baseUrl + this.locationpricesUrl;
-        return this.http.get<LocationPrice[]>(url)
+    getAllPosts(): Observable<Post[]> {
+        const url = this.baseUrl + this.postURL;
+        return this.http.get<Post[]>(url)
             .pipe(
-                tap(heroes => this.log(`fetched prices`)),
-                catchError(this.handleError('getAllLocationPrizes', []))
+                tap(heroes => this.log(`fetched posts`)),
+                catchError(this.handleError('getAllPosts', []))
             );
     }
 

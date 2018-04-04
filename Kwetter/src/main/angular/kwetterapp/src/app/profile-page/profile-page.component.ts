@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { PostService } from '../post.service';
+import { Post } from '../models/post'
 
 @Component({
   selector: 'app-profile-page',
@@ -6,10 +8,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./profile-page.component.css']
 })
 export class ProfilePageComponent implements OnInit {
+    posts: Post[];
 
-  constructor() { }
+    constructor(private postService: PostService) { 
+    }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+        this.getAllPosts();
+    }
 
+    getAllPosts(): void{
+        this.postService.getAllPosts()
+            .subscribe(data => this.posts = data.Records);
+            //.subscribe(data => console.log(data.Records));
+    }
 }
