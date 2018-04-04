@@ -11,6 +11,7 @@ import boundary.api.response.GetMultipleResponse;
 import boundary.api.response.GetSingleResponse;
 import boundary.api.response.UpdateResponse;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import dao.exceptions.EmptyListException;
 import domain.User;
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.core.Response;
 import service.UserService;
 import service.exceptions.FollowingException;
 import service.exceptions.InvalidAmountException;
@@ -40,26 +42,29 @@ public class UserResource {
 
     @Inject
     private UserService userService;
+    private final GsonBuilder gson = new GsonBuilder().serializeNulls();
 
     @GET
     @Path("{id}")
-    public String findUser(@PathParam("id") Long id) {
-        GetSingleResponse<UserDTO> response = new GetSingleResponse<>(false);
+    public Response findUser(@PathParam("id") Long id) {
+        GetSingleResponse<UserDTO> response = new GetSingleResponse<>();
         try {
             response.setRecord(new UserDTO(userService.findUser(id)));
             response.setSuccess(true);
         } catch (NonExistingUserException ex) {
             response.addMessage("De gebruiker bestaat niet.");
+            return Response.status(Response.Status.BAD_REQUEST).entity(gson.create().toJson(response)).build();
         } catch (InvalidIdException ex) {
             response.addMessage("Opgegeven id is ongeldig.");
+            return Response.status(Response.Status.BAD_REQUEST).entity(gson.create().toJson(response)).build();
         }
 
-        return new Gson().toJson(response);
+        return Response.ok(gson.create().toJson(response)).build();
     }
 
     @GET
-    public String getAllUsers() {
-        GetMultipleResponse<UserDTO> response = new GetMultipleResponse<>(false);
+    public Response getAllUsers() {
+        GetMultipleResponse<UserDTO> response = new GetMultipleResponse<>();
         List<UserDTO> users = new ArrayList<>();
         try {
             for(int i = 0; i < userService.getAll().size(); i++){
@@ -69,87 +74,100 @@ public class UserResource {
             response.setSuccess(true);
         } catch (EmptyListException ex) {
             response.addMessage("Er zijn geen gebruikers gevonden.");
+            return Response.status(Response.Status.BAD_REQUEST).entity(gson.create().toJson(response)).build();
         }
 
-        return new Gson().toJson(response);
+        return Response.ok(gson.create().toJson(response)).build();
     }
 
     @PUT
     @Path("follow/{userId}/{followingId}")
-    public String followUser(@PathParam("userId") Long userId, @PathParam("followingId") Long followingId) {
-        UpdateResponse<Long> response = new UpdateResponse<>(false);
+    public Response followUser(@PathParam("userId") Long userId, @PathParam("followingId") Long followingId) {
+        UpdateResponse<Long> response = new UpdateResponse<>();
         try {
             userService.followUser(userId, followingId);
             response.setSuccess(true);
         } catch (FollowingException ex) {
             response.addMessage("U volgt deze gebruiker al.");
+            return Response.status(Response.Status.BAD_REQUEST).entity(gson.create().toJson(response)).build();
         } catch (NonExistingUserException ex) {
             response.addMessage("De gebruiker bestaat niet.");
+            return Response.status(Response.Status.BAD_REQUEST).entity(gson.create().toJson(response)).build();
         } catch (InvalidIdException ex) {
             response.addMessage("Opgegeven id is ongeldig.");
+            return Response.status(Response.Status.BAD_REQUEST).entity(gson.create().toJson(response)).build();
         }
 
-        return new Gson().toJson(response);
+        return Response.ok(gson.create().toJson(response)).build();
     }
 
     @PUT
     @Path("unfollow/{userId}/{unfollowId}")
-    public String unfollowUser(@PathParam("userId") Long userId, @PathParam("unfollowId") Long unfollowId) {
-        UpdateResponse<User> response = new UpdateResponse<>(false);
+    public Response unfollowUser(@PathParam("userId") Long userId, @PathParam("unfollowId") Long unfollowId) {
+        UpdateResponse<User> response = new UpdateResponse<>();
         try {
             userService.unfollowUser(userId, unfollowId);
             response.setSuccess(true);
         } catch (UnfollowingException ex) {
             response.addMessage("U volgt deze gebruiker niet.");
+            return Response.status(Response.Status.BAD_REQUEST).entity(gson.create().toJson(response)).build();
         } catch (NonExistingUserException ex) {
             response.addMessage("De gebruiker bestaat niet.");
+            return Response.status(Response.Status.BAD_REQUEST).entity(gson.create().toJson(response)).build();
         } catch (InvalidIdException ex) {
             response.addMessage("Opgegeven id is ongeldig.");
+            return Response.status(Response.Status.BAD_REQUEST).entity(gson.create().toJson(response)).build();
         }
 
-        return new Gson().toJson(response);
+        return Response.ok(gson.create().toJson(response)).build();
     }
 
     @PUT
     @Path("changeUsername/{id}/{newName}")
-    public String changeUsername(@PathParam("id") Long id, @PathParam("newName") String newName) {
-        UpdateResponse<User> response = new UpdateResponse<>(false);
+    public Response changeUsername(@PathParam("id") Long id, @PathParam("newName") String newName) {
+        UpdateResponse<User> response = new UpdateResponse<>();
         try {
             userService.changeUsername(id, newName);
             response.setSuccess(true);
         } catch (InvalidIdException ex) {
             response.addMessage("Het opgegeven id is ongeldig.");
+            return Response.status(Response.Status.BAD_REQUEST).entity(gson.create().toJson(response)).build();
         } catch (InvalidNameException ex) {
             response.addMessage("De opgegeven naam is ongeldig.");
+            return Response.status(Response.Status.BAD_REQUEST).entity(gson.create().toJson(response)).build();
         } catch (NonExistingUserException ex) {
             response.addMessage("De gebruiker bestaat niet.");
+            return Response.status(Response.Status.BAD_REQUEST).entity(gson.create().toJson(response)).build();
         }
 
-        return new Gson().toJson(response);
+        return Response.ok(gson.create().toJson(response)).build();
     }
 
     @PUT
     @Path("changeBio/{id}/{newBio}")
-    public String changeBio(@PathParam("id") Long id, @PathParam("newBio") String newBio) {
-        UpdateResponse<User> response = new UpdateResponse<>(false);
+    public Response changeBio(@PathParam("id") Long id, @PathParam("newBio") String newBio) {
+        UpdateResponse<User> response = new UpdateResponse<>();
         try {
             userService.changeBio(id, newBio);
             response.setSuccess(true);
         } catch (InvalidIdException ex) {
             response.addMessage("Het opgegeven id is ongeldig.");
+            return Response.status(Response.Status.BAD_REQUEST).entity(gson.create().toJson(response)).build();
         } catch (InvalidNameException ex) {
             response.addMessage("De opgegeven bio is ongeldig.");
+            return Response.status(Response.Status.BAD_REQUEST).entity(gson.create().toJson(response)).build();
         } catch (NonExistingUserException ex) {
             response.addMessage("De gebruiker bestaat niet.");
+            return Response.status(Response.Status.BAD_REQUEST).entity(gson.create().toJson(response)).build();
         }
 
-        return new Gson().toJson(response);
+        return Response.ok(gson.create().toJson(response)).build();
     }
 
     @GET
     @Path("followers/{id}")
-    public String getFollowers(@PathParam("id") Long id) {
-        GetMultipleResponse<UserDTO> response = new GetMultipleResponse<>(false);
+    public Response getFollowers(@PathParam("id") Long id) {
+        GetMultipleResponse<UserDTO> response = new GetMultipleResponse<>();
         List<UserDTO> followers = new ArrayList<>();
         try {
             for(int i = 0; i < userService.getFollowers(id).size(); i++){
@@ -159,19 +177,22 @@ public class UserResource {
             response.setSuccess(true);
         } catch (NonExistingUserException ex) {
             response.addMessage("De gebruiker bestaat niet.");
+            return Response.status(Response.Status.BAD_REQUEST).entity(gson.create().toJson(response)).build();
         } catch (EmptyListException ex) {
             response.addMessage("U heeft geen volgers.");
+            return Response.status(Response.Status.BAD_REQUEST).entity(gson.create().toJson(response)).build();
         } catch (InvalidIdException ex) {
             response.addMessage("Opgegeven id is ongeldig.");
+            return Response.status(Response.Status.BAD_REQUEST).entity(gson.create().toJson(response)).build();
         }
 
-        return new Gson().toJson(response);
+        return Response.ok(gson.create().toJson(response)).build();
     }
 
     @GET
     @Path("following/{id}")
-    public String getFollowing(@PathParam("id") Long id) {
-        GetMultipleResponse<UserDTO> response = new GetMultipleResponse<>(false);
+    public Response getFollowing(@PathParam("id") Long id) {
+        GetMultipleResponse<UserDTO> response = new GetMultipleResponse<>();
         List<UserDTO> following = new ArrayList<>();
         try {
             for(int i = 0; i < userService.getFollowing(id).size(); i++){
@@ -181,40 +202,45 @@ public class UserResource {
             response.setSuccess(true);
         } catch (NonExistingUserException ex) {
             response.addMessage("De gebruiker bestaat niet.");
+            return Response.status(Response.Status.BAD_REQUEST).entity(gson.create().toJson(response)).build();
         } catch (EmptyListException ex) {
             response.addMessage("U heeft geen volgers.");
+            return Response.status(Response.Status.BAD_REQUEST).entity(gson.create().toJson(response)).build();
         } catch (InvalidIdException ex) {
             response.addMessage("Opgegeven id is ongeldig.");
+            return Response.status(Response.Status.BAD_REQUEST).entity(gson.create().toJson(response)).build();
         }
 
-        return new Gson().toJson(response);
+        return Response.ok(gson.create().toJson(response)).build();
     }
 
     @GET
     @Path("followeramount/{id}")
-    public String getFollowerAmount(@PathParam("id") Long id) {
-        GetSingleResponse<Integer> response = new GetSingleResponse<>(false);
+    public Response getFollowerAmount(@PathParam("id") Long id) {
+        GetSingleResponse<Integer> response = new GetSingleResponse<>();
         try {
             response.setRecord(userService.getFollowerAmount(id));
             response.setSuccess(true);
         } catch (InvalidAmountException ex) {
             response.addMessage("U heeft geen volgers.");
+            return Response.status(Response.Status.BAD_REQUEST).entity(gson.create().toJson(response)).build();
         }
 
-        return new Gson().toJson(response);
+        return Response.ok(gson.create().toJson(response)).build();
     }
 
     @GET
     @Path("followingamount/{id}")
-    public String getFollowingAmount(@PathParam("id") Long id) {
-        GetSingleResponse<Integer> response = new GetSingleResponse<>(false);
+    public Response getFollowingAmount(@PathParam("id") Long id) {
+        GetSingleResponse<Integer> response = new GetSingleResponse<>();
         try {
             response.setRecord(userService.getFollowingAmount(id));
             response.setSuccess(true);
         } catch (InvalidAmountException ex) {
             response.addMessage("U volgt niemand.");
+            return Response.status(Response.Status.BAD_REQUEST).entity(gson.create().toJson(response)).build();
         }
 
-        return new Gson().toJson(response);
+        return Response.ok(gson.create().toJson(response)).build();
     }
 }

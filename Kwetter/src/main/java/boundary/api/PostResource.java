@@ -10,7 +10,7 @@ import boundary.api.response.CreateResponse;
 import boundary.api.response.DeleteResponse;
 import boundary.api.response.GetMultipleResponse;
 import boundary.api.response.GetSingleResponse;
-import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import dao.exceptions.EmptyListException;
 import dao.exceptions.NonExistingEntryException;
 import java.util.ArrayList;
@@ -22,6 +22,9 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import service.PostService;
 import service.exceptions.InvalidIdException;
 import service.exceptions.InvalidNameException;
@@ -39,26 +42,31 @@ public class PostResource {
 
     @Inject
     private PostService postService;
+    private final GsonBuilder gson = new GsonBuilder().serializeNulls();
 
     @GET
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("{id}")
-    public String findPost(@PathParam("id") Long id) {
-        GetSingleResponse<PostDTO> response = new GetSingleResponse<>(false);
+    public Response findPost(@PathParam("id") Long id) {
+        GetSingleResponse<PostDTO> response = new GetSingleResponse<>();
         try {
             response.setRecord(new PostDTO(postService.findPost(id)));
             response.setSuccess(true);
         } catch (NonExistingPostException ex) {
             response.addMessage("De post bestaat niet.");
+            return Response.status(Response.Status.BAD_REQUEST).entity(gson.create().toJson(response)).build();
         } catch (InvalidIdException ex) {
             response.addMessage("Opgegeven id is ongeldig.");
+            return Response.status(Response.Status.BAD_REQUEST).entity(gson.create().toJson(response)).build();
         }
 
-        return new Gson().toJson(response);
+        return Response.ok(gson.create().toJson(response)).build();
     }
 
     @GET
-    public String getAllPosts() {
-        GetMultipleResponse<PostDTO> response = new GetMultipleResponse<>(false);
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAllPosts() {
+        GetMultipleResponse<PostDTO> response = new GetMultipleResponse<>();
         List<PostDTO> posts = new ArrayList<>();
         try {
             for(int i = 0; i < postService.getAll().size(); i++){
@@ -68,30 +76,35 @@ public class PostResource {
             response.setSuccess(true);
         } catch (EmptyListException ex) {
             response.addMessage("Er zijn geen posts gevonden.");
+            return Response.status(Response.Status.BAD_REQUEST).entity(gson.create().toJson(response)).build();
         }
-        return new Gson().toJson(response);
+        return Response.ok(gson.create().toJson(response)).build();
     }
 
     @DELETE
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("delete/{id}")
-    public String deletePost(@PathParam("id") Long id) {
-        DeleteResponse<Long> response = new DeleteResponse<>(false);
+    public Response deletePost(@PathParam("id") Long id) {
+        DeleteResponse<Long> response = new DeleteResponse<>();
         try {
             postService.deletePost(id);
             response.setSuccess(true);
         } catch (NonExistingEntryException ex) {
             response.addMessage("Post bestaat niet.");
+            return Response.status(Response.Status.BAD_REQUEST).entity(gson.create().toJson(response)).build();
         } catch (InvalidIdException ex) {
             response.addMessage("Opgegeven id is ongeldig.");
+            return Response.status(Response.Status.BAD_REQUEST).entity(gson.create().toJson(response)).build();
         }
 
-        return new Gson().toJson(response);
+        return Response.ok(gson.create().toJson(response)).build();
     }
 
     @GET
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("latest/{userId}")
-    public String getLatestPosts(@PathParam("userId") Long userId) {
-        GetMultipleResponse<PostDTO> response = new GetMultipleResponse<>(false);
+    public Response getLatestPosts(@PathParam("userId") Long userId) {
+        GetMultipleResponse<PostDTO> response = new GetMultipleResponse<>();
         List<PostDTO> latestPosts = new ArrayList<>();
         try {
             for(int i = 0; i < postService.getLatestPosts(userId).size(); i++){
@@ -101,14 +114,16 @@ public class PostResource {
             response.setSuccess(true);
         } catch (EmptyListException ex) {
             response.addMessage("Er zijn geen posts gevonden.");
+            return Response.status(Response.Status.BAD_REQUEST).entity(gson.create().toJson(response)).build();
         }
-        return new Gson().toJson(response);
+        return Response.ok(gson.create().toJson(response)).build();
     }
 
     @GET
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("timeline/{userId}")
-    public String getTimeline(@PathParam("userId") Long userId) {
-        GetMultipleResponse<PostDTO> response = new GetMultipleResponse<>(false);
+    public Response getTimeline(@PathParam("userId") Long userId) {
+        GetMultipleResponse<PostDTO> response = new GetMultipleResponse<>();
         List<PostDTO> posts = new ArrayList<>();
         try {
             for(int i = 0; i < postService.getTimeline(userId).size(); i++){
@@ -118,14 +133,16 @@ public class PostResource {
             response.setSuccess(true);
         } catch (EmptyListException ex) {
             response.addMessage("Er zijn geen posts gevonden.");
+            return Response.status(Response.Status.BAD_REQUEST).entity(gson.create().toJson(response)).build();
         }
-        return new Gson().toJson(response);
+         return Response.ok(gson.create().toJson(response)).build();
     }
 
     @GET
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("find/{tags}")
-    public String findPosts(@PathParam("tags") String tags) {
-        GetMultipleResponse<PostDTO> response = new GetMultipleResponse<>(false);
+    public Response findPosts(@PathParam("tags") String tags) {
+        GetMultipleResponse<PostDTO> response = new GetMultipleResponse<>();
         List<PostDTO> posts = new ArrayList<>();
         try {
             for(int i = 0; i < postService.findPosts(tags).size(); i++){
@@ -135,48 +152,60 @@ public class PostResource {
             response.setSuccess(true);
         } catch (EmptyListException ex) {
             response.addMessage("Er zijn geen posts gevonden.");
+            return Response.status(Response.Status.BAD_REQUEST).entity(gson.create().toJson(response)).build();
         } catch (InvalidNameException ex) {
             response.addMessage("Opgegeven id is ongeldig.");
+            return Response.status(Response.Status.BAD_REQUEST).entity(gson.create().toJson(response)).build();
         }
         
-        return new Gson().toJson(response);
+         return Response.ok(gson.create().toJson(response)).build();
     }
     
     @PUT
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("like/{postId}/{userId}")
-    public String likePost(@PathParam("postId") Long postId, @PathParam("userId")Long userId){
-        CreateResponse<Long> response = new CreateResponse<>(false);
+    public Response likePost(@PathParam("postId") Long postId, @PathParam("userId")Long userId){
+        CreateResponse<Long> response = new CreateResponse<>();
         try {
             postService.likePost(postId, userId);
             response.setSuccess(true);
         } catch (InvalidIdException ex) {
             response.addMessage("Opgegeven id is ongeldig.");
+            return Response.status(Response.Status.BAD_REQUEST).entity(gson.create().toJson(response)).build();
         } catch (NonExistingUserException ex) {
             response.addMessage("Opgegeven user bestaat niet.");
+            return Response.status(Response.Status.BAD_REQUEST).entity(gson.create().toJson(response)).build();
         } catch (NonExistingPostException ex) {
             response.addMessage("Opgegeven post bestaat niet.");
+            return Response.status(Response.Status.BAD_REQUEST).entity(gson.create().toJson(response)).build();
         } catch (LikePostException ex) {
             response.addMessage("U heeft de post al geliked.");
+            return Response.status(Response.Status.BAD_REQUEST).entity(gson.create().toJson(response)).build();
         }
-        return new Gson().toJson(response);
+         return Response.ok(gson.create().toJson(response)).build();
     }
     
     @PUT
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("unlike/{postId}/{userId}")
-    public String unlikePost(@PathParam("postId") Long postId, @PathParam("userId")Long userId){
-        CreateResponse<Long> response = new CreateResponse<>(false);
+    public Response unlikePost(@PathParam("postId") Long postId, @PathParam("userId")Long userId){
+        CreateResponse<Long> response = new CreateResponse<>();
         try {
             postService.unlikePost(postId, userId);
             response.setSuccess(true);
         } catch (InvalidIdException ex) {
             response.addMessage("Opgegeven id is ongeldig.");
+            return Response.status(Response.Status.BAD_REQUEST).entity(gson.create().toJson(response)).build();
         } catch (NonExistingUserException ex) {
             response.addMessage("Opgegeven user bestaat niet.");
+            return Response.status(Response.Status.BAD_REQUEST).entity(gson.create().toJson(response)).build();
         } catch (NonExistingPostException ex) {
             response.addMessage("Opgegeven post bestaat niet.");
+            return Response.status(Response.Status.BAD_REQUEST).entity(gson.create().toJson(response)).build();
         } catch (LikePostException ex) {
             response.addMessage("U heeft deze post nog niet geliked.");
+            return Response.status(Response.Status.BAD_REQUEST).entity(gson.create().toJson(response)).build();
         }
-        return new Gson().toJson(response);
+         return Response.ok(gson.create().toJson(response)).build();
     } 
 }

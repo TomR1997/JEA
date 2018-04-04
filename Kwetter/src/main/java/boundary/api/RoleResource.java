@@ -9,6 +9,7 @@ import boundary.api.dto.RoleDTO;
 import boundary.api.response.CreateResponse;
 import boundary.api.response.GetSingleResponse;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import domain.Role;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -16,6 +17,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.core.Response;
 import service.RoleService;
 import service.exceptions.NonExistingRoleException;
 
@@ -28,18 +30,20 @@ import service.exceptions.NonExistingRoleException;
 public class RoleResource {
     @Inject
     private RoleService roleService;
+    private final GsonBuilder gson = new GsonBuilder().serializeNulls();
     
     @GET
     @Path("{name}")
-    public String findRole(@PathParam("name") String name){
-        GetSingleResponse<RoleDTO> response = new GetSingleResponse<>(false);
+    public Response findRole(@PathParam("name") String name){
+        GetSingleResponse<RoleDTO> response = new GetSingleResponse<>();
         try {
             response.setRecord(new RoleDTO(roleService.findRole(name)));
             response.setSuccess(true);
         } catch (NonExistingRoleException ex) {
             response.addMessage("De opgegeven rol bestaat niet.");
+            return Response.status(Response.Status.BAD_REQUEST).entity(gson.create().toJson(response)).build();
         }
         
-        return new Gson().toJson(response);
+        return Response.ok(gson.create().toJson(response)).build();
     }
 }
