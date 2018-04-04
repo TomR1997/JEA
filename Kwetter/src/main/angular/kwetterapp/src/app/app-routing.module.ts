@@ -7,7 +7,7 @@ import { HomePageComponent } from './home-page/home-page.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/homepage', pathMatch: 'full' },
-  { path: 'profile', component: ProfilePageComponent },
+  { path: 'profile/:id', component: ProfilePageComponent },
   { path: 'homepage', component: HomePageComponent }
 ];
 

@@ -24,7 +24,7 @@ export class PostService {
     }
     
     getLatestPosts(id: number): Observable<Post[]>{
-        const url = this.baseUrl + this.postURL, id;
+        const url = this.baseUrl + this.postURL + '/latest/'+ id;
         return this.http.get<Post[]>(url)
             .pipe(
                 tap(heroes => this.log('fetched posts')),

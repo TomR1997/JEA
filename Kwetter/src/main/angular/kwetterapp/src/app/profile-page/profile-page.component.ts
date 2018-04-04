@@ -18,9 +18,7 @@ export class ProfilePageComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.getAllPosts();
-        this.getAllUsers();
-        this.getLatestPosts();
+        this.getLatestPosts(1);
     }
 
     getAllPosts(): void {
@@ -33,8 +31,8 @@ export class ProfilePageComponent implements OnInit {
             .subscribe(data => this.users = data.Records);
     }
     
-    getLatestPosts(): void {
-        this.postService.getLatestPosts()
+    getLatestPosts(id: number): void {
+        this.postService.getLatestPosts(id)
             .subscribe(data => this.latestPosts = data.Records);
     }
 }
