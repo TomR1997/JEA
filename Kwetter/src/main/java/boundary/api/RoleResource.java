@@ -6,17 +6,15 @@
 package boundary.api;
 
 import boundary.api.dto.RoleDTO;
-import boundary.api.response.CreateResponse;
 import boundary.api.response.GetSingleResponse;
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import domain.Role;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import service.RoleService;
 import service.exceptions.NonExistingRoleException;
@@ -33,6 +31,7 @@ public class RoleResource {
     private final GsonBuilder gson = new GsonBuilder().serializeNulls();
     
     @GET
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("{name}")
     public Response findRole(@PathParam("name") String name){
         GetSingleResponse<RoleDTO> response = new GetSingleResponse<>();

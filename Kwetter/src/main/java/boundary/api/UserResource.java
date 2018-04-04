@@ -6,11 +6,9 @@
 package boundary.api;
 
 import boundary.api.dto.UserDTO;
-import boundary.api.response.CreateResponse;
 import boundary.api.response.GetMultipleResponse;
 import boundary.api.response.GetSingleResponse;
 import boundary.api.response.UpdateResponse;
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dao.exceptions.EmptyListException;
 import domain.User;
@@ -19,10 +17,11 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import service.UserService;
 import service.exceptions.FollowingException;
@@ -45,6 +44,7 @@ public class UserResource {
     private final GsonBuilder gson = new GsonBuilder().serializeNulls();
 
     @GET
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("{id}")
     public Response findUser(@PathParam("id") Long id) {
         GetSingleResponse<UserDTO> response = new GetSingleResponse<>();
@@ -63,6 +63,7 @@ public class UserResource {
     }
 
     @GET
+    @Produces(MediaType.APPLICATION_JSON)
     public Response getAllUsers() {
         GetMultipleResponse<UserDTO> response = new GetMultipleResponse<>();
         List<UserDTO> users = new ArrayList<>();
@@ -81,6 +82,7 @@ public class UserResource {
     }
 
     @PUT
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("follow/{userId}/{followingId}")
     public Response followUser(@PathParam("userId") Long userId, @PathParam("followingId") Long followingId) {
         UpdateResponse<Long> response = new UpdateResponse<>();
@@ -102,6 +104,7 @@ public class UserResource {
     }
 
     @PUT
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("unfollow/{userId}/{unfollowId}")
     public Response unfollowUser(@PathParam("userId") Long userId, @PathParam("unfollowId") Long unfollowId) {
         UpdateResponse<User> response = new UpdateResponse<>();
@@ -123,6 +126,7 @@ public class UserResource {
     }
 
     @PUT
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("changeUsername/{id}/{newName}")
     public Response changeUsername(@PathParam("id") Long id, @PathParam("newName") String newName) {
         UpdateResponse<User> response = new UpdateResponse<>();
@@ -144,6 +148,7 @@ public class UserResource {
     }
 
     @PUT
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("changeBio/{id}/{newBio}")
     public Response changeBio(@PathParam("id") Long id, @PathParam("newBio") String newBio) {
         UpdateResponse<User> response = new UpdateResponse<>();
@@ -165,6 +170,7 @@ public class UserResource {
     }
 
     @GET
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("followers/{id}")
     public Response getFollowers(@PathParam("id") Long id) {
         GetMultipleResponse<UserDTO> response = new GetMultipleResponse<>();
@@ -190,6 +196,7 @@ public class UserResource {
     }
 
     @GET
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("following/{id}")
     public Response getFollowing(@PathParam("id") Long id) {
         GetMultipleResponse<UserDTO> response = new GetMultipleResponse<>();
@@ -215,6 +222,7 @@ public class UserResource {
     }
 
     @GET
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("followeramount/{id}")
     public Response getFollowerAmount(@PathParam("id") Long id) {
         GetSingleResponse<Integer> response = new GetSingleResponse<>();
@@ -230,6 +238,7 @@ public class UserResource {
     }
 
     @GET
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("followingamount/{id}")
     public Response getFollowingAmount(@PathParam("id") Long id) {
         GetSingleResponse<Integer> response = new GetSingleResponse<>();
