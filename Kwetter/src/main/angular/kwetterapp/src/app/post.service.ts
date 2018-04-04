@@ -32,41 +32,6 @@ export class PostService {
             );
     }
 
-    newPriceCategory(price: PriceCategory) {
-        this.http.post(this.baseUrl + this.pricesCategoriesUrl, price
-            , {responseType: 'text'}).subscribe(
-                data => console.log(data)
-        );
-    }
-
-    newLocationPrice(price: LocationPrice): Observable<string> {
-        return this.http.post(this.baseUrl + this.locationpricesUrl, price
-            , { responseType: 'text' });
-    }
-
-    changePriceCategory(price: PriceCategory) {
-        const url = this.baseUrl + this.pricesCategoriesUrl;
-        const headers = { 'Content-Type': 'application/json' };
-        this.http.put(url, JSON.stringify(price), {responseType: 'text', headers: headers})
-            .subscribe( data => {console.log(data); });
-    }
-
-    changeLocationPrice(price: LocationPrice) {
-        const url = this.baseUrl + this.locationpricesUrl;
-        const headers = { 'Content-Type': 'application/json' };
-        this.http.put(url, JSON.stringify(price), {responseType: 'text', headers: headers})
-            .subscribe( data => {console.log(data); });
-    }
-
-    getAllPriceCategories(): Observable<any[]> {
-        const url = this.baseUrl + this.pricesCategoriesUrl;
-        return this.http.get<any[]>(url)
-            .pipe(
-                tap(heroes => this.log(`fetched prices`)),
-                catchError(this.handleError('getUserByName', []))
-            );
-    }
-
     private handleError<T>(operation = 'operation', result?: T) {
         return (error: any): Observable<T> => {
 

@@ -13,12 +13,14 @@ export class ProfilePageComponent implements OnInit {
     posts: Post[];
     users: User[];
     latestPosts: Post[];
+    user: User;
 
     constructor(private postService: PostService, private userService: UserService) { 
     }
 
     ngOnInit() {
         this.getLatestPosts(1);
+        this.findUser(1);
     }
 
     getAllPosts(): void {
@@ -34,5 +36,10 @@ export class ProfilePageComponent implements OnInit {
     getLatestPosts(id: number): void {
         this.postService.getLatestPosts(id)
             .subscribe(data => this.latestPosts = data.Records);
+    }
+    
+    findUser(id: number): void {
+        this.userService.findUser(id)
+            .subscribe(data => this.user = data.Record);
     }
 }

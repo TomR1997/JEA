@@ -22,6 +22,11 @@ export class UserService {
                 catchError(this.handleError('getAllUsers', []))
             );
     }
+    
+    findUser(id: number): any {
+        const url = this.baseUrl + this.userURL + '/'+ id;
+        return this.http.get<User>(url);
+    }
 
     private handleError<T>(operation = 'operation', result?: T) {
         return (error: any): Observable<T> => {
