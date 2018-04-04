@@ -14,14 +14,6 @@ import java.util.List;
 public class UpdateResponse<T> extends ResponseBase {
     private T Record;
     
-    public UpdateResponse(boolean success, List<String> messages) {
-        super(success, messages);
-    }
-
-    public UpdateResponse(boolean success) {
-        super(success);
-    }
-
     public T getRecord() {
         return Record;
     }

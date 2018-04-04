@@ -12,13 +12,23 @@ import java.util.List;
  * @author Tomt
  */
 public class CreateResponse<T> extends ResponseBase {
-    
-    public CreateResponse(boolean success, List<String> messages) {
-        super(success, messages);
+    private T Record;
+    private List<T> Records;
+
+    public List<T> getRecords() {
+        return Records;
     }
 
-    public CreateResponse(boolean success) {
-        super(success);
+    public void setRecords(List<T> Records) {
+        this.Records = Records;
+    }
+
+    public T getRecord() {
+        return Record;
+    }
+
+    public void setRecord(T Record) {
+        this.Record = Record;
     }
     
 }

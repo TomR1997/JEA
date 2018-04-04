@@ -14,14 +14,6 @@ import java.util.List;
 public class GetMultipleResponse<T> extends ResponseBase {
     private List<T> Records;
 
-    public GetMultipleResponse(boolean success, List<String> messages) {
-        super(success, messages);
-    }
-
-    public GetMultipleResponse(boolean success) {
-        super(success);
-    }
-
     public List<T> getRecords() {
         return Records;
     }

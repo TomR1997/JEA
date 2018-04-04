@@ -10,7 +10,7 @@ import java.util.List;
 public class ResponseBase {
     private boolean success;
     private List<String> messages;
-
+    
     public ResponseBase(boolean success, List<String> messages) {
         this.success = success;
         this.messages = new ArrayList<>();
@@ -18,6 +18,11 @@ public class ResponseBase {
 
     public ResponseBase(boolean success) {
         this.success = success;
+        this.messages = new ArrayList<>();
+    }
+    
+    public ResponseBase(){
+        this.success = false;
         this.messages = new ArrayList<>();
     }
     

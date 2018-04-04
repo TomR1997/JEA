@@ -14,10 +14,6 @@ import java.util.List;
 public class DeleteResponse<T> extends ResponseBase {
     private T Record;
 
-    public DeleteResponse(boolean success, List<String> messages) {
-        super(success, messages);
-    }
-
     public T getRecord() {
         return Record;
     }
@@ -25,9 +21,6 @@ public class DeleteResponse<T> extends ResponseBase {
     public void setRecord(T Record) {
         this.Record = Record;
     }
-
-    public DeleteResponse(boolean success) {
-        super(success);
-    }
+     
      
 }

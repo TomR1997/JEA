@@ -5,23 +5,13 @@
  */
 package boundary.api.response;
 
-import java.util.List;
-
 /**
  *
  * @author Tomt
  */
-  
 public class GetSingleResponse<T> extends ResponseBase {
-    private T Record;
 
-    public GetSingleResponse(boolean success) {
-        super(success);
-    }
-    
-    public GetSingleResponse(boolean success, List<String> messages) {
-        super(success, messages);
-    }
+    private T Record;
 
     public T getRecord() {
         return Record;
@@ -30,5 +20,5 @@ public class GetSingleResponse<T> extends ResponseBase {
     public void setRecord(T Record) {
         this.Record = Record;
     }
-    
+
 }
