@@ -10,6 +10,7 @@ import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import { HeaderBarComponent } from './header-bar/header-bar.component';
 import { PostService } from './post.service';
+import { UserService } from './user.service';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { PostService } from './post.service';
         HttpClientModule
   ],
   providers: [
-      PostService
+      PostService,
+      UserService
   ],
   bootstrap: [AppComponent]
 })

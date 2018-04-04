@@ -18,8 +18,17 @@ export class PostService {
         const url = this.baseUrl + this.postURL;
         return this.http.get<Post[]>(url)
             .pipe(
-                tap(heroes => this.log(`fetched posts`)),
+                tap(heroes => this.log('fetched posts')),
                 catchError(this.handleError('getAllPosts', []))
+            );
+    }
+    
+    getLatestPosts(id: number): Observable<Post[]>{
+        const url = this.baseUrl + this.postURL, id;
+        return this.http.get<Post[]>(url)
+            .pipe(
+                tap(heroes => this.log('fetched posts')),
+                catchError(this.handleError('getLatestPosts', []))
             );
     }
 
