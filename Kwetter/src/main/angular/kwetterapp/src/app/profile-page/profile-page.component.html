@@ -1,21 +1,25 @@
-<div>
-    <h3>Your tweets</h3>
-    <table *ngIf="latestPosts">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Message</th>
-                <th>Message sent</th>
-                <th>Owner</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let post of latestPosts; let i = index">
-                <td>{{post.id}}</td>
-                <td>{{post.message}}</td>
-                <td>{{post.messageSent}}</td>
-                <td>{{post.owner.username}}</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+<app-header-bar></app-header-bar>
+<br>
+<mat-card>
+    <div>
+        <h3>Your tweets</h3>
+        <table *ngIf="latestPosts">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Message</th>
+                    <th>Message sent</th>
+                    <th>Owner</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let post of latestPosts; let i = index">
+                    <td>{{post.id}}</td>
+                    <td>{{post.message}}</td>
+                    <td>{{post.messageSent}}</td>
+                    <td>{{post.owner.username}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</mat-card>
