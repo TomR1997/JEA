@@ -9,13 +9,13 @@ import { User } from './models/user'
 export class UserService {
 
     private baseUrl = 'http://localhost:8080/Kwetter/api/';
-    private userURL = 'users';
+    private userUrl = 'users';
 
     constructor(private http: HttpClient) {
     }
 
     getAllUsers(): Observable<User[]> {
-        const url = this.baseUrl + this.userURL;
+        const url = this.baseUrl + this.userUrl;
         return this.http.get<User[]>(url)
             .pipe(
                 tap(heroes => this.log('fetched users')),
@@ -24,9 +24,38 @@ export class UserService {
     }
     
     findUser(id: number): any {
-        const url = this.baseUrl + this.userURL + '/'+ id;
+        const url = this.baseUrl + this.userUrl + '/'+ id;
         return this.http.get<User>(url);
     }
+    
+    getFollowing(id: number): Observable<User[]> {
+        const url = this.baseUrl + this.userUrl + '/following/' + id;
+        return this.http.get<User[]>(url)
+            .pipe(
+                tap(heroes => this.log('fetched following')),
+                catchError(this.handleError('getFollowing', []))
+            );
+    }
+    
+    getFollowers(id: number): Observable<User[]> {
+        const url = this.baseUrl + this.userUrl + '/followers/' + id;
+        return this.http.get<User[]>(url)
+            .pipe(
+                tap(heroes => this.log('fetched followers')),
+                catchError(this.handleError('getFollowers', []))
+            );
+    }
+    
+    getFollowerAmount(id: number): any {
+        const url = this.baseUrl + this.userUrl + '/followerAmount/' + id;
+        return this.http.get<number>(url);
+    }
+    
+    getFollowingAmount(id: number): any {
+        const url = this.baseUrl + this.userUrl + '/followingAmount/' + id;
+        return this.http.get<number>(url);
+    }
+
 
     private handleError<T>(operation = 'operation', result?: T) {
         return (error: any): Observable<T> => {

@@ -23,3 +23,29 @@
         </table>
     </div>
 </mat-card>
+<br>
+<br>
+<mat-card>
+    <div>
+        <h3>Details</h3>
+        <mat-list>
+            <mat-list-item>Username: {{user.username}}</mat-list-item>    
+            <mat-divider></mat-divider>
+            <mat-list-item>Name: {{user.name}}</mat-list-item>    
+            <mat-divider></mat-divider>
+            <mat-list-item>Location: {{user.location}}</mat-list-item>    
+            <mat-divider></mat-divider>
+        </mat-list>
+    </div>
+</mat-card>
+<br>
+<br>
+<mat-card>
+    <h3>Following</h3>
+    <mat-list>
+        <mat-list *ngFor="let user of following; let i = index">
+            <mat-list-item>Username: {{user.username}}</mat-list-item>    
+            <mat-divider></mat-divider>
+        </mat-list>
+    </mat-list>
+</mat-card>

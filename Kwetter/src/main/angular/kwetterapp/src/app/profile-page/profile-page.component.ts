@@ -14,6 +14,9 @@ export class ProfilePageComponent implements OnInit {
     users: User[];
     latestPosts: Post[];
     user: User;
+    followerAmount: number = 0;
+    followingAmount: number = 0;
+    following: User[];
 
     constructor(private postService: PostService, private userService: UserService) { 
     }
@@ -21,6 +24,7 @@ export class ProfilePageComponent implements OnInit {
     ngOnInit() {
         this.getLatestPosts(1);
         this.findUser(1);
+        this.getFollowing(1);
     }
 
     getAllPosts(): void {
@@ -41,5 +45,25 @@ export class ProfilePageComponent implements OnInit {
     findUser(id: number): void {
         this.userService.findUser(id)
             .subscribe(data => this.user = data.Record);
+    }
+    
+    getFollowing(id: number): void {
+        this.userService.getFollowing(id)
+            .subscribe(data => this.following = data.Records);
+    }
+    
+    getFollowers(id: number): void {
+        this.userService.getFollowers(id)
+            .subscribe(data => this.followers = data.Records);
+    }
+    
+    getFollowerAmount(id: number): void{
+        this.userService.getFollowerAmount(id)
+            .subscribe(data => this.followerAmount = data.Record);
+    }
+    
+    getFollowingAmount(id: number): void{
+        this.userService.getFollowingAmount(id)
+            .subscribe(data => this.followingAmount = data.Record);
     }
 }
