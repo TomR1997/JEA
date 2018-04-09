@@ -8,3 +8,16 @@
   overflow: auto;
   max-width: 500px;
 }
+
+.left-component {
+    margin-right: 1rem;
+}
+
+.right-component {
+    margin-left: 1rem;
+}
+
+.home-container{
+    display: flex;
+    justify-content: center;
+}

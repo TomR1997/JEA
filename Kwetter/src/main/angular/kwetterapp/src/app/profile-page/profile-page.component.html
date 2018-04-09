@@ -1,43 +1,42 @@
-<app-header-bar></app-header-bar>
-<mat-card>
-    <div>
-        <h3>Your tweets</h3>
-        <table *ngIf="latestPosts">
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Message</th>
-                    <th>Message sent</th>
-                    <th>Owner</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let post of latestPosts; let i = index">
-                    <td>{{post.id}}</td>
-                    <td>{{post.message}}</td>
-                    <td>{{post.messageSent}}</td>
-                    <td>{{post.owner.username}}</td>
-                </tr>
-            </tbody>
-        </table>
+<div class="profile-container">
+    <div class="left-component">
+        <mat-card>
+            <div>
+                <h3>Your tweets</h3>
+                <table *ngIf="latestPosts">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Message</th>
+                            <th>Message sent</th>
+                            <th>Owner</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let post of latestPosts; let i = index">
+                            <td>{{post.id}}</td>
+                            <td>{{post.message}}</td>
+                            <td>{{post.messageSent}}</td>
+                            <td>{{post.owner.username}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </mat-card>
+        <app-following></app-following>
     </div>
-</mat-card>
-<br>
-<br>
-<mat-card>
-    <div>
-        <h3>Details</h3>
-        <mat-list>
-            <mat-list-item>Username: {{user.username}}</mat-list-item>    
-            <mat-divider></mat-divider>
-            <mat-list-item>Name: {{user.name}}</mat-list-item>    
-            <mat-divider></mat-divider>
-            <mat-list-item>Location: {{user.location}}</mat-list-item>    
-            <mat-divider></mat-divider>
-        </mat-list>
+    <div class="right-component">
+        <mat-card>
+            <h3>Details</h3>
+            <mat-list>
+                <mat-list-item>Username: {{user.username}}</mat-list-item>    
+                <mat-divider></mat-divider>
+                <mat-list-item>Name: {{user.name}}</mat-list-item>    
+                <mat-divider></mat-divider>
+                <mat-list-item>Location: {{user.location}}</mat-list-item>    
+                <mat-divider></mat-divider>
+            </mat-list>
+        </mat-card>
     </div>
-</mat-card>
-<br>
-<br>
-<app-following></app-following>
+</div>
 
