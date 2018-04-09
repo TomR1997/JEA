@@ -3,7 +3,7 @@
 }
 
 .header-bar {
-  background-color: lightskyblue;
+  background-color: white;
   height: auto;
   position: fixed;
   z-index: 2;
@@ -11,7 +11,7 @@
   padding-top: 10px;
   padding-bottom: 10px;
   font-size: 1em;
-  color :white;
+  color: #66757f;
 }
 
 button{
@@ -21,7 +21,7 @@ button{
   right:16px;
   position: absolute;
   font-size: 2em;
-  color :white;
+  color: #66757f;
 }
 
 button:focus{
