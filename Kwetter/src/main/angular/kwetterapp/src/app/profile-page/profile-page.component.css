@@ -17,13 +17,19 @@ body {
 
 .left-component {
     margin-right: 1rem;
+    margin-top: 1rem;
 }
 
 .right-component {
     margin-left: 1rem;
+    margin-top: 1rem;
 }
 
 .profile-container{
     display: flex;
     justify-content: center;
+}
+
+.component-item {
+  margin-bottom: 20px;  
 }

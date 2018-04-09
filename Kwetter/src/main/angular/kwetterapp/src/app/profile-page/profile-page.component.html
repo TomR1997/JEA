@@ -1,29 +1,33 @@
 <div class="profile-container">
     <div class="left-component">
-        <mat-card>
-            <div>
-                <h3>Your tweets</h3>
-                <table *ngIf="latestPosts">
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Message</th>
-                            <th>Message sent</th>
-                            <th>Owner</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let post of latestPosts; let i = index">
-                            <td>{{post.id}}</td>
-                            <td>{{post.message}}</td>
-                            <td>{{post.messageSent}}</td>
-                            <td>{{post.owner.username}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </mat-card>
-        <app-following></app-following>
+        <div class="component-item">
+            <mat-card>
+                <div>
+                    <h3>Your tweets</h3>
+                    <table *ngIf="latestPosts">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Message</th>
+                                <th>Message sent</th>
+                                <th>Owner</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let post of latestPosts; let i = index">
+                                <td>{{post.id}}</td>
+                                <td>{{post.message}}</td>
+                                <td>{{post.messageSent}}</td>
+                                <td>{{post.owner.username}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </mat-card>
+        </div>
+        <div class="component-item">
+            <app-following></app-following>
+        </div>
     </div>
     <div class="right-component">
         <mat-card>
