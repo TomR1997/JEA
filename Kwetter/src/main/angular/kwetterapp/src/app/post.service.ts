@@ -9,13 +9,13 @@ import { Post } from './models/post'
 export class PostService {
 
     private baseUrl = 'http://localhost:8080/Kwetter/api/';
-    private postURL = 'posts';
+    private postUrl = 'posts';
 
     constructor(private http: HttpClient) {
     }
 
     getAllPosts(): Observable<Post[]> {
-        const url = this.baseUrl + this.postURL;
+        const url = this.baseUrl + this.postUrl;
         return this.http.get<Post[]>(url)
             .pipe(
                 tap(heroes => this.log('fetched posts')),
@@ -24,24 +24,27 @@ export class PostService {
     }
     
     getLatestPosts(id: number): Observable<Post[]>{
-        const url = this.baseUrl + this.postURL + '/latest/'+ id;
+        const url = this.baseUrl + this.postUrl + '/latest/'+ id;
         return this.http.get<Post[]>(url)
             .pipe(
                 tap(heroes => this.log('fetched posts')),
                 catchError(this.handleError('getLatestPosts', []))
             );
     }
+    
+    getTimeline(id: number): Observable<Post[]>{
+        const url = this.baseUrl + this.postUrl + '/timeline/' + id;
+        return this.http.get<Post[]>(url)
+            .pipe(
+                tap(heroes => this.log('fetched timeline')),
+                catchError(this.handleError('getTimeline', []))
+            );
+    }
 
     private handleError<T>(operation = 'operation', result?: T) {
         return (error: any): Observable<T> => {
-
-            // TODO: send the error to remote logging infrastructure
             console.error(error); // log to console instead
-
-            // TODO: better job of transforming error for user consumption
             this.log(`${operation} failed: ${error.message}`);
-
-            // Let the app keep running by returning an empty result.
             return of(result as T);
         };
     }

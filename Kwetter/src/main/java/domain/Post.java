@@ -5,7 +5,6 @@
  */
 package domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -36,7 +35,7 @@ import javax.persistence.TemporalType;
 @NamedQuery(name = "Post.getLatestPosts", query = "SELECT p " + "FROM KWETTER_POST p " + "WHERE p.owner.id = :owner_id "
         + "ORDER BY p.messageSent DESC"),
 @NamedQuery(name = "Post.getTimeline", query = "SELECT DISTINCT(p.id) FROM KWETTER_POST p, KWETTER_USER u "
-        + "WHERE u.followers = :owner_id OR p.owner.id = :owner_id"),
+        + "WHERE u.following = :owner_id OR p.owner.id = :owner_id"),
 @NamedQuery(name = "Post.findPosts", query = "SELECT p FROM KWETTER_POST p "
         + "WHERE p.message LIKE :tags OR p.owner.username LIKE :tags ")
 })

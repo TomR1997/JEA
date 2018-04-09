@@ -17,7 +17,7 @@ export class ProfilePageComponent implements OnInit {
     followerAmount: number = 0;
     followingAmount: number = 0;
     following: User[];
-
+        
     constructor(private postService: PostService, private userService: UserService) { 
     }
 
