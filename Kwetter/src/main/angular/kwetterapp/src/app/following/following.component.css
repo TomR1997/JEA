@@ -1,0 +1,16 @@
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+
+body {
+    padding: 2em 23em;
+    background: lightgray;
+}
+
+.mat-card {
+  overflow: auto;
+  max-width: 500px;
+}
+
+.mat-table {
+  overflow: auto;
+  max-height: 500px;
+}

@@ -6,11 +6,12 @@ import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatButtonModule, MatCardModule, MatMenuModule, MatToolbarModule, MatIconModule, 
+import {MatCardModule, MatMenuModule, MatToolbarModule, MatIconModule, 
         MatTableModule, MatListModule} from '@angular/material';
 import {MatFormFieldModule} from '@angular/material/form-field'
 import {MatInputModule} from '@angular/material/input'
 import {MatDividerModule} from '@angular/material/divider';
+import {MatButtonModule} from '@angular/material/button';
 
 import {AppComponent} from './app.component';
 import {ProfilePageComponent} from './profile-page/profile-page.component';
@@ -18,6 +19,7 @@ import {HomePageComponent} from './home-page/home-page.component';
 import {HeaderBarComponent} from './header-bar/header-bar.component';
 import {PostService} from './post.service';
 import {UserService} from './user.service';
+import { FollowingComponent } from './following/following.component';
 
 
 @NgModule({
@@ -25,7 +27,8 @@ import {UserService} from './user.service';
     AppComponent,
     ProfilePageComponent,
     HomePageComponent,
-    HeaderBarComponent
+    HeaderBarComponent,
+    FollowingComponent
   ],
   imports: [
     BrowserModule,

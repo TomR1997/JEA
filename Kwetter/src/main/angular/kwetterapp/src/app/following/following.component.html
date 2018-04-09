@@ -1,0 +1,9 @@
+<mat-card>
+    <h3>Following</h3>
+    <mat-list>
+        <mat-list *ngFor="let user of following; let i = index">
+            <mat-list-item>Username: {{user.username}}</mat-list-item>    
+            <mat-divider></mat-divider>
+        </mat-list>
+    </mat-list>
+</mat-card>
