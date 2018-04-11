@@ -7,11 +7,8 @@ import {HttpClientModule} from '@angular/common/http';
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatCardModule, MatMenuModule, MatToolbarModule, MatIconModule, 
-        MatTableModule, MatListModule} from '@angular/material';
-import {MatFormFieldModule} from '@angular/material/form-field'
-import {MatInputModule} from '@angular/material/input'
-import {MatDividerModule} from '@angular/material/divider';
-import {MatButtonModule} from '@angular/material/button';
+        MatTableModule, MatListModule, MatFormFieldModule, MatInputModule, MatDividerModule, MatButtonModule,
+        MatTabsModule} from '@angular/material';
 
 import {AppComponent} from './app.component';
 import {ProfilePageComponent} from './profile-page/profile-page.component';
@@ -20,6 +17,7 @@ import {HeaderBarComponent} from './header-bar/header-bar.component';
 import {PostService} from './post.service';
 import {UserService} from './user.service';
 import { FollowingComponent } from './following/following.component';
+import { LoginPageComponent } from './login-page/login-page.component';
 
 
 @NgModule({
@@ -28,7 +26,8 @@ import { FollowingComponent } from './following/following.component';
     ProfilePageComponent,
     HomePageComponent,
     HeaderBarComponent,
-    FollowingComponent
+    FollowingComponent,
+    LoginPageComponent
   ],
   imports: [
     BrowserModule,
@@ -45,7 +44,8 @@ import { FollowingComponent } from './following/following.component';
     MatTableModule,
     MatListModule,
     MatInputModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatTabsModule
   ],
   providers: [
       PostService,

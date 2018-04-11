@@ -1,0 +1,11 @@
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+
+.mat-card {
+  overflow: auto;
+  max-width: 500px;
+}
+
+.login-container{
+    display: flex;
+    justify-content: center;
+}

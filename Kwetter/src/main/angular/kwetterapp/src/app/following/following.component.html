@@ -1,9 +1,29 @@
 <mat-card>
-    <h3>Following</h3>
-    <mat-list>
-        <mat-list *ngFor="let user of following; let i = index">
-            <mat-list-item>{{user.username}}</mat-list-item>    
-            <mat-divider></mat-divider>
-        </mat-list>
-    </mat-list>
+    <mat-tab-group>
+        <mat-tab label="Following">
+            <div *ngIf="!following">
+                U heeft geen volgers.
+            </div>
+            <mat-list>
+                <mat-list *ngFor="let user of following; let i = index">
+                    <mat-list-item>{{user.username}}</mat-list-item>    
+                    <mat-divider></mat-divider>
+                </mat-list>
+            </mat-list>
+        </mat-tab>
+        <mat-tab label="Followers">
+            <div *ngIf="!followers">
+                U heeft geen volgers.
+            </div>
+            <mat-list>
+                <mat-list *ngFor="let user of followers; let i = index">
+                    <mat-list-item>{{user.username}}</mat-list-item>    
+                    <mat-divider></mat-divider>
+                </mat-list>
+            </mat-list>
+        </mat-tab>
+    </mat-tab-group>
 </mat-card>
+
+
+
