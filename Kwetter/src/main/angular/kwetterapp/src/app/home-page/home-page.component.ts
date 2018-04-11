@@ -11,6 +11,8 @@ import { User } from '../models/user'
 })
 export class HomePageComponent implements OnInit {
     timeline: Post[];
+    foundPosts: Post[];
+    tag: string;
 
   constructor(private postService: PostService, private userService: UserService) { 
   }
@@ -24,4 +26,8 @@ export class HomePageComponent implements OnInit {
         .subscribe(data => this.timeline = data.Records);
   }
 
+  public searchPost(): void{
+      this.postService.findPosts(this.tag)
+        .subscribe(data => this.foundPosts = data.Records);
+  }
 }

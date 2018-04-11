@@ -40,6 +40,15 @@ export class PostService {
                 catchError(this.handleError('getTimeline', []))
             );
     }
+    
+    findPosts(tag: string): Observable<Post[]>{
+        const url = this.baseUrl + this.postUrl + '/find/' + tag;
+        return this.http.get<Post[]>(url)
+            .pipe(
+                tap(heroes => this.log('fetched posts')),
+                catchError(this.handleError('findPosts', []))
+            );
+    }
 
     private handleError<T>(operation = 'operation', result?: T) {
         return (error: any): Observable<T> => {
