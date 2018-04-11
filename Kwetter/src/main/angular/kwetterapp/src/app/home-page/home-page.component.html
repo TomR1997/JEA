@@ -10,31 +10,38 @@
         </div>
     </div>
     <div class="right-component">
-        <mat-card>
-            <h3>What's happening?</h3>
-            <mat-form-field>
-                <input matInput [(ngModel)]="tag">
-            </mat-form-field>
-            <button mat-raised-button color="primary" mat-button (click)="searchPost()">Search</button>
-            <table *ngIf="foundPosts">
-                        <thead>
-                            <tr>
-                                <th>Id</th>
-                                <th>Message</th>
-                                <th>Message sent</th>
-                                <th>Owner</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let post of foundPosts; let i = index">
-                                <td>{{post.id}}</td>
-                                <td>{{post.message}}</td>
-                                <td>{{post.messageSent}}</td>
-                                <td>{{post.owner.username}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-        </mat-card>
+        <div class="component-item">
+            <mat-card>
+                <h3>What's happening?</h3>
+                <mat-form-field>
+                    <input matInput [(ngModel)]="tag">
+                </mat-form-field>
+                <button mat-raised-button color="primary" mat-button (click)="searchPost()">Search</button>
+            </mat-card>
+        </div>
+        <div class="component-item">
+            <mat-card *ngIf="foundPosts">
+                <h3>Search results</h3>
+                <table *ngIf="foundPosts">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Message</th>
+                            <th>Message sent</th>
+                            <th>Owner</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let post of foundPosts; let i = index">
+                            <td>{{post.id}}</td>
+                            <td>{{post.message}}</td>
+                            <td>{{post.messageSent}}</td>
+                            <td>{{post.owner.username}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </mat-card>
+        </div>
     </div>
 </div>
 <br><br>
