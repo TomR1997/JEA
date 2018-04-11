@@ -28,6 +28,7 @@ import service.exceptions.FollowingException;
 import service.exceptions.InvalidAmountException;
 import service.exceptions.InvalidIdException;
 import service.exceptions.InvalidNameException;
+import service.exceptions.LoginException;
 import service.exceptions.NonExistingUserException;
 import service.exceptions.UnfollowingException;
 
@@ -250,6 +251,24 @@ public class UserResource {
             return Response.status(Response.Status.BAD_REQUEST).entity(gson.create().toJson(response)).build();
         }
 
+        return Response.ok(gson.create().toJson(response)).build();
+    }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("login/{username}/{password}")
+    public Response login(@PathParam("username") String name, @PathParam("password") String password){
+        GetSingleResponse<Boolean> response = new GetSingleResponse<>();
+        try{
+            response.setRecord(userService.login(name, password));
+        } catch (LoginException ex){
+            response.addMessage("Ongeldige login gegevens.");
+            return Response.status(Response.Status.BAD_REQUEST).entity(gson.create().toJson(response)).build();
+        } catch (InvalidNameException ex){
+            response.addMessage("Gebruikersnaam is ongeldig.");
+            return Response.status(Response.Status.BAD_REQUEST).entity(gson.create().toJson(response)).build();
+        }
+        
         return Response.ok(gson.create().toJson(response)).build();
     }
 }

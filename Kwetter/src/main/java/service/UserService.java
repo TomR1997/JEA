@@ -196,4 +196,14 @@ public class UserService {
         validName(user.getUsername());
         validName(user.getName());
     }
+    
+    public boolean login(String username, String password) throws InvalidNameException, LoginException{
+        validName(username);
+        validName(password);
+        boolean success = userDao.login(username, password);
+        if (!success){
+            throw new LoginException("Credentials are not valid.");
+        }
+        return success;
+    }
 }
