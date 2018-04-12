@@ -18,7 +18,7 @@ export class HomePageComponent implements OnInit {
   }
 
   ngOnInit() {
-      this.getTimeline(1);
+      this.getLatestPosts(1);
   }
   
   getTimeline(id: number): void {
@@ -29,5 +29,10 @@ export class HomePageComponent implements OnInit {
   public searchPost(): void{
       this.postService.findPosts(this.tag)
         .subscribe(data => this.foundPosts = data.Records);
+  }
+  
+  getLatestPosts(id: number): void {
+      this.postService.getLatestPosts(id)
+        .subscribe(data => this.timeline = data.Records);
   }
 }

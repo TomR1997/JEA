@@ -3,6 +3,24 @@
         <div class="component-item">
             <mat-card>
                 <h3>Timeline</h3>
+                <table *ngIf="timeline">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Message</th>
+                            <th>Message sent</th>
+                            <th>Owner</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let post of timeline; let i = index">
+                            <td>{{post.id}}</td>
+                            <td>{{post.message}}</td>
+                            <td>{{post.messageSent}}</td>
+                            <td>{{post.owner.username}}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </mat-card>
         </div>
         <div class="component-item">

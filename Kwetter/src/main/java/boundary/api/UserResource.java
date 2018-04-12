@@ -261,6 +261,7 @@ public class UserResource {
         GetSingleResponse<Boolean> response = new GetSingleResponse<>();
         try{
             response.setRecord(userService.login(name, password));
+            response.setRecord(true);
         } catch (LoginException ex){
             response.addMessage("Ongeldige login gegevens.");
             return Response.status(Response.Status.BAD_REQUEST).entity(gson.create().toJson(response)).build();

@@ -55,6 +55,11 @@ export class UserService {
         const url = this.baseUrl + this.userUrl + '/followingAmount/' + id;
         return this.http.get<number>(url);
     }
+    
+    login(username: string, password: string): any{
+        const url = this.baseUrl + this.userUrl + '/login/' + username + '/' + password;
+        return this.http.get<boolean>(url);
+    }
 
 
     private handleError<T>(operation = 'operation', result?: T) {

@@ -124,7 +124,7 @@ public class UserDAO {
     
     public boolean login(String username, String password){
         Query query = em.createNamedQuery("User.authenticateUser");
-        int userId = query.setParameter("username", username).setParameter("password", password).getFirstResult();
-        return userId > 0;
+        User found = (User) query.setParameter("username", username).setParameter("password", password).getSingleResult();
+        return found != null;
     }
 }
