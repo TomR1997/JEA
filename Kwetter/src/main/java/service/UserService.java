@@ -5,11 +5,14 @@
  */
 package service;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import dao.UserDAO;
 import dao.exceptions.EmptyListException;
 import service.exceptions.FollowingException;
 import dao.exceptions.NonExistingEntryException;
 import domain.User;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,6 +24,7 @@ import service.exceptions.InvalidNameException;
 import service.exceptions.LoginException;
 import service.exceptions.NonExistingUserException;
 import service.exceptions.UnfollowingException;
+
 
 /**
  *
@@ -205,5 +209,18 @@ public class UserService {
             throw new LoginException("Credentials are not valid.");
         }
         return success;
+    }
+    
+    public String createToken(String username) throws UnsupportedEncodingException {
+        Algorithm algorithm;
+        String token = "";
+        try {
+            algorithm = Algorithm.HMAC512("supersecret");
+            token = JWT.create().withSubject(username).withIssuer("Tom").sign(algorithm);
+        } catch (UnsupportedEncodingException ex) {
+            throw new UnsupportedEncodingException();
+        }
+
+        return token;
     }
 }

@@ -12,8 +12,11 @@ import boundary.api.response.UpdateResponse;
 import com.google.gson.GsonBuilder;
 import dao.exceptions.EmptyListException;
 import domain.User;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -258,15 +261,20 @@ public class UserResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("login/{username}/{password}")
     public Response login(@PathParam("username") String name, @PathParam("password") String password){
-        GetSingleResponse<Boolean> response = new GetSingleResponse<>();
+        GetSingleResponse<String> response = new GetSingleResponse<>();
         try{
-            response.setRecord(userService.login(name, password));
-            response.setRecord(true);
+            if (userService.login(name, password)){
+                response.setRecord(userService.createToken(name));
+            }
+            response.setSuccess(true);
         } catch (LoginException ex){
             response.addMessage("Ongeldige login gegevens.");
             return Response.status(Response.Status.BAD_REQUEST).entity(gson.create().toJson(response)).build();
         } catch (InvalidNameException ex){
             response.addMessage("Gebruikersnaam is ongeldig.");
+            return Response.status(Response.Status.BAD_REQUEST).entity(gson.create().toJson(response)).build();
+        } catch (UnsupportedEncodingException ex) {
+            response.addMessage(ex.getMessage());
             return Response.status(Response.Status.BAD_REQUEST).entity(gson.create().toJson(response)).build();
         }
         
