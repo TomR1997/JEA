@@ -211,16 +211,29 @@ public class UserService {
         return success;
     }
     
-    public String createToken(String username) throws UnsupportedEncodingException {
+    public String createToken(String username) throws UnsupportedEncodingException, NonExistingUserException {
         Algorithm algorithm;
         String token = "";
+        
         try {
+            User user = findUser(username);
             algorithm = Algorithm.HMAC512("supersecret");
-            token = JWT.create().withSubject(username).withIssuer("Tom").sign(algorithm);
+            token = JWT.create().withSubject(username).withIssuer("Tom").withClaim("id", user.getId()).sign(algorithm);
         } catch (UnsupportedEncodingException ex) {
             throw new UnsupportedEncodingException();
+        } catch (NonExistingUserException ex) {
+            throw new NonExistingUserException();
         }
 
         return token;
+    }
+    
+    public User findUser(String username) throws NonExistingUserException
+    {
+        try {
+            return userDao.findUser(username);
+        } catch (NonExistingEntryException ex) {
+            throw new NonExistingUserException();
+        }
     }
 }

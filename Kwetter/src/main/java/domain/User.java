@@ -34,7 +34,8 @@ import javax.persistence.Table;
 @NamedQuery(name = "User.getFollowerCount", query = "SELECT COUNT(u.id) FROM KWETTER_USER u " + "LEFT JOIN u.followers f "
         + "WHERE u.following = :following"),
 @NamedQuery(name = "User.authenticateUser", query = "SELECT u FROM KWETTER_USER u WHERE u.username = :username "
-        + "AND u.password = :password")
+        + "AND u.password = :password"),
+@NamedQuery(name = "User.findUser", query = "SELECT u FROM KWETTER_USER u WHERE u.username = :username")
 })
 public class User implements Serializable {
     @Id

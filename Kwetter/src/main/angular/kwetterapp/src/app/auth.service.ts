@@ -17,7 +17,7 @@ private userUrl = 'users';
   };
 
   getToken(): string {
-    return localStorage.getItem('token');
+    return this.localStorage.getItem('token');
   }
 
   isAuthenticated(): boolean {

@@ -273,7 +273,7 @@ public class UserResource {
         } catch (InvalidNameException ex){
             response.addMessage("Gebruikersnaam is ongeldig.");
             return Response.status(Response.Status.BAD_REQUEST).entity(gson.create().toJson(response)).build();
-        } catch (UnsupportedEncodingException ex) {
+        } catch (UnsupportedEncodingException | NonExistingUserException ex) {
             response.addMessage(ex.getMessage());
             return Response.status(Response.Status.BAD_REQUEST).entity(gson.create().toJson(response)).build();
         }

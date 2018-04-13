@@ -127,4 +127,13 @@ public class UserDAO {
         User found = (User) query.setParameter("username", username).setParameter("password", password).getSingleResult();
         return found != null;
     }
+    
+    public User findUser(String username) throws NonExistingEntryException{
+        Query query = em.createNamedQuery("User.findUser");
+        User user = (User) query.setParameter("username", username).getSingleResult();
+        if (user == null){
+            throw new NonExistingEntryException();
+        }
+        return user;
+    }
 }

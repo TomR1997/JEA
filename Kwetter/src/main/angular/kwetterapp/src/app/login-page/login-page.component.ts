@@ -31,10 +31,13 @@ export class LoginPageComponent implements OnInit {
   login(){
       this.authService.login(this.username, this.password)
         .subscribe(data =>
-            if (data.Success){
+        console.log(data);
+            /*if (data.Success){
                 this.localStorage.setItem('token', data.Record);
                 this.router.navigate(['homepage']);
-            }
+                console.log(data);
+                console.log(this.localStorage);
+            }*/
         );
   }
 
