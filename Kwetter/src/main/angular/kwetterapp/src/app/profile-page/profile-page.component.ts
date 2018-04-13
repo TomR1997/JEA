@@ -22,9 +22,9 @@ export class ProfilePageComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.getLatestPosts(1);
-        this.findUser(1);
-        this.getFollowing(1);
+        this.getLatestPosts(localStorage.getItem('userId'));
+        this.findUser(localStorage.getItem('userId'));
+        this.getFollowing(localStorage.getItem('userId'));
     }
 
     getAllPosts(): void {

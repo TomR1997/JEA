@@ -216,7 +216,7 @@ public class UserService {
         String token = "";
         
         try {
-            User user = findUser(username);
+            User user = find(username);
             algorithm = Algorithm.HMAC512("supersecret");
             token = JWT.create().withSubject(username).withIssuer("Tom").withClaim("id", user.getId()).sign(algorithm);
         } catch (UnsupportedEncodingException ex) {
@@ -228,7 +228,7 @@ public class UserService {
         return token;
     }
     
-    public User findUser(String username) throws NonExistingUserException
+    public User find(String username) throws NonExistingUserException
     {
         try {
             return userDao.findUser(username);

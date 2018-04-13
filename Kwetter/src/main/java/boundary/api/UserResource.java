@@ -15,8 +15,6 @@ import domain.User;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -278,6 +276,22 @@ public class UserResource {
             return Response.status(Response.Status.BAD_REQUEST).entity(gson.create().toJson(response)).build();
         }
         
+        return Response.ok(gson.create().toJson(response)).build();
+    }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("name/{username}")
+    public Response find(@PathParam("username") String username) {
+        GetSingleResponse<UserDTO> response = new GetSingleResponse<>();
+        try {
+            response.setRecord(new UserDTO(userService.find(username)));
+            response.setSuccess(true);
+        } catch (NonExistingUserException ex) {
+            response.addMessage("De gebruiker bestaat niet.");
+            return Response.status(Response.Status.BAD_REQUEST).entity(gson.create().toJson(response)).build();
+        }
+
         return Response.ok(gson.create().toJson(response)).build();
     }
 }

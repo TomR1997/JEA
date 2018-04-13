@@ -28,6 +28,9 @@ export class UserService {
         return this.http.get<User>(url);
     }
     
+        return this.http.get<User>(url);
+    }
+    
     getFollowing(id: number): Observable<User[]> {
         const url = this.baseUrl + this.userUrl + '/following/' + id;
         return this.http.get<User[]>(url)

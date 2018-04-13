@@ -18,7 +18,7 @@ export class HomePageComponent implements OnInit {
   }
 
   ngOnInit() {
-      this.getLatestPosts(1);
+      this.getLatestPosts(localStorage.getItem('userId'));
   }
   
   getTimeline(id: number): void {
