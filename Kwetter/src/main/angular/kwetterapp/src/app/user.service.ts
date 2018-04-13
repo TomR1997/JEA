@@ -28,6 +28,8 @@ export class UserService {
         return this.http.get<User>(url);
     }
     
+    find(username: String): any {
+        const url = this.baseUrl + this.userUrl + '/name/'+ username;
         return this.http.get<User>(url);
     }
     
