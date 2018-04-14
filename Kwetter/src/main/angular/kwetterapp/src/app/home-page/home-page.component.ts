@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { PostService } from '../post.service';
-import { UserService } from '../user.service'
-import { Post } from '../models/post'
-import { User } from '../models/user'
+import { UserService } from '../user.service';
+import { AuthService } from '../auth.service';
+import { Post } from '../models/post';
+import { User } from '../models/user';
 
 @Component({
   selector: 'app-home-page',
@@ -14,11 +15,11 @@ export class HomePageComponent implements OnInit {
     foundPosts: Post[];
     tag: string;
 
-  constructor(private postService: PostService, private userService: UserService) { 
+  constructor(private postService: PostService, private userService: UserService, private authService: AuthService) { 
   }
 
   ngOnInit() {
-      this.getLatestPosts(localStorage.getItem('userId'));
+      this.getLatestPosts(this.authService.getUserId());
   }
   
   getTimeline(id: number): void {
@@ -34,5 +35,9 @@ export class HomePageComponent implements OnInit {
   getLatestPosts(id: number): void {
       this.postService.getLatestPosts(id)
         .subscribe(data => this.timeline = data.Records);
+  }
+  
+  likePost(postId: number, userId: number){
+      this.postService.likePost(postId, userId);
   }
 }

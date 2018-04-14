@@ -17,7 +17,7 @@ private userUrl = 'users';
   };
 
   getToken(): string {
-    return this.localStorage.getItem('token');
+    return localStorage.getItem('token');
   }
 
   isAuthenticated(): boolean {
@@ -31,5 +31,15 @@ private userUrl = 'users';
   public login(username: string, password: string): any {
     const url = this.baseUrl + this.userUrl + '/login/' + username + '/' + password;
     return this.http.get<String>(url);
+  }
+  
+  public getUserId(): any{
+      return localStorage.getItem('userId');
+  }
+  
+  public logout(): void{
+      localStorage.removeItem('userId');
+      localStorage.removeItem('token');
+      this.router.navigate(['login']);
   }
 }

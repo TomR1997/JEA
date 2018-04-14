@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-header-bar',
@@ -7,9 +9,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderBarComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router, private authService: AuthService) { 
+  }
 
   ngOnInit() {
   }
 
+  routeProfile(){
+      this.router.navigate(['profile']);
+  }
+  
+  routeHome(){
+      this.router.navigate(['homepage']);
+  }  
+  
+  logout(){
+      this.authService.logout();
+  }
+  
+   routeLogin(){
+      this.router.navigate(['login']);
+  }
 }

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { PostService } from '../post.service';
-import { UserService } from '../user.service'
-import { Post } from '../models/post'
-import { User } from '../models/user'
+import { UserService } from '../user.service';
+import { AuthService } from '../auth.service';
+import { Post } from '../models/post';
+import { User } from '../models/user';
 
 @Component({
   selector: 'app-profile-page',
@@ -18,13 +19,13 @@ export class ProfilePageComponent implements OnInit {
     followingAmount: number = 0;
     following: User[];
         
-    constructor(private postService: PostService, private userService: UserService) { 
+    constructor(private postService: PostService, private userService: UserService, private authService: AuthService) { 
     }
 
     ngOnInit() {
-        this.getLatestPosts(localStorage.getItem('userId'));
-        this.findUser(localStorage.getItem('userId'));
-        this.getFollowing(localStorage.getItem('userId'));
+        this.getLatestPosts(this.authService.getUserId());
+        this.findUser(this.authService.getUserId());
+        this.getFollowing(this.authService.getUserId());
     }
 
     getAllPosts(): void {

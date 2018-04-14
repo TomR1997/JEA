@@ -49,6 +49,11 @@ export class PostService {
                 catchError(this.handleError('findPosts', []))
             );
     }
+    
+    likePost(postId: number, userId: number){
+        const url = this.baseUrl + this.postUrl + 'like/'+postId +'/'+ userId;
+        return this.http.put<any>(url);
+    }
 
     private handleError<T>(operation = 'operation', result?: T) {
         return (error: any): Observable<T> => {
