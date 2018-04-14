@@ -13,6 +13,7 @@ import service.exceptions.FollowingException;
 import dao.exceptions.NonExistingEntryException;
 import domain.User;
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -217,8 +218,14 @@ public class UserService {
         
         try {
             User user = find(username);
-            algorithm = Algorithm.HMAC512("supersecret");
-            token = JWT.create().withSubject(username).withIssuer("Tom").withClaim("id", user.getId()).sign(algorithm);
+            algorithm = Algorithm.HMAC512("programmeergod");
+            token = JWT.create()
+                    .withSubject(username)
+                    .withIssuer("Tom")
+                    .withIssuedAt(new Date(System.currentTimeMillis()))
+                    .withExpiresAt(new Date(System.currentTimeMillis()+900000))
+                    .withClaim("id", user.getId())
+                    .sign(algorithm);
         } catch (UnsupportedEncodingException ex) {
             throw new UnsupportedEncodingException();
         } catch (NonExistingUserException ex) {
