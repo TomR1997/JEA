@@ -4,6 +4,7 @@ import { UserService } from '../user.service';
 import { AuthService } from '../auth.service';
 import { Post } from '../models/post';
 import { User } from '../models/user';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-profile-page',
@@ -18,14 +19,18 @@ export class ProfilePageComponent implements OnInit {
     followerAmount: number = 0;
     followingAmount: number = 0;
     following: User[];
+    profileId: number;
         
-    constructor(private postService: PostService, private userService: UserService, private authService: AuthService) { 
+    constructor(private postService: PostService, private userService: UserService, 
+        private authService: AuthService, private routeParam: ActivatedRoute) { 
     }
 
     ngOnInit() {
-        this.getLatestPosts(this.authService.getUserId());
-        this.findUser(this.authService.getUserId());
-        this.getFollowing(this.authService.getUserId());
+        this.profileId = this.routeParam.snapshot.params['id'];
+        this.getLatestPosts(this.profileId);
+        this.findUser(this.profileId);
+        this.userService.setFollowing(this.profileId);
+        this.userService.setFollowers(this.profileId);
     }
 
     getAllPosts(): void {

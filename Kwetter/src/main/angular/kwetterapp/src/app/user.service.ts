@@ -10,6 +10,8 @@ export class UserService {
 
     private baseUrl = 'http://localhost:8080/Kwetter/api/';
     private userUrl = 'users';
+    public followers: User[];
+    public following: User[];
 
     constructor(private http: HttpClient) {
     }
@@ -83,6 +85,16 @@ export class UserService {
 
     private log(message: string) {
 
+    }
+    
+    public setFollowing(id: number): void {
+        this.getFollowing(id)
+            .subscribe(data => this.following = data.Records);
+    }
+    
+    public setFollowers(id: number): void {
+        this.getFollowers(id)
+            .subscribe(data => this.followers = data.Records);
     }
 
 }

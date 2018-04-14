@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { PostService } from '../post.service';
-import { UserService } from '../user.service'
-import { Post } from '../models/post'
-import { User } from '../models/user'
+import { UserService } from '../user.service';
+import { AuthService } from '../auth.service';
+import { Post } from '../models/post';
+import { User } from '../models/user';
 
 @Component({
   selector: 'app-following',
@@ -13,12 +14,16 @@ export class FollowingComponent implements OnInit {
     following: User[];
     followers: User[];
 
-    constructor(private postService: PostService, private userService: UserService) { 
+    constructor(private postService: PostService, private userService: UserService, private authService: AuthService) { 
     }
 
     ngOnInit() {
-        this.getFollowing(1);
-        this.getFollowers(1);
+        /*this.userService.setFollowing(this.authService.getUserId());
+        this.userService.setFollowers(this.authService.getUserId());
+        this.following = this.userService.following;
+        this.followers = this.userService.followers;*/
+        this.getFollowing(this.authService.getUserId());
+        this.getFollowers(this.authService.getUserId());
     }
     
     getFollowing(id: number): void {
@@ -30,5 +35,4 @@ export class FollowingComponent implements OnInit {
         this.userService.getFollowers(id)
             .subscribe(data => this.followers = data.Records);
     }
-
 }
