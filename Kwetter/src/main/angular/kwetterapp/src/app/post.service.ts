@@ -50,8 +50,8 @@ export class PostService {
             );
     }
     
-    likePost(postId: number, userId: number){
-        const url = this.baseUrl + this.postUrl + 'like/'+postId +'/'+ userId;
+    likePost(postId: number, userId: number): any{
+        const url = this.baseUrl + this.postUrl + '/like/' + postId + '/'+ userId;
         return this.http.put<any>(url);
     }
 
