@@ -14,9 +14,10 @@ import {AppComponent} from './app.component';
 import {ProfilePageComponent} from './profile-page/profile-page.component';
 import {HomePageComponent} from './home-page/home-page.component';
 import {HeaderBarComponent} from './header-bar/header-bar.component';
-import {PostService} from './post.service';
-import {UserService} from './user.service';
-import {AuthService} from './auth.service';
+import {PostService} from './services/post.service';
+import {UserService} from './services/user.service';
+import {AuthService} from './services/auth.service';
+import {ApiService} from './api/api.service';
 import { FollowingComponent } from './following/following.component';
 import { LoginPageComponent } from './login-page/login-page.component';
 
@@ -51,7 +52,8 @@ import { LoginPageComponent } from './login-page/login-page.component';
   providers: [
       PostService,
       UserService,
-      AuthService
+      AuthService,
+      ApiService
   ],
   bootstrap: [AppComponent]
 })

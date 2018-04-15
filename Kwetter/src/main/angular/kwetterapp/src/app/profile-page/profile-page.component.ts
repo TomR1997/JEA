@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { PostService } from '../post.service';
-import { UserService } from '../user.service';
-import { AuthService } from '../auth.service';
+import { PostService } from '../services/post.service';
+import { UserService } from '../services/user.service';
+import { AuthService } from '../services/auth.service';
 import { Post } from '../models/post';
 import { User } from '../models/user';
 import {ActivatedRoute} from '@angular/router';
@@ -18,7 +18,6 @@ export class ProfilePageComponent implements OnInit {
     user: User;
     followerAmount: number = 0;
     followingAmount: number = 0;
-    following: User[];
     profileId: number;
         
     constructor(private postService: PostService, private userService: UserService, 
@@ -51,16 +50,6 @@ export class ProfilePageComponent implements OnInit {
     findUser(id: number): void {
         this.userService.findUser(id)
             .subscribe(data => this.user = data.Record);
-    }
-    
-    getFollowing(id: number): void {
-        this.userService.getFollowing(id)
-            .subscribe(data => this.following = data.Records);
-    }
-    
-    getFollowers(id: number): void {
-        this.userService.getFollowers(id)
-            .subscribe(data => this.followers = data.Records);
     }
     
     getFollowerAmount(id: number): void{

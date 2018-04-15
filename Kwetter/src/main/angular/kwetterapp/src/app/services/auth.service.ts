@@ -1,20 +1,12 @@
 import {Injectable} from '@angular/core';
 import {tokenNotExpired} from 'angular2-jwt';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {User} from './models/user';
 import 'rxjs/add/operator/map';
-import {Observable} from 'rxjs/Observable';
+import {ApiService} from '../api/api.service';
 
 @Injectable()
 export class AuthService {
-private baseUrl = 'http://localhost:8080/Kwetter/api/';
 private userUrl = 'users';
-
-  httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json'
-    })
-  };
 
   getToken(): string {
     return localStorage.getItem('token');
@@ -25,12 +17,12 @@ private userUrl = 'users';
     return tokenNotExpired(null, token);
   }
 
-  constructor(private http: HttpClient) {
+  constructor(private apiService: ApiService) {
   }
 
   public login(username: string, password: string): any {
-    const url = this.baseUrl + this.userUrl + '/login/' + username + '/' + password;
-    return this.http.get<String>(url);
+    const url = this.userUrl + '/login/' + username + '/' + password;
+    return this.apiService.get<String>(url);
   }
   
   public getUserId(): any{

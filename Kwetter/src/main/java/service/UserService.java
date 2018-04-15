@@ -218,14 +218,13 @@ public class UserService {
         
         try {
             User user = find(username);
-            algorithm = Algorithm.HMAC512("programmeergod");
             token = JWT.create()
                     .withSubject(username)
                     .withIssuer("Tom")
                     .withIssuedAt(new Date(System.currentTimeMillis()))
                     .withExpiresAt(new Date(System.currentTimeMillis()+900000))
                     .withClaim("id", user.getId())
-                    .sign(algorithm);
+                    .sign(Algorithm.HMAC512("programmeergod"));
         } catch (UnsupportedEncodingException ex) {
             throw new UnsupportedEncodingException();
         } catch (NonExistingUserException ex) {

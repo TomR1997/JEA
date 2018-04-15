@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { PostService } from '../post.service';
-import { UserService } from '../user.service';
-import { AuthService } from '../auth.service';
+import { PostService } from '../services/post.service';
+import { UserService } from '../services/user.service';
+import { AuthService } from '../services/auth.service';
 import { Post } from '../models/post';
 import { User } from '../models/user';
 
