@@ -16,7 +16,7 @@ export class HeaderBarComponent implements OnInit {
   }
 
   routeProfile(){
-      this.router.navigate(['profile']);
+      this.router.navigate(['profile/'+ this.authService.getUserId())]);
   }
   
   routeHome(){

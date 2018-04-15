@@ -11,52 +11,52 @@ export class ApiService {
     constructor(private httpClient: HttpClient) {
     }
 
-    public get<T>(path: string): Observable<T> {
-        let headers = new Headers({'Content-Type': 'application/json'});  
+    public get<T>(address: string): Observable<T> {
+        let headers = new HttpHeaders({'Content-Type': 'application/json'});  
 
         if (localStorage.getItem('token')){
             headers = headers.append('Authorization', 'Bearer ' + localStorage.getItem('token'));
         }
         
         let options = new RequestOptions({headers: headers});
-        let url = baseUrl + path;
+        let url = baseUrl + address;
         return this.httpClient.get<T>(url, { options: options });
     }
     
-    public post<T>(postAddress: string, postContent: any): Observable<T> {
-        let headers = new Headers({'Content-Type': 'application/json'});  
+    public post<T>(address: string, content: any): Observable<T> {
+        let headers = new HttpHeaders({'Content-Type': 'application/json'});  
 
         if (localStorage.getItem('token')){
             headers = headers.append('Authorization', 'Bearer ' + localStorage.getItem('token'));
         }
 
         let options = new RequestOptions({headers: headers});
-        let url = baseUrl + postAddress;
-        return this.httpClient.post<T>(url, postContent, { options: options });
+        let url = baseUrl + address;
+        return this.httpClient.post<T>(url, content, { options: options });
     }
 
-    public postJson<T>(postAddress: string, postContent: any): Observable<T> {
-        let headers = new Headers({'Content-Type': 'application/json'});  
+    public postJson<T>(address: string, content: any): Observable<T> {
+        let headers = new HttpHeaders({'Content-Type': 'application/json'});  
 
         if (localStorage.getItem('token')){
             headers = headers.append('Authorization', 'Bearer ' + localStorage.getItem('token'));
         }
 
         let options = new RequestOptions({headers: headers});
-        let url = baseUrl + postAddress;
-        return this.httpClient.post<T>(url, JSON.stringify(postContent), { options: options });
+        let url = baseUrl + address;
+        return this.httpClient.post<T>(url, JSON.stringify(content), { options: options });
     }
     
-    public putJson<T>(postAddress: string, postContent: any): Observable<T> {
-        let headers = new Headers({'Content-Type': 'application/json'});  
+    public put<T>(address: string, content: any): Observable<T> {
+        let headers = new HttpHeaders({'Content-Type': 'application/json'});  
 
         if (localStorage.getItem('token')){
             headers = headers.append('Authorization', 'Bearer ' + localStorage.getItem('token'));
         }
 
         let options = new RequestOptions({headers: headers});
-        let url = baseUrl + postAddress;
-        return this.httpClient.put<T>(url, JSON.stringify(postContent), { options: options });
+        let url = baseUrl + address;
+        return this.httpClient.put<T>(url, content, { options: options });
     }
 
 }

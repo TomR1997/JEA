@@ -34,8 +34,8 @@ export class PostService {
     }
 
     likePost(postId: number, userId: number): any{
-        const url = this.postUrl + '/like/postId/userId';
-        return this.apiService.putJson<any>(url, {'postId': postId, 'userId': userId});
+        const url = this.postUrl + '/like/';
+        return this.apiService.put<any>(url, {'postId': postId, 'userId': userId});
     }
 
     private handleError<T>(operation = 'operation', result?: T) {

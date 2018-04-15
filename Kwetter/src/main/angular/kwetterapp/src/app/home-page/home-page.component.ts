@@ -37,7 +37,8 @@ export class HomePageComponent implements OnInit {
         .subscribe(data => this.timeline = data.Records);
   }
   
-  likePost(postId: number, userId: number){
-      this.postService.likePost(postId, userId);
+  likePost(postId: number, userId: number): void{
+      this.postService.likePost(postId, userId)
+        .subscribe(data => console.log(data));
   }
 }
