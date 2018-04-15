@@ -6,11 +6,11 @@
 package service;
 
 import dao.PostDAO;
-import dao.UserDAO;
 import dao.exceptions.EmptyListException;
 import dao.exceptions.NonExistingEntryException;
 import domain.Post;
 import domain.User;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -164,6 +164,19 @@ public class PostService {
     private void validName(String name) throws InvalidNameException {
         if (name == null || name.isEmpty() || name.length() >= 255) {
             throw new InvalidNameException();
+        }
+    }
+    
+    public void createPost(Long userId, String content) throws NonExistingUserException, InvalidIdException, NonExistingPostException{
+        try {
+            Post post = new Post(content, new Date(), userService.findUser(userId));
+            postDao.save(post);
+        } catch (NonExistingUserException ex) {
+            throw new NonExistingUserException();
+        } catch (InvalidIdException ex) {
+            throw new InvalidIdException();
+        } catch (NonExistingEntryException ex) {
+            throw new NonExistingPostException();
         }
     }
 }

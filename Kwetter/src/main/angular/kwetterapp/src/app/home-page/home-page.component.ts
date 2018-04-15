@@ -14,6 +14,7 @@ export class HomePageComponent implements OnInit {
     timeline: Post[];
     foundPosts: Post[];
     tag: string;
+    content: string;
 
   constructor(private postService: PostService, private userService: UserService, private authService: AuthService) { 
   }
@@ -39,6 +40,11 @@ export class HomePageComponent implements OnInit {
   
   likePost(postId: number, userId: number): void{
       this.postService.likePost(postId, userId)
+        .subscribe(data => console.log(data));
+  }
+  
+  createPost(){
+      this.postService.createPost(this.authService.getUserId(), this.content)
         .subscribe(data => console.log(data));
   }
 }

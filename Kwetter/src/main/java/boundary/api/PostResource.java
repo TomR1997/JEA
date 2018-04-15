@@ -19,6 +19,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -208,4 +209,25 @@ public class PostResource {
         }
          return Response.ok(gson.create().toJson(response)).build();
     } 
+    
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("create/{userId}/{content}")
+    public Response createPost(@PathParam("userId") Long userId, @PathParam("content")String content){
+        CreateResponse<Long> response = new CreateResponse<>();
+        try {
+            postService.createPost(userId, content);
+            response.setSuccess(true);
+        } catch (InvalidIdException ex) {
+            response.addMessage("Opgegeven id is ongeldig.");
+            return Response.status(Response.Status.BAD_REQUEST).entity(gson.create().toJson(response)).build();
+        } catch (NonExistingUserException ex) {
+            response.addMessage("Opgegeven user bestaat niet.");
+            return Response.status(Response.Status.BAD_REQUEST).entity(gson.create().toJson(response)).build();
+        } catch (NonExistingPostException ex) {
+            response.addMessage("Opgegeven post bestaat niet.");
+            return Response.status(Response.Status.BAD_REQUEST).entity(gson.create().toJson(response)).build();
+        }
+         return Response.ok(gson.create().toJson(response)).build();
+    }
 }

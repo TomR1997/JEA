@@ -37,6 +37,11 @@ export class PostService {
         const url = this.postUrl + '/like/';
         return this.apiService.put<any>(url, {'postId': postId, 'userId': userId});
     }
+    
+    createPost(userId: number, content: string){
+        const url = this.postUrl + '/create/';
+        return this.apiService.postJson<any>(url, {'userId': userId, 'content': content});
+    }
 
     private handleError<T>(operation = 'operation', result?: T) {
         return (error: any): Observable<T> => {

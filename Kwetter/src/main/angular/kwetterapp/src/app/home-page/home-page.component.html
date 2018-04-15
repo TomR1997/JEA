@@ -28,6 +28,15 @@
         <div class="component-item">
             <app-following></app-following>
         </div>
+        <div class="component-item">
+             <mat-card>
+                <h3>Create post</h3>
+                <mat-form-field>
+                    <input matInput [(ngModel)]="content">
+                </mat-form-field>
+                <button mat-raised-button color="primary" mat-button (click)="createPost()">Create</button>
+            </mat-card>
+        </div>
     </div>
     <div class="right-component">
         <div class="component-item">
