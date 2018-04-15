@@ -13,6 +13,7 @@ import boundary.api.response.GetSingleResponse;
 import com.google.gson.GsonBuilder;
 import dao.exceptions.EmptyListException;
 import dao.exceptions.NonExistingEntryException;
+import filter.JWTTokenNeeded;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -121,6 +122,7 @@ public class PostResource {
     }
 
     @GET
+    @JWTTokenNeeded
     @Produces(MediaType.APPLICATION_JSON)
     @Path("timeline/{userId}")
     public Response getTimeline(@PathParam("userId") Long userId) {
@@ -163,6 +165,7 @@ public class PostResource {
     }
     
     @PUT
+    @JWTTokenNeeded
     @Produces(MediaType.APPLICATION_JSON)
     @Path("like/{postId}/{userId}")
     public Response likePost(@PathParam("postId") Long postId, @PathParam("userId")Long userId){
@@ -187,6 +190,7 @@ public class PostResource {
     }
     
     @PUT
+    @JWTTokenNeeded
     @Produces(MediaType.APPLICATION_JSON)
     @Path("unlike/{postId}/{userId}")
     public Response unlikePost(@PathParam("postId") Long postId, @PathParam("userId")Long userId){
@@ -211,6 +215,7 @@ public class PostResource {
     } 
     
     @POST
+    @JWTTokenNeeded
     @Produces(MediaType.APPLICATION_JSON)
     @Path("create/{userId}/{content}")
     public Response createPost(@PathParam("userId") Long userId, @PathParam("content")String content){

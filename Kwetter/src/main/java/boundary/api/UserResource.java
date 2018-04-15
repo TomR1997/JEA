@@ -12,6 +12,7 @@ import boundary.api.response.UpdateResponse;
 import com.google.gson.GsonBuilder;
 import dao.exceptions.EmptyListException;
 import domain.User;
+import filter.JWTTokenNeeded;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
@@ -128,6 +129,7 @@ public class UserResource {
     }
 
     @PUT
+    @JWTTokenNeeded
     @Produces(MediaType.APPLICATION_JSON)
     @Path("changeUsername/{id}/{newName}")
     public Response changeUsername(@PathParam("id") Long id, @PathParam("newName") String newName) {
@@ -150,6 +152,7 @@ public class UserResource {
     }
 
     @PUT
+    @JWTTokenNeeded
     @Produces(MediaType.APPLICATION_JSON)
     @Path("changeBio/{id}/{newBio}")
     public Response changeBio(@PathParam("id") Long id, @PathParam("newBio") String newBio) {
