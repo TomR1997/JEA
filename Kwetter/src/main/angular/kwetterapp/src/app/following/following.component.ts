@@ -44,6 +44,6 @@ export class FollowingComponent implements OnInit {
             .subscribe(data => 
                 this.profileUser = data.Record;
                 this.router.navigate(['profile/'+ this.profileUser.id]);
-                );
+            );
     }
 }

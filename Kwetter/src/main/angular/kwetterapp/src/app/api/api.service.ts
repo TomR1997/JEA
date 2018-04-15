@@ -36,7 +36,7 @@ export class ApiService {
     }
 
     public postJson<T>(address: string, content: any): Observable<T> {
-        let headers = new HttpHeaders({'Content-Type': 'application/json'});  
+        let headers = new HttpHeaders({'Content-Type': 'application/json'});
 
         if (localStorage.getItem('token')){
             headers = headers.append('Authorization', 'Bearer ' + localStorage.getItem('token'));
