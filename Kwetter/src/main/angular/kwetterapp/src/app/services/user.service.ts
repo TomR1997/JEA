@@ -13,9 +13,15 @@ export class UserService {
 
     constructor(private apiService: ApiService) {
     }
-
-    getAll(){
-        return this.apiService.get<User[]>(this.userUrl);
+    
+    follow(userId: number, followingId: number){
+        const url = this.userUrl + '/follow';
+        return this.apiService.put<any>(url, {'userId': userId, 'followingId': followingId});
+    }
+    
+    unfollow(userId: number, unfollowingId: number){
+        const url = this.userUrl + '/unfollow';
+        return this.apiService.put<any>(url, {'userId': userId, 'followingId': unfollowingId});
     }
     
     findUser(id: number){

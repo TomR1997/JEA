@@ -32,17 +32,16 @@ export class ProfilePageComponent implements OnInit {
         this.userService.setFollowing(this.profileId);
         this.userService.setFollowers(this.profileId);
         this.personalPage = this.isPersonalPage();
-        console.log(this.isPersonalPage());
-    }
-
-    getAllPosts(): void {
-        this.postService.getAll()
-            .subscribe(data => this.posts = data.Records);
     }
     
-    getAllUsers(): void {
-        this.userService.getAll()
-            .subscribe(data => this.users = data.Records);
+    followUser(followingId: number){
+        this.userService.follow(this.authService.getUserId(), followingId)
+            .subscribe(data => console.log(data));
+    }
+    
+    unfollowUser(unfollowingId: number){
+        this.userService.unfollow(this.authService.getUserId(), unfollowingId)
+            .subscribe(data => console.log(data));
     }
     
     getLatestPosts(id: number): void {

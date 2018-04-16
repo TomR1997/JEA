@@ -43,8 +43,8 @@
                 </mat-list>
             </mat-card>
         </div>
-        <div class="component-item" *ngIf="!personalPage">
-            <mat-card>
+        <div class="component-item">
+            <mat-card *ngIf="!personalPage">
                 <button mat-raised-button color="primary" mat-button (click)="followUser(user.id)">Follow</button>
             </mat-card>
         </div>

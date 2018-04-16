@@ -5,6 +5,7 @@
  */
 package boundary.api;
 
+import boundary.api.dto.FollowUserDTO;
 import boundary.api.dto.UserDTO;
 import boundary.api.response.GetMultipleResponse;
 import boundary.api.response.GetSingleResponse;
@@ -85,12 +86,13 @@ public class UserResource {
     }
 
     @PUT
+    @JWTTokenNeeded
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("follow/{userId}/{followingId}")
-    public Response followUser(@PathParam("userId") Long userId, @PathParam("followingId") Long followingId) {
+    @Path("follow")
+    public Response followUser(FollowUserDTO followUserDto) {
         UpdateResponse<Long> response = new UpdateResponse<>();
         try {
-            userService.followUser(userId, followingId);
+            userService.followUser(followUserDto.userId, followUserDto.followingId);
             response.setSuccess(true);
         } catch (FollowingException ex) {
             response.addMessage("U volgt deze gebruiker al.");
@@ -107,12 +109,13 @@ public class UserResource {
     }
 
     @PUT
+    @JWTTokenNeeded
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("unfollow/{userId}/{unfollowId}")
-    public Response unfollowUser(@PathParam("userId") Long userId, @PathParam("unfollowId") Long unfollowId) {
+    @Path("unfollow")
+    public Response unfollowUser(FollowUserDTO followUserDto) {
         UpdateResponse<User> response = new UpdateResponse<>();
         try {
-            userService.unfollowUser(userId, unfollowId);
+            userService.unfollowUser(followUserDto.userId, followUserDto.followingId);
             response.setSuccess(true);
         } catch (UnfollowingException ex) {
             response.addMessage("U volgt deze gebruiker niet.");
