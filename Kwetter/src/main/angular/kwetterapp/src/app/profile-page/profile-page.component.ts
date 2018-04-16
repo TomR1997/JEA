@@ -20,18 +20,21 @@ export class ProfilePageComponent implements OnInit {
     followingAmount: number = 0;
     profileId: number;
     personalPage: boolean;
+    private sub: any;
         
     constructor(private postService: PostService, private userService: UserService, 
         private authService: AuthService, private routeParam: ActivatedRoute) { 
     }
 
     ngOnInit() {
-        this.profileId = this.routeParam.snapshot.params['id'];
-        this.getLatestPosts(this.profileId);
-        this.findUser(this.profileId);
-        this.userService.setFollowing(this.profileId);
-        this.userService.setFollowers(this.profileId);
-        this.personalPage = this.isPersonalPage();
+        this.sub = this.routeParam.params.subscribe(params => {
+            this.profileId = params['id'];
+            this.getLatestPosts(this.profileId);
+            this.findUser(this.profileId);
+            this.userService.setFollowing(this.profileId);
+            this.userService.setFollowers(this.profileId);
+            this.personalPage = this.isPersonalPage();
+        });        
     }
     
     followUser(followingId: number){
