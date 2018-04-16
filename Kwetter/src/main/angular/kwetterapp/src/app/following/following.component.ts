@@ -16,7 +16,7 @@ export class FollowingComponent implements OnInit {
     followers: User[];
     profileUser: User;
 
-    constructor(private postService: PostService, private userService: UserService, private authService: AuthService
+    constructor(private postService: PostService, private userService: UserService, private authService: AuthService,
         private router: Router) { 
     }
 
@@ -41,9 +41,9 @@ export class FollowingComponent implements OnInit {
     
     routeProfile(username: string){
         this.userService.find(username)
-            .subscribe(data => 
+            .subscribe(data => {
                 this.profileUser = data.Record;
                 this.router.navigate(['profile/'+ this.profileUser.id]);
-            );
+            });
     }
 }

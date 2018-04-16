@@ -3,7 +3,8 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import {of} from 'rxjs/observable/of';
 import {catchError, tap} from 'rxjs/operators';
-import {Post} from './models/post';
+import {Post} from '../models/post';
+import {User} from '../models/user';
 import {ApiService} from '../api/api.service';
 
 @Injectable()
@@ -15,7 +16,7 @@ export class PostService {
     }
     
     getAll(){
-        return this.apiService.get<User[]>(postUrl);
+        return this.apiService.get<User[]>(this.postUrl);
     }
     
     getLatestPosts(id: number){

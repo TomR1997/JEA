@@ -23,23 +23,23 @@ export class LoginPageComponent implements OnInit {
   
   login(){
       this.authService.login(this.username, this.password)
-        .subscribe(data =>
-            //console.log(data.success);
+        .subscribe(data => {
             if (data.success){
                 localStorage.setItem('token', data.Record);
                 this.getUser(this.username);
                 this.router.navigate(['homepage']);
+                this.authService.isAuthenticated = true;
                 console.log(localStorage);
             }
-        );
+        });
   }
   
-  getUser(username: String){
+  getUser(username: string){
       this.userService.find(username)
-        .subscribe(data => 
+        .subscribe(data => {
             this.user = data.Record;
             localStorage.setItem('userId', this.user.id);
-        );
+        });
   }
 
 }

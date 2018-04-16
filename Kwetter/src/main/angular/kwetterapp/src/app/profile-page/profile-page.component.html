@@ -30,17 +30,24 @@
         </div>
     </div>
     <div class="right-component">
-        <mat-card>
-            <h3>Details</h3>
-            <mat-list>
-                <mat-list-item>Username: {{user.username}}</mat-list-item>    
-                <mat-divider></mat-divider>
-                <mat-list-item>Name: {{user.name}}</mat-list-item>    
-                <mat-divider></mat-divider>
-                <mat-list-item>Location: {{user.location}}</mat-list-item>    
-                <mat-divider></mat-divider>
-            </mat-list>
-        </mat-card>
+        <div class="component-item">
+            <mat-card>
+                <h3>Details</h3>
+                <mat-list>
+                    <mat-list-item><b>Username:</b>&nbsp;{{user.username}}</mat-list-item>    
+                    <mat-divider></mat-divider>
+                    <mat-list-item><b>Name:</b>&nbsp;{{user.name}}</mat-list-item>    
+                    <mat-divider></mat-divider>
+                    <mat-list-item><b>Location:</b>&nbsp;{{user.location}}</mat-list-item>    
+                    <mat-divider></mat-divider>
+                </mat-list>
+            </mat-card>
+        </div>
+        <div class="component-item" *ngIf="!personalPage">
+            <mat-card>
+                <button mat-raised-button color="primary" mat-button (click)="followUser(user.id)">Follow</button>
+            </mat-card>
+        </div>
     </div>
 </div>
 

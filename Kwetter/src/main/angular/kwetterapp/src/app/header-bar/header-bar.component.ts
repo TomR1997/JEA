@@ -8,15 +8,17 @@ import { AuthService } from '../services/auth.service';
   styleUrls: ['./header-bar.component.css']
 })
 export class HeaderBarComponent implements OnInit {
+  isAuthenticated: boolean;
 
   constructor(private router: Router, private authService: AuthService) { 
   }
 
   ngOnInit() {
+      this.isAuthenticated = this.authService.isAuthenticated();
   }
 
   routeProfile(){
-      this.router.navigate(['profile/'+ this.authService.getUserId())]);
+      this.router.navigate(['profile/'+ this.authService.getUserId()]);
   }
   
   routeHome(){
@@ -25,6 +27,7 @@ export class HeaderBarComponent implements OnInit {
   
   logout(){
       this.authService.logout();
+      this.isAuthenticated = this.authService.authenticated;
   }
   
    routeLogin(){

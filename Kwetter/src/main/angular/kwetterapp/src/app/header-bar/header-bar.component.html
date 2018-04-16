@@ -3,8 +3,12 @@
     &nbsp; 
     <span (click)="routeProfile()">profile</span>
     &nbsp;
-    <span (click)="logout()">logout</span>
-    &nbsp;
-    <span (click)="routeLogin()">login</span>
+    <div *ngIf="isAuthenticated">
+        <span (click)="logout()">logout</span>
+        &nbsp;
+    </div>
+    <div *ngIf="!isAuthenticated">
+        <span (click)="routeLogin()">login</span>
+    </div>
 </mat-toolbar>
 <br><br>

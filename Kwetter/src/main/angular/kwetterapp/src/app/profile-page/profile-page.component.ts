@@ -19,6 +19,7 @@ export class ProfilePageComponent implements OnInit {
     followerAmount: number = 0;
     followingAmount: number = 0;
     profileId: number;
+    personalPage: boolean;
         
     constructor(private postService: PostService, private userService: UserService, 
         private authService: AuthService, private routeParam: ActivatedRoute) { 
@@ -30,15 +31,17 @@ export class ProfilePageComponent implements OnInit {
         this.findUser(this.profileId);
         this.userService.setFollowing(this.profileId);
         this.userService.setFollowers(this.profileId);
+        this.personalPage = this.isPersonalPage();
+        console.log(this.isPersonalPage());
     }
 
     getAllPosts(): void {
-        this.postService.getAllPosts()
+        this.postService.getAll()
             .subscribe(data => this.posts = data.Records);
     }
     
     getAllUsers(): void {
-        this.userService.getAllUsers()
+        this.userService.getAll()
             .subscribe(data => this.users = data.Records);
     }
     
@@ -60,5 +63,12 @@ export class ProfilePageComponent implements OnInit {
     getFollowingAmount(id: number): void{
         this.userService.getFollowingAmount(id)
             .subscribe(data => this.followingAmount = data.Record);
+    }
+    
+    isPersonalPage(): boolean{
+        if (this.authService.getUserId() == this.profileId){
+            return true;
+        }
+        return false;
     }
 }

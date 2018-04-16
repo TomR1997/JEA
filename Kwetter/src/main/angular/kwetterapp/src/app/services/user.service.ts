@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {catchError, tap} from 'rxjs/operators';
-import {User} from './models/user';
+import {User} from '../models/user';
 import {ApiService} from '../api/api.service';
 
 @Injectable()
@@ -15,7 +15,7 @@ export class UserService {
     }
 
     getAll(){
-        return this.http.get<User[]>(userUrl);
+        return this.apiService.get<User[]>(this.userUrl);
     }
     
     findUser(id: number){
@@ -46,17 +46,6 @@ export class UserService {
     getFollowingAmount(id: number) {
         const url = this.userUrl + '/followingAmount/' + id;
         return this.apiService.get<number>(url);
-    }
-
-    private handleError<T>(operation = 'operation', result?: T) {
-        return (error: any): Observable<T> => {
-            console.error(error); // log to console instead
-            this.log(`${operation} failed: ${error.message}`);
-            return of(result as T);
-        };
-    }
-
-    private log(message: string) {
     }
     
     public setFollowing(id: number): void {
