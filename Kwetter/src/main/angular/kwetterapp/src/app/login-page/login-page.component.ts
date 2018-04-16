@@ -28,7 +28,7 @@ export class LoginPageComponent implements OnInit {
                 localStorage.setItem('token', data.Record);
                 this.getUser(this.username);
                 this.router.navigate(['homepage']);
-                this.authService.isAuthenticated = true;
+                this.authService.authenticated = true;
                 console.log(localStorage);
             }
         });

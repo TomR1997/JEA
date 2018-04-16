@@ -215,7 +215,7 @@ public class PostResource {
     } 
     
     @POST
-    @JWTTokenNeeded
+    //@JWTTokenNeeded
     @Produces(MediaType.APPLICATION_JSON)
     @Path("create/{userId}/{content}")
     public Response createPost(@PathParam("userId") Long userId, @PathParam("content")String content){
