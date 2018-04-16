@@ -46,6 +46,7 @@
         <div class="component-item">
             <mat-card *ngIf="!personalPage">
                 <button mat-raised-button color="primary" mat-button (click)="followUser(user.id)">Follow</button>
+                <button mat-raised-button color="primary" mat-button (click)="unfollowUser(user.id)">Unfollow</button>
             </mat-card>
         </div>
     </div>
