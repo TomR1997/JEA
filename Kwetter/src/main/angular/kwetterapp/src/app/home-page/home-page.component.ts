@@ -45,6 +45,6 @@ export class HomePageComponent implements OnInit {
   
   createPost(){
       this.postService.createPost(this.authService.getUserId(), this.content)
-        .subscribe(data => console.log(data));
+        .subscribe(data => this.getLatestPosts(this.authService.getUserId()));
   }
 }

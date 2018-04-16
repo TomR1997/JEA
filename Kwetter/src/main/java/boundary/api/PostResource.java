@@ -5,6 +5,7 @@
  */
 package boundary.api;
 
+import boundary.api.dto.NewPostDTO;
 import boundary.api.dto.PostDTO;
 import boundary.api.response.CreateResponse;
 import boundary.api.response.DeleteResponse;
@@ -215,13 +216,13 @@ public class PostResource {
     } 
     
     @POST
-    //@JWTTokenNeeded
+    @JWTTokenNeeded
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("create/{userId}/{content}")
-    public Response createPost(@PathParam("userId") Long userId, @PathParam("content")String content){
+    @Path("create")
+    public Response createPost(NewPostDTO newPostDto){
         CreateResponse<Long> response = new CreateResponse<>();
         try {
-            postService.createPost(userId, content);
+            postService.createPost(newPostDto.userId, newPostDto.content);
             response.setSuccess(true);
         } catch (InvalidIdException ex) {
             response.addMessage("Opgegeven id is ongeldig.");

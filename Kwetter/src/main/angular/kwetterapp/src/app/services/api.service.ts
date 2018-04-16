@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
-export let baseUrl: String = 'http://localhost:8080/Kwetter/api/';
+export let baseUrl: string = 'http://localhost:8080/Kwetter/api/';
 
 @Injectable()
 export class ApiService {
@@ -14,9 +14,9 @@ export class ApiService {
         let headers: HttpHeaders = new HttpHeaders()
             .append('Content-Type', 'application/json');
 
-        /*if (localStorage.getItem('token')){
+        if (localStorage.getItem('token')){
             headers = headers.append('Authorization', 'Bearer ' + localStorage.getItem('token'));
-        }*/
+        }
         
         let url = baseUrl + address;
         return this.httpClient.get<T>(url, { headers: headers });
