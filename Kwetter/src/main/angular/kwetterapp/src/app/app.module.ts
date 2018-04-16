@@ -17,7 +17,7 @@ import {HeaderBarComponent} from './header-bar/header-bar.component';
 import {PostService} from './services/post.service';
 import {UserService} from './services/user.service';
 import {AuthService} from './services/auth.service';
-import {ApiService} from './api/api.service';
+import {ApiService} from './services/api.service';
 import { FollowingComponent } from './following/following.component';
 import { LoginPageComponent } from './login-page/login-page.component';
 

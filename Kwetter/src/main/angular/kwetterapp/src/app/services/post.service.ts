@@ -5,7 +5,7 @@ import {of} from 'rxjs/observable/of';
 import {catchError, tap} from 'rxjs/operators';
 import {Post} from '../models/post';
 import {User} from '../models/user';
-import {ApiService} from '../api/api.service';
+import {ApiService} from './api.service';
 
 @Injectable()
 export class PostService {

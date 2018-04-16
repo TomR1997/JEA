@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {tokenNotExpired} from 'angular2-jwt';
 import {User} from '../models/user';
 import 'rxjs/add/operator/map';
-import {ApiService} from '../api/api.service';
+import {ApiService} from './api.service';
 import { Router } from '@angular/router';
 
 @Injectable()
