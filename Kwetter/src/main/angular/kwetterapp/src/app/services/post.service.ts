@@ -34,8 +34,13 @@ export class PostService {
         return this.apiService.get<Post[]>(url);
     }
 
-    likePost(postId: number, userId: number): any{
+    likePost(postId: number, userId: number){
         const url = this.postUrl + '/like/';
+        return this.apiService.put<any>(url, {'postId': postId, 'userId': userId});
+    }
+    
+    unlikePost(postId: number, userId: number){
+        const url = this.postUrl + '/unlike/';
         return this.apiService.put<any>(url, {'postId': postId, 'userId': userId});
     }
     

@@ -43,6 +43,11 @@ export class HomePageComponent implements OnInit {
         .subscribe(data => console.log(data));
   }
   
+  unlikePost(postId: number, userId: number): void{
+      this.postService.unlikePost(postId, userId)
+        .subscribe(data => console.log(data));
+  }
+  
   createPost(){
       this.postService.createPost(this.authService.getUserId(), this.content)
         .subscribe(data => this.getLatestPosts(this.authService.getUserId()));

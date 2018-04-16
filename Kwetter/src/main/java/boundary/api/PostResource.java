@@ -5,6 +5,7 @@
  */
 package boundary.api;
 
+import boundary.api.dto.LikePostDTO;
 import boundary.api.dto.NewPostDTO;
 import boundary.api.dto.PostDTO;
 import boundary.api.response.CreateResponse;
@@ -168,11 +169,11 @@ public class PostResource {
     @PUT
     @JWTTokenNeeded
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("like/{postId}/{userId}")
-    public Response likePost(@PathParam("postId") Long postId, @PathParam("userId")Long userId){
+    @Path("like")
+    public Response likePost(LikePostDTO likePostDto){
         CreateResponse<Long> response = new CreateResponse<>();
         try {
-            postService.likePost(postId, userId);
+            postService.likePost(likePostDto.postId, likePostDto.userId);
             response.setSuccess(true);
         } catch (InvalidIdException ex) {
             response.addMessage("Opgegeven id is ongeldig.");
@@ -193,11 +194,11 @@ public class PostResource {
     @PUT
     @JWTTokenNeeded
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("unlike/{postId}/{userId}")
-    public Response unlikePost(@PathParam("postId") Long postId, @PathParam("userId")Long userId){
+    @Path("unlike")
+    public Response unlikePost(LikePostDTO likePostDto){
         CreateResponse<Long> response = new CreateResponse<>();
         try {
-            postService.unlikePost(postId, userId);
+            postService.unlikePost(likePostDto.postId, likePostDto.userId);
             response.setSuccess(true);
         } catch (InvalidIdException ex) {
             response.addMessage("Opgegeven id is ongeldig.");

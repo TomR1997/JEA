@@ -11,6 +11,7 @@
                             <th>Message sent</th>
                             <th>Owner</th>
                             <th>Like</th>
+                            <th>Unlike</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -20,6 +21,7 @@
                             <td>{{post.messageSent}}</td>
                             <td>{{post.owner.username}}</td>
                             <td><button mat-raised-button color="primary" mat-button (click)="likePost(post.id, post.owner.id)">Like</button></td>
+                            <td><button mat-raised-button color="primary" mat-button (click)="unlikePost(post.id, post.owner.id)">Unlike</button></td>
                         </tr>
                     </tbody>
                 </table>
