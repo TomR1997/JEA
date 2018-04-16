@@ -31,8 +31,9 @@ export class ProfilePageComponent implements OnInit {
             this.profileId = params['id'];
             this.getLatestPosts(this.profileId);
             this.findUser(this.profileId);
-            this.userService.setFollowing(this.profileId);
-            this.userService.setFollowers(this.profileId);
+            //this.userService.setFollowing(this.profileId);
+            //this.userService.setFollowers(this.profileId);
+            this.userService.currentId = this.profileId;
             this.personalPage = this.isPersonalPage();
         });        
     }

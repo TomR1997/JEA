@@ -18,8 +18,8 @@ import {PostService} from './services/post.service';
 import {UserService} from './services/user.service';
 import {AuthService} from './services/auth.service';
 import {ApiService} from './services/api.service';
-import { FollowingComponent } from './following/following.component';
-import { LoginPageComponent } from './login-page/login-page.component';
+import {FollowingComponent} from './following/following.component';
+import {LoginPageComponent} from './login-page/login-page.component';
 
 
 @NgModule({

@@ -21,10 +21,6 @@ export class FollowingComponent implements OnInit {
     }
 
     ngOnInit() {
-        /*this.userService.setFollowing(this.authService.getUserId());
-        this.userService.setFollowers(this.authService.getUserId());
-        this.following = this.userService.following;
-        this.followers = this.userService.followers;*/
         this.getFollowing(this.authService.getUserId());
         this.getFollowers(this.authService.getUserId());
     }
