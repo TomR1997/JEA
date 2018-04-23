@@ -24,7 +24,7 @@ export class HomePageComponent implements OnInit {
       this.getLatestPosts(this.authService.getUserId());
   }
   
-  getTimeline(id: number): void {
+  getTimeline(id: number){
       this.postService.getTimeline(id)
         .subscribe(data => {
             if(data.Records){
@@ -35,7 +35,7 @@ export class HomePageComponent implements OnInit {
       });
   }
 
-  public searchPost(): void{
+  public searchPost(){
       this.postService.findPosts(this.tag)
         .subscribe(data => {
             if (data.Records){
@@ -46,7 +46,7 @@ export class HomePageComponent implements OnInit {
       });
   }
   
-  getLatestPosts(id: number): void {
+  getLatestPosts(id: number) {
       this.postService.getLatestPosts(id)
         .subscribe(data => {
             if (data.Records){
@@ -57,7 +57,7 @@ export class HomePageComponent implements OnInit {
       });
   }
   
-  likePost(postId: number, userId: number): void{
+  likePost(postId: number, userId: number){
       this.postService.likePost(postId, userId)
         .subscribe(data => {
             if (data.Record){
@@ -68,7 +68,7 @@ export class HomePageComponent implements OnInit {
       });
   }
   
-  unlikePost(postId: number, userId: number): void{
+  unlikePost(postId: number, userId: number){
       this.postService.unlikePost(postId, userId)
         .subscribe(data => {
             if (data.Record){

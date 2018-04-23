@@ -61,7 +61,7 @@ export class ProfilePageComponent implements OnInit {
         });
     }
     
-    getLatestPosts(id: number): void {
+    getLatestPosts(id: number) {
         this.postService.getLatestPosts(id)
             .subscribe(data => {
                 if (data.Records){
@@ -72,7 +72,7 @@ export class ProfilePageComponent implements OnInit {
         });
     }
     
-    findUser(id: number): void {
+    findUser(id: number) {
         this.userService.findUser(id)
             .subscribe(data => {
                 if (data.Record){
@@ -83,7 +83,7 @@ export class ProfilePageComponent implements OnInit {
         });
     }
     
-    getFollowerAmount(id: number): void{
+    getFollowerAmount(id: number){
         this.userService.getFollowerAmount(id)
             .subscribe(data => {
                 if(data.Record){
@@ -94,7 +94,7 @@ export class ProfilePageComponent implements OnInit {
         });
     }
     
-    getFollowingAmount(id: number): void{
+    getFollowingAmount(id: number){
         this.userService.getFollowingAmount(id)
             .subscribe(data => {
                 if(data.Record){

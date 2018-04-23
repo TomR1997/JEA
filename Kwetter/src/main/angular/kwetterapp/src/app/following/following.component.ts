@@ -26,7 +26,7 @@ export class FollowingComponent implements OnInit {
         this.getFollowers(this.authService.getUserId());
     }
     
-    getFollowing(id: number): void {
+    getFollowing(id: number) {
         this.userService.getFollowing(id)
             .subscribe(data => {
                 if (data.Records){
@@ -37,7 +37,7 @@ export class FollowingComponent implements OnInit {
         });
     }
     
-    getFollowers(id: number): void {
+    getFollowers(id: number) {
         this.userService.getFollowers(id)
             .subscribe(data => {
                 if (data.Records){
