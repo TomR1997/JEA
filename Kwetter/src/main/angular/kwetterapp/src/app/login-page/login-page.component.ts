@@ -14,6 +14,7 @@ export class LoginPageComponent implements OnInit {
   password: string;
   success: boolean = false;
   user: User;
+  errors: any[] = [];
     
   constructor(private userService: UserService, private router: Router, private authService: AuthService) {
   }
@@ -26,10 +27,21 @@ export class LoginPageComponent implements OnInit {
         .subscribe(data => {
             if (data.success){
                 localStorage.setItem('token', data.Record);
-                this.getUser(this.username);
-                this.router.navigate(['homepage']);
-                this.authService.authenticated = true;
-                console.log(localStorage);
+                //this.getUser(this.username);
+                this.userService.find(this.username)
+                    .subscribe(data => {
+                        if (data.Record){
+                            this.user = data.Record;
+                            localStorage.setItem('userId', this.user.id);
+                            this.router.navigate(['homepage']);
+                            this.authService.authenticated = true;
+                            console.log(localStorage);
+                        } else if(data.messages){
+                            this.errors = data.messages;
+                        }
+                });
+            } else if(data.messages){
+                this.errors = data.messages;
             }
         });
   }

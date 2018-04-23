@@ -21,6 +21,7 @@ export class ProfilePageComponent implements OnInit {
     profileId: number;
     personalPage: boolean;
     private sub: any;
+    errors: any[] = [];
         
     constructor(private postService: PostService, private userService: UserService, 
         private authService: AuthService, private routeParam: ActivatedRoute) { 
@@ -40,32 +41,68 @@ export class ProfilePageComponent implements OnInit {
     
     followUser(followingId: number){
         this.userService.follow(this.authService.getUserId(), followingId)
-            .subscribe(data => console.log(data));
+            .subscribe(data => {
+                if (data.Record){
+                    console.log(data);
+                } else if(data.messages){
+                    this.errors = data.messages;
+                }
+        });
     }
     
     unfollowUser(unfollowingId: number){
         this.userService.unfollow(this.authService.getUserId(), unfollowingId)
-            .subscribe(data => console.log(data));
+            .subscribe(data => {
+                if (data.Record){
+                    console.log(data);
+                } else if(data.messages){
+                    this.errors = data.messages;
+                }
+        });
     }
     
     getLatestPosts(id: number): void {
         this.postService.getLatestPosts(id)
-            .subscribe(data => this.latestPosts = data.Records);
+            .subscribe(data => {
+                if (data.Records){
+                    this.latestPosts = data.Records;
+                } else if(data.messages){
+                    this.errors = data.messages;
+                }
+        });
     }
     
     findUser(id: number): void {
         this.userService.findUser(id)
-            .subscribe(data => this.user = data.Record);
+            .subscribe(data => {
+                if (data.Record){
+                    this.user = data.Record;
+                } else if (data.messages){
+                    this.errors = data.messages;
+                }
+        });
     }
     
     getFollowerAmount(id: number): void{
         this.userService.getFollowerAmount(id)
-            .subscribe(data => this.followerAmount = data.Record);
+            .subscribe(data => {
+                if(data.Record){
+                   this.followerAmount = data.Record; 
+                } else if (data.messages){
+                    this.errors = data.messages;
+                }
+        });
     }
     
     getFollowingAmount(id: number): void{
         this.userService.getFollowingAmount(id)
-            .subscribe(data => this.followingAmount = data.Record);
+            .subscribe(data => {
+                if(data.Record){
+                  this.followingAmount = data.Record;  
+                } else if (data.messages){
+                    this.errors = data.messages;
+                }
+        });
     }
     
     isPersonalPage(): boolean{

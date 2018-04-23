@@ -8,6 +8,7 @@ export class UserService {
 
     private baseUrl = 'http://localhost:8080/Kwetter/api/';
     private userUrl = 'users';
+    currentId: number;
 
     constructor(private apiService: ApiService) {
     }
