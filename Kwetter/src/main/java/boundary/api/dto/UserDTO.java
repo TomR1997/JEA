@@ -20,6 +20,8 @@ public class UserDTO {
     private String name;
     private String role;
     private String web;
+    private String following;
+    private String followers;
 
     public UserDTO(User user) {
         this.id = user.getId();
@@ -29,6 +31,8 @@ public class UserDTO {
         this.name = user.getName();
         this.role = user.getRole().getName();
         this.web = user.getWeb();
+        this.following = "users/following/" + user.getId();
+        this.followers = "users/followers/" + user.getId();
     }
     
     
