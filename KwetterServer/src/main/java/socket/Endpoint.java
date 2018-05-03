@@ -5,6 +5,7 @@
  */
 package socket;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -14,6 +15,7 @@ import javax.ejb.ConcurrencyManagement;
 import javax.ejb.ConcurrencyManagementType;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
+import javax.websocket.EncodeException;
 import javax.websocket.EndpointConfig;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
@@ -52,18 +54,34 @@ public class EndPoint {
     
     @OnOpen
     public void onOpen(Session session, EndpointConfig cfg){
-        LOG.log(Level.FINE, "openend session {0}");
+        LOG.log(Level.FINE, "openend session by {0}", session.getId());
         this.peers.add(session);
     }
     
     @OnClose
     public void onClose(Session session, EndpointConfig cfg){
-        LOG.log(Level.FINE, "closed session {0}");
+        LOG.log(Level.FINE, "closed session {0}", session.getId());
         this.peers.remove(session);
     }
     
     @OnError
-    public void onError(Throwable t) {
-        LOG.log(Level.INFO, t.getMessage());
+    public void onError(Throwable t, Session session) {
+        LOG.log(Level.SEVERE, "an error occured in session " + session, t.getMessage());
+    }
+    
+    private void broadcast(Object message){
+        peers.stream().forEach((peer) -> {
+            sendMessage(peer, message);
+        });
+    }
+    
+    private void sendMessage(Session peer, Object message) {
+        try {
+            if (peer.isOpen()) {
+                peer.getBasicRemote().sendObject(message);
+            }
+        } catch (IOException | EncodeException ex) {
+            LOG.log(Level.SEVERE, null, ex);
+        }
     }
 }
