@@ -5,18 +5,19 @@
  */
 package socket;
 
+import boundary.api.dto.PostDTO;
+import domain.User;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.ConcurrencyManagement;
 import javax.ejb.ConcurrencyManagementType;
-import javax.ejb.EJB;
 import javax.ejb.Singleton;
+import javax.inject.Inject;
+import javax.websocket.DecodeException;
 import javax.websocket.EncodeException;
 import javax.websocket.EndpointConfig;
 import javax.websocket.OnClose;
@@ -25,16 +26,22 @@ import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
+import javax.ws.rs.PathParam;
+import service.PostService;
+import service.UserService;
+import service.exceptions.InvalidIdException;
+import service.exceptions.NonExistingPostException;
+import service.exceptions.NonExistingUserException;
 
 /**
  *
  * @author Tomt
  */
 @ServerEndpoint(
-    value = "/kwetterendpoint/",
-    encoders = {MessageEncoder.class},
-    decoders = {MessageDecoder.class},
-    configurator = Configurator.class
+        value = "/kwetterendpoint/",
+        encoders = {MessageEncoder.class},
+        decoders = {MessageDecoder.class},
+        configurator = Configurator.class
 )
 @ConcurrencyManagement(ConcurrencyManagementType.BEAN)
 @Singleton
@@ -43,48 +50,80 @@ public class EndPoint {
     private static final Logger LOG = Logger.getLogger(EndPoint.class.getName());
     private final Map<Session, String> peers;
 
+    @Inject
+    private PostService postService;
+
+    @Inject
+    private UserService userService;
+
+    private final MessageEncoder encoder;
+    private final MessageDecoder decoder;
+
     static {
         LOG.setLevel(Level.ALL);
     }
-    
-    @EJB
-    private EndPoint delegate;
 
     public EndPoint() {
-        this.peers = new HashMap<>();
+        this.peers = Collections.synchronizedMap(new HashMap<Session, String>());
+        this.encoder = new MessageEncoder();
+        this.decoder = new MessageDecoder();
     }
-    
+
     @OnOpen
-    public void onOpen(Session session, EndpointConfig cfg){
+    public void onOpen(Session session, EndpointConfig cfg, @PathParam("username") String username) {
         LOG.log(Level.FINE, "openend session by {0}", session.getId());
-        //Get username
-        this.peers.put(session, session.getId());
+        this.peers.put(session, username);
     }
-    
+
     @OnClose
-    public void onClose(Session session, EndpointConfig cfg){
+    public void onClose(Session session, EndpointConfig cfg) {
         LOG.log(Level.FINE, "closed session {0}", session.getId());
         this.peers.remove(session);
     }
-    
+
     @OnError
     public void onError(Throwable t, Session session) {
         LOG.log(Level.SEVERE, "an error occured in session " + session, t.getMessage());
     }
-    
-    //getAsyncRemote()?
+
     @OnMessage
-    public void onMessage(final Session session, final Message message){
-        final Runnable runnable = () -> {
-            try{
-                session.getBasicRemote().sendObject(message);
-            } catch (IOException | EncodeException t){
-                LOG.log(Level.SEVERE, "error in asynchronious runnable execution", t);
+    public void onMessage(final Session session, final String message) {
+        Message post = null;
+        User user = null;
+
+        try {
+            post = decoder.decode(message);
+        } catch (DecodeException ex) {
+            LOG.log(Level.SEVERE, ex.getMessage());
+        }
+
+        if (post != null) {
+            try {
+                user = userService.find(post.getOwner().getUsername());
+            } catch (NonExistingUserException ex) {
+                LOG.log(Level.SEVERE, ex.getMessage());
             }
-        };
+            if (user != null) {
+                try {
+                    postService.createPost(user.getId(), post.getMessage());
+                } catch (NonExistingUserException | InvalidIdException | NonExistingPostException ex) {
+                    LOG.log(Level.SEVERE, ex.getMessage());
+                }
+                
+                String newPost = null;
+                try {
+                    newPost = encoder.encode(post);
+                } catch (EncodeException ex) {
+                    Logger.getLogger(EndPoint.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                LOG.info(newPost);
+                
+                broadcast(newPost, user);
+            }
+        }
     }
-    
-    //getAsyncRemote()?
+
     private void sendMessage(Session peer, Object message) {
         try {
             if (peer.isOpen()) {
@@ -95,4 +134,14 @@ public class EndPoint {
         }
     }
     
+    private void broadcast(Object message, User user){
+        for(User follower : user.getFollowing()){
+            if (peers.containsValue(follower.getUsername())){
+                for (Session peer : peers.keySet()){
+                    sendMessage(peer, message);
+                }
+            }
+        }
+    }
+
 }

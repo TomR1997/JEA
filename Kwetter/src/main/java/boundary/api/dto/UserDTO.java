@@ -34,6 +34,9 @@ public class UserDTO {
         this.following = "users/following/" + user.getId();
         this.followers = "users/followers/" + user.getId();
     }
-    
+
+    public String getUsername() {
+        return username;
+    }
     
 }
