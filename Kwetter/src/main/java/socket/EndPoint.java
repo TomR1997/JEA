@@ -31,9 +31,10 @@ import javax.websocket.server.ServerEndpoint;
  * @author Tomt
  */
 @ServerEndpoint(
-        value = "/kwetterendpoint/",
-        encoders = {MessageEncoder.class},
-        decoders = {MessageDecoder.class}
+    value = "/kwetterendpoint/",
+    encoders = {MessageEncoder.class},
+    decoders = {MessageDecoder.class},
+    configurator = Configurator.class
 )
 @ConcurrencyManagement(ConcurrencyManagementType.BEAN)
 @Singleton
