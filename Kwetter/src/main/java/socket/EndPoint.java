@@ -7,7 +7,9 @@ package socket;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,9 +25,6 @@ import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
-import socket.serialize.Message;
-import socket.serialize.MessageDecoder;
-import socket.serialize.MessageEncoder;
 
 /**
  *
@@ -41,7 +40,7 @@ import socket.serialize.MessageEncoder;
 public class EndPoint {
 
     private static final Logger LOG = Logger.getLogger(EndPoint.class.getName());
-    private final Set<Session> peers;
+    private final Map<Session, String> peers;
 
     static {
         LOG.setLevel(Level.ALL);
@@ -51,13 +50,14 @@ public class EndPoint {
     private EndPoint delegate;
 
     public EndPoint() {
-        this.peers = Collections.synchronizedSet(new HashSet<Session>());
+        this.peers = new HashMap<>();
     }
     
     @OnOpen
     public void onOpen(Session session, EndpointConfig cfg){
         LOG.log(Level.FINE, "openend session by {0}", session.getId());
-        this.peers.add(session);
+        //Get username
+        this.peers.put(session, session.getId());
     }
     
     @OnClose
@@ -71,6 +71,7 @@ public class EndPoint {
         LOG.log(Level.SEVERE, "an error occured in session " + session, t.getMessage());
     }
     
+    //getAsyncRemote()?
     @OnMessage
     public void onMessage(final Session session, final Message message){
         final Runnable runnable = () -> {
@@ -82,12 +83,7 @@ public class EndPoint {
         };
     }
     
-    private void broadcast(Object message){
-        peers.stream().forEach((peer) -> {
-            sendMessage(peer, message);
-        });
-    }
-    
+    //getAsyncRemote()?
     private void sendMessage(Session peer, Object message) {
         try {
             if (peer.isOpen()) {
