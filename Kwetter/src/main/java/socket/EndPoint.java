@@ -90,9 +90,11 @@ public class EndPoint {
     public void onMessage(final Session session, final String message) {
         Message post = null;
         User user = null;
-
+        
         try {
             post = decoder.decode(message);
+            LOG.log(Level.INFO, "message: {0}", message);
+            LOG.log(Level.INFO, "post: {0}", post);
         } catch (DecodeException ex) {
             LOG.log(Level.SEVERE, ex.getMessage());
         }
@@ -117,7 +119,7 @@ public class EndPoint {
                     Logger.getLogger(EndPoint.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 
-                LOG.info(newPost);
+                LOG.log(Level.INFO, "newpost: {0}", newPost);
                 
                 broadcast(newPost, user);
             }
