@@ -19,9 +19,11 @@ import javax.websocket.EncodeException;
 import javax.websocket.EndpointConfig;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
+import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
+import socket.serialize.Message;
 import socket.serialize.MessageDecoder;
 import socket.serialize.MessageEncoder;
 
@@ -69,6 +71,17 @@ public class EndPoint {
         LOG.log(Level.SEVERE, "an error occured in session " + session, t.getMessage());
     }
     
+    @OnMessage
+    public void onMessage(final Session session, final Message message){
+        final Runnable runnable = () -> {
+            try{
+                session.getBasicRemote().sendObject(message);
+            } catch (IOException | EncodeException t){
+                LOG.log(Level.SEVERE, "error in asynchronious runnable execution", t);
+            }
+        };
+    }
+    
     private void broadcast(Object message){
         peers.stream().forEach((peer) -> {
             sendMessage(peer, message);
@@ -84,4 +97,5 @@ public class EndPoint {
             LOG.log(Level.SEVERE, null, ex);
         }
     }
+    
 }
