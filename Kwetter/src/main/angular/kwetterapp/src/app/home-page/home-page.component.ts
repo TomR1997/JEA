@@ -23,6 +23,7 @@ export class HomePageComponent implements OnInit {
 
   ngOnInit() {
       this.getLatestPosts(this.authService.getUserId());
+      var ws = new $WebSocket('ws://localhost:8080/Kwetter/kwetterendpoint/qw');
   }
   
   getTimeline(id: number){

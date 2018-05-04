@@ -5,7 +5,6 @@
  */
 package socket;
 
-import boundary.api.dto.PostDTO;
 import domain.User;
 import java.io.IOException;
 import java.util.Collections;
@@ -16,7 +15,6 @@ import java.util.logging.Logger;
 import javax.ejb.ConcurrencyManagement;
 import javax.ejb.ConcurrencyManagementType;
 import javax.ejb.Singleton;
-import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.websocket.DecodeException;
 import javax.websocket.EncodeException;
@@ -26,8 +24,8 @@ import javax.websocket.OnError;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
+import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
-import javax.ws.rs.PathParam;
 import service.PostService;
 import service.UserService;
 import service.exceptions.InvalidIdException;
@@ -71,17 +69,18 @@ public class EndPoint {
         this.decoder = new MessageDecoder();
     }
 
-    @OnOpen
-    public void onOpen(Session session){
-        LOG.log(Level.FINE, "openend session by {0}", session.getId());
-        this.peers.put(session, "");
-    }
-    
 //    @OnOpen
+//    public void onOpen(Session session){
 //        LOG.log(Level.FINE, "openend session by {0}", session.getId());
-//        LOG.log(Level.FINE, "openend session by {0}", username);
-//        this.peers.put(session, username);
+//        this.peers.put(session, "");
 //    }
+    
+    @OnOpen
+    public void onOpen(@PathParam("username") String username, Session session) {
+        LOG.log(Level.FINE, "openend session by {0}", session.getId());
+        LOG.log(Level.FINE, "openend session by {0}", username);
+        this.peers.put(session, username);
+    }
 
     @OnClose
     public void onClose(Session session, EndpointConfig cfg) {
