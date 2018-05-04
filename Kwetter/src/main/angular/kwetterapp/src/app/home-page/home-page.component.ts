@@ -4,6 +4,7 @@ import { UserService } from '../services/user.service';
 import { AuthService } from '../services/auth.service';
 import { Post } from '../models/post';
 import { User } from '../models/user';
+import {$WebSocket} from 'angular2-websocket/angular2-websocket';
 
 @Component({
   selector: 'app-home-page',

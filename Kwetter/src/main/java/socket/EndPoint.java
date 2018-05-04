@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 import javax.ejb.ConcurrencyManagement;
 import javax.ejb.ConcurrencyManagementType;
 import javax.ejb.Singleton;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.websocket.DecodeException;
 import javax.websocket.EncodeException;
@@ -37,8 +38,9 @@ import service.exceptions.NonExistingUserException;
  *
  * @author Tomt
  */
+
 @ServerEndpoint(
-        value = "/kwetterendpoint/",
+        value = "/kwetterendpoint/{username}",
         encoders = {MessageEncoder.class},
         decoders = {MessageDecoder.class},
         configurator = Configurator.class
@@ -70,10 +72,16 @@ public class EndPoint {
     }
 
     @OnOpen
-    public void onOpen(Session session, EndpointConfig cfg, @PathParam("username") String username) {
+    public void onOpen(Session session){
         LOG.log(Level.FINE, "openend session by {0}", session.getId());
-        this.peers.put(session, username);
+        this.peers.put(session, "");
     }
+    
+//    @OnOpen
+//        LOG.log(Level.FINE, "openend session by {0}", session.getId());
+//        LOG.log(Level.FINE, "openend session by {0}", username);
+//        this.peers.put(session, username);
+//    }
 
     @OnClose
     public void onClose(Session session, EndpointConfig cfg) {
