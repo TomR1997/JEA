@@ -10,6 +10,7 @@ import dao.exceptions.EmptyListException;
 import dao.exceptions.NonExistingEntryException;
 import domain.Post;
 import domain.User;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -182,7 +183,7 @@ public class PostService {
     
     public Post createPostSocket(Long userId, String content) throws NonExistingUserException, InvalidIdException, NonExistingPostException{
         try {
-            Post post = new Post(content, new Date(), userService.findUser(userId));
+            Post post = new Post(content, new Date(), userService.findUser(userId), new ArrayList<>());
             postDao.save(post);
             return postDao.saveSocket(post);
         } catch (NonExistingUserException ex) {

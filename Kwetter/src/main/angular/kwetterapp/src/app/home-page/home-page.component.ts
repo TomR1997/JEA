@@ -94,7 +94,7 @@ export class HomePageComponent implements OnInit {
   }
   
   createPostSocket(){
-      let newPost = new Post(this.currentUser.id, this.content);
+      let newPost = new Post(this.currentUser.id, this.content, 'date', this.currentUser, []);
       this.ws.send(JSON.stringify(newPost))
         .subscribe(data => {
            console.log(data); 

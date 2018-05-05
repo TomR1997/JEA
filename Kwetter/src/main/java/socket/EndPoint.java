@@ -5,6 +5,7 @@
  */
 package socket;
 
+import boundary.api.dto.PostDTO;
 import domain.Post;
 import domain.User;
 import java.io.IOException;
@@ -116,7 +117,7 @@ public class EndPoint {
                 if (latestPost != null) {
                     String socketPost = null;
                     try {
-                        socketPost = encoder.encode(latestPost);
+                        socketPost = encoder.encode(new PostDTO(latestPost));
                     } catch (EncodeException ex) {
                         Logger.getLogger(EndPoint.class.getName()).log(Level.SEVERE, null, ex);
                     }

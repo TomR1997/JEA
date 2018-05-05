@@ -5,8 +5,8 @@
  */
 package socket;
 
+import boundary.api.dto.PostDTO;
 import com.google.gson.Gson;
-import domain.Post;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.websocket.EncodeException;
@@ -17,7 +17,7 @@ import javax.websocket.EndpointConfig;
  *
  * @author Tomt
  */
-public class MessageEncoder implements Encoder.Text<Post> {
+public class MessageEncoder implements Encoder.Text<PostDTO> {
 
     private final Gson gson = new Gson();
     private static final Logger LOG = Logger.getLogger(MessageEncoder.class.getName());
@@ -27,7 +27,7 @@ public class MessageEncoder implements Encoder.Text<Post> {
     }
 
     @Override
-    public String encode(Post m) throws EncodeException {
+    public String encode(PostDTO m) throws EncodeException {
         try {
             return gson.toJson(m);
         } catch (Throwable t) {
