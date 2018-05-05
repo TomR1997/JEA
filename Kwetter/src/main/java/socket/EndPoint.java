@@ -5,6 +5,7 @@
  */
 package socket;
 
+import domain.Post;
 import domain.User;
 import java.io.IOException;
 import java.util.Collections;
@@ -36,7 +37,6 @@ import service.exceptions.NonExistingUserException;
  *
  * @author Tomt
  */
-
 @ServerEndpoint(
         value = "/kwetterendpoint/{username}",
         encoders = {MessageEncoder.class},
@@ -68,7 +68,7 @@ public class EndPoint {
         this.encoder = new MessageEncoder();
         this.decoder = new MessageDecoder();
     }
-    
+
     @OnOpen
     public void onOpen(@PathParam("username") String username, Session session) {
         LOG.log(Level.FINE, "openend session by {0}", username);
@@ -90,10 +90,11 @@ public class EndPoint {
     public void onMessage(final Session session, final String message) {
         Message post = null;
         User user = null;
-        
+        Post latestPost = null;
+
         try {
-            post = decoder.decode(message);
             LOG.log(Level.INFO, "message: {0}", message);
+            post = decoder.decode(message);
             LOG.log(Level.INFO, "post: {0}", post);
         } catch (DecodeException ex) {
             LOG.log(Level.SEVERE, ex.getMessage());
@@ -101,27 +102,29 @@ public class EndPoint {
 
         if (post != null) {
             try {
-                user = userService.find(post.getOwner().getUsername());
-            } catch (NonExistingUserException ex) {
+                user = userService.findUser(post.getId());
+            } catch (NonExistingUserException | InvalidIdException ex) {
                 LOG.log(Level.SEVERE, ex.getMessage());
             }
             if (user != null) {
                 try {
-                    postService.createPost(user.getId(), post.getMessage());
+                    latestPost = postService.createPostSocket(user.getId(), post.getMessage());
                 } catch (NonExistingUserException | InvalidIdException | NonExistingPostException ex) {
                     LOG.log(Level.SEVERE, ex.getMessage());
                 }
                 
-                String newPost = null;
-                try {
-                    newPost = encoder.encode(post);
-                } catch (EncodeException ex) {
-                    Logger.getLogger(EndPoint.class.getName()).log(Level.SEVERE, null, ex);
+                if (latestPost != null) {
+                    String socketPost = null;
+                    try {
+                        socketPost = encoder.encode(latestPost);
+                    } catch (EncodeException ex) {
+                        Logger.getLogger(EndPoint.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                    LOG.log(Level.INFO, "newpost: {0}", socketPost);
+                    broadcast(socketPost, user);
                 }
-                
-                LOG.log(Level.INFO, "newpost: {0}", newPost);
-                
-                broadcast(newPost, user);
+
             }
         }
     }
@@ -135,11 +138,11 @@ public class EndPoint {
             LOG.log(Level.SEVERE, null, ex);
         }
     }
-    
-    private void broadcast(Object message, User user){
-        for(User follower : user.getFollowing()){
-            if (peers.containsValue(follower.getUsername())){
-                for (Session peer : peers.keySet()){
+
+    private void broadcast(Object message, User user) {
+        for (User follower : user.getFollowing()) {
+            if (peers.containsValue(follower.getUsername())) {
+                for (Session peer : peers.keySet()) {
                     sendMessage(peer, message);
                 }
             }

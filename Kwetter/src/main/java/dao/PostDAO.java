@@ -35,6 +35,11 @@ public class PostDAO {
     public void save(Post post) throws NonExistingEntryException {
         em.persist(post);
     }
+    
+    public Post saveSocket(Post post) throws NonExistingEntryException {
+        em.persist(post);
+        return post;
+    }
 
     public void update(Post post) throws NonExistingEntryException {
         if (post == null) {

@@ -179,4 +179,18 @@ public class PostService {
             throw new NonExistingPostException();
         }
     }
+    
+    public Post createPostSocket(Long userId, String content) throws NonExistingUserException, InvalidIdException, NonExistingPostException{
+        try {
+            Post post = new Post(content, new Date(), userService.findUser(userId));
+            postDao.save(post);
+            return postDao.saveSocket(post);
+        } catch (NonExistingUserException ex) {
+            throw new NonExistingUserException();
+        } catch (InvalidIdException ex) {
+            throw new InvalidIdException();
+        } catch (NonExistingEntryException ex) {
+            throw new NonExistingPostException();
+        }
+    }
 }

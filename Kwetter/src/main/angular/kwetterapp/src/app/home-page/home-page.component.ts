@@ -18,13 +18,13 @@ export class HomePageComponent implements OnInit {
     content: string;
     errors: any[] = [];
     currentUser: User;
+    ws: any;
 
   constructor(private postService: PostService, private userService: UserService, private authService: AuthService) { 
   }
 
   ngOnInit() {
       this.getLatestPosts(this.authService.getUserId());
-      //var ws = new $WebSocket('ws://localhost:8080/Kwetter/kwetterendpoint/qw');
       this.connect();
   }
   
@@ -94,7 +94,11 @@ export class HomePageComponent implements OnInit {
   }
   
   createPostSocket(){
-      
+      let newPost = new Post(this.currentUser.id, this.content);
+      this.ws.send(JSON.stringify(newPost))
+        .subscribe(data => {
+           console.log(data); 
+        });
   }
   
   connect(){
@@ -102,7 +106,7 @@ export class HomePageComponent implements OnInit {
         .subscribe(data => {
             if (data.Record){
                 this.currentUser = data.Record;
-                var ws = new $WebSocket('ws://localhost:8080/Kwetter/kwetterendpoint/' + this.currentUser.username);
+                this.ws = new $WebSocket('ws://localhost:8080/Kwetter/kwetterendpoint/' + this.currentUser.username);
             } else if (data.messages){
                 this.errors = data.messages;
             }
