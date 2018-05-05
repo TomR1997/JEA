@@ -68,16 +68,9 @@ public class EndPoint {
         this.encoder = new MessageEncoder();
         this.decoder = new MessageDecoder();
     }
-
-//    @OnOpen
-//    public void onOpen(Session session){
-//        LOG.log(Level.FINE, "openend session by {0}", session.getId());
-//        this.peers.put(session, "");
-//    }
     
     @OnOpen
     public void onOpen(@PathParam("username") String username, Session session) {
-        LOG.log(Level.FINE, "openend session by {0}", session.getId());
         LOG.log(Level.FINE, "openend session by {0}", username);
         this.peers.put(session, username);
     }

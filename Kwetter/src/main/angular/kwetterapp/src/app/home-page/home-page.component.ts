@@ -17,13 +17,15 @@ export class HomePageComponent implements OnInit {
     tag: string;
     content: string;
     errors: any[] = [];
+    currentUser: User;
 
   constructor(private postService: PostService, private userService: UserService, private authService: AuthService) { 
   }
 
   ngOnInit() {
       this.getLatestPosts(this.authService.getUserId());
-      var ws = new $WebSocket('ws://localhost:8080/Kwetter/kwetterendpoint/qw');
+      //var ws = new $WebSocket('ws://localhost:8080/Kwetter/kwetterendpoint/qw');
+      this.connect();
   }
   
   getTimeline(id: number){
@@ -89,5 +91,21 @@ export class HomePageComponent implements OnInit {
                 this.errors = data.messages;
             }
       });
+  }
+  
+  createPostSocket(){
+      
+  }
+  
+  connect(){
+      this.userService.findUser(this.authService.getUserId())
+        .subscribe(data => {
+            if (data.Record){
+                this.currentUser = data.Record;
+                var ws = new $WebSocket('ws://localhost:8080/Kwetter/kwetterendpoint/' + this.currentUser.username);
+            } else if (data.messages){
+                this.errors = data.messages;
+            }
+        });
   }
 }
