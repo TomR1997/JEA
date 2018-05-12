@@ -113,7 +113,7 @@ public class EndPoint {
                 } catch (NonExistingUserException | InvalidIdException | NonExistingPostException ex) {
                     LOG.log(Level.SEVERE, ex.getMessage());
                 }
-                
+
                 if (latestPost != null) {
                     String socketPost = null;
                     try {
@@ -141,11 +141,20 @@ public class EndPoint {
     }
 
     private void broadcast(Object message, User user) {
-        for (User follower : user.getFollowing()) {
+        for (User follower : user.getFollowers()) {
             if (peers.containsValue(follower.getUsername())) {
                 for (Session peer : peers.keySet()) {
                     sendMessage(peer, message);
                 }
+            }
+        }
+        sendToSelf(message, user);
+    }
+
+    private void sendToSelf(Object message, User user) {
+        if (peers.containsValue(user.getUsername())) {
+            for (Session peer : peers.keySet()) {
+                sendMessage(peer, message);
             }
         }
     }

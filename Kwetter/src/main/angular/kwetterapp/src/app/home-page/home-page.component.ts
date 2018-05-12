@@ -20,7 +20,7 @@ export class HomePageComponent implements OnInit {
     currentUser: User;
     ws: any;
 
-  constructor(private postService: PostService, private userService: UserService, private authService: AuthService) { 
+  constructor(private postService: PostService, private userService: UserService, private authService: AuthService) {
   }
 
   ngOnInit() {
@@ -108,9 +108,18 @@ export class HomePageComponent implements OnInit {
             if (data.Record){
                 this.currentUser = data.Record;
                 this.ws = new $WebSocket('ws://localhost:8080/Kwetter/kwetterendpoint/' + this.currentUser.username);
+                console.log(this.ws);
+                this.ws.onMessage(data => {
+                   this.handleSocketResponse(data);
+                });
             } else if (data.messages){
                 this.errors = data.messages;
             }
         });
+  }
+  
+  handleSocketResponse(data: string){
+      let receivedPost: Post = Object.assign(new Post(), JSON.parse(data.data));
+      this.timeline.push(receivedPost);
   }
 }
