@@ -124,7 +124,7 @@ public class PostResource {
     }
 
     @GET
-    @JWTTokenNeeded
+    //@JWTTokenNeeded
     @Produces(MediaType.APPLICATION_JSON)
     @Path("timeline/{userId}")
     public Response getTimeline(@PathParam("userId") Long userId) {

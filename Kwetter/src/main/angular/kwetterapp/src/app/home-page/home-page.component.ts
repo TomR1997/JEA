@@ -24,7 +24,8 @@ export class HomePageComponent implements OnInit {
   }
 
   ngOnInit() {
-      this.getLatestPosts(this.authService.getUserId());
+      //this.getLatestPosts(this.authService.getUserId());
+      this.getTimeline(this.authService.getUserId());
       this.connect();
   }
   
@@ -97,7 +98,7 @@ export class HomePageComponent implements OnInit {
       let newPost = new Post(this.currentUser.id, this.content, 'date', this.currentUser, []);
       this.ws.send(JSON.stringify(newPost))
         .subscribe(data => {
-           console.log(data); 
+            console.log(data); 
         });
   }
   

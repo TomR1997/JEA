@@ -34,8 +34,9 @@ import javax.persistence.TemporalType;
         + "WHERE p.owner = :owner_id " + "ORDER BY p.messageSent DESC"),
 @NamedQuery(name = "Post.getLatestPosts", query = "SELECT p " + "FROM KWETTER_POST p " + "WHERE p.owner.id = :owner_id "
         + "ORDER BY p.messageSent DESC"),
-@NamedQuery(name = "Post.getTimeline", query = "SELECT p.id FROM KWETTER_POST p, KWETTER_USER u "
-        + "WHERE u.following = :owner_id OR p.owner.id = :owner_id"),
+@NamedQuery(name = "Post.getTimeline", query = "SELECT p FROM KWETTER_POST p WHERE p.owner "
+        + "IN (SELECT f FROM KWETTER_USER u JOIN "
+        + "u.following f WHERE u.id = :owner_id) OR p.owner.id = :owner_id"),
 @NamedQuery(name = "Post.findPosts", query = "SELECT p FROM KWETTER_POST p "
         + "WHERE p.message LIKE :tags OR p.owner.username LIKE :tags ")
 })
