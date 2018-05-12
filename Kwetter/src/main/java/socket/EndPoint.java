@@ -94,9 +94,7 @@ public class EndPoint {
         Post latestPost = null;
 
         try {
-            LOG.log(Level.INFO, "message: {0}", message);
             post = decoder.decode(message);
-            LOG.log(Level.INFO, "post: {0}", post);
         } catch (DecodeException ex) {
             LOG.log(Level.SEVERE, ex.getMessage());
         }
@@ -122,7 +120,6 @@ public class EndPoint {
                         Logger.getLogger(EndPoint.class.getName()).log(Level.SEVERE, null, ex);
                     }
 
-                    LOG.log(Level.INFO, "newpost: {0}", socketPost);
                     broadcast(socketPost, user);
                 }
 

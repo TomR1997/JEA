@@ -108,7 +108,6 @@ export class HomePageComponent implements OnInit {
             if (data.Record){
                 this.currentUser = data.Record;
                 this.ws = new $WebSocket('ws://localhost:8080/Kwetter/kwetterendpoint/' + this.currentUser.username);
-                console.log(this.ws);
                 this.ws.onMessage(data => {
                    this.handleSocketResponse(data);
                 });
